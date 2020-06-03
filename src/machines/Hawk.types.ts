@@ -9,15 +9,18 @@ export type HawkStateSchema = {
         idle: {};
         playing: {};
         paused: {};
+        stopped: {};
         ended: {};
       };
     };
+    error: {};
   };
 };
 
 export type HawkEvent =
-  | { type: "LOAD" }
-  | { type: "PLAY" }
-  | { type: "PAUSE" }
-  | { type: "END" }
-  | { type: "RETRY" };
+  | { type: 'LOAD' }
+  | { type: 'PLAY' }
+  | { type: 'PAUSE' }
+  | { type: 'STOP' }
+  | { type: 'END' }
+  | { type: 'RETRY' };

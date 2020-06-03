@@ -18,7 +18,7 @@ export interface HawkOptions {
   loop: boolean;
   playing: boolean;
   paused: boolean;
-  stop: boolean;
+  stopped: boolean;
   seek: () => any;
   rate: () => any;
   onToggle: () => any;

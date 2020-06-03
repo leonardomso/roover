@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 
-import useHawk from "../hooks/useHawk";
+import useHawk from '../hooks/useHawk';
 
 const HawkContext = React.createContext(undefined as any);
 
@@ -15,7 +15,7 @@ const HawkProvider = ({ children }: any) => {
 const useHawkContext = () => {
   const context = useContext(HawkContext);
   if (context === undefined) {
-    throw new Error("useHawk can only be used inside HawkProvider");
+    throw new Error('useHawk can only be used inside HawkProvider');
   }
   return context;
 };

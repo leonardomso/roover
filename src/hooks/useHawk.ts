@@ -1,23 +1,51 @@
-import { useState, useEffect } from "react";
+import { useMachine } from '@xstate/react';
 
-import { UseHawk } from "../types";
+import HawkMachine from '../machines/HawkMachine';
 
-const useHawk: UseHawk = (
-  src,
-  format,
-  html5,
-  preload,
-  autoplay
-) => {
-  const [play, setPlay] = useState<boolean>(false);
+const useHawk = () => {
+  const [current, send] = useMachine(HawkMachine);
 
-  const handlePlay = () => setPlay(!play);
+  const onLoad = () => {
+    send('LOAD');
+  };
 
-  useEffect(() => {
-    if (!src) return
-  }, [src, format, html5, preload, autoplay])
+  const onToggle = () => {
+    if (current.matches('idle') || current.matches('paused')) {
+      send('PLAY');
+    } else {
+      send('PAUSE');
+    }
+  };
 
-  return { play, handlePlay }
+  const onPlay = () => {
+    send('PLAY');
+  };
+
+  const onPause = () => {
+    send('PAUSE');
+  };
+
+  const onStop = () => {
+    send('STOP');
+  };
+
+  const onEnd = () => {
+    send('END');
+  };
+
+  return {
+    ready: current.matches('ready'),
+    loading: current.matches('loading'),
+    playing: current.matches('ready.playing'),
+    paused: current.matches('ready.paused'),
+    stopped: current.matches('ready.stopped'),
+    onLoad,
+    onToggle,
+    onPlay,
+    onPause,
+    onStop,
+    onEnd,
+  };
 };
 
 export default useHawk;
