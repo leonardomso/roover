@@ -2,7 +2,11 @@ import React, { useContext } from 'react';
 
 import useHawk from '../hooks/useHawk';
 
-const HawkContext = React.createContext(undefined as any);
+import { HawkAudioContext } from '../types';
+
+const HawkContext = React.createContext<HawkAudioContext | undefined>(
+  undefined
+);
 
 const HawkProvider = ({ children }: any) => {
   const { play, handlePlay } = useHawk();

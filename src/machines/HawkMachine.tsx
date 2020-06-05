@@ -1,26 +1,29 @@
-import { Machine } from 'xstate';
+import { Machine, assign } from 'xstate';
 
-import { HawkContext, HawkStateSchema, HawkEvent } from './Hawk.types';
+import {
+  HawkMachineContext,
+  HawkMachineStateSchema,
+  HawkMachineEvent,
+} from './Hawk.types';
 
-const Hawk = Machine<HawkContext, HawkStateSchema, HawkEvent>(
+const Hawk = Machine<
+  HawkMachineContext,
+  HawkMachineStateSchema,
+  HawkMachineEvent
+>(
   {
     id: 'HawkMachine',
-    initial: 'idle',
+    initial: 'loading',
+    context: {
+      error: null,
+    },
     states: {
-      idle: {
-        on: {
-          LOAD: 'loading',
-        },
-      },
       loading: {
-        invoke: {
-          id: 'loadAudio',
-          src: 'loadAudio',
-          onDone: {
-            target: 'ready',
-          },
-          onError: {
+        on: {
+          READY: 'ready',
+          ERROR: {
             target: 'error',
+            actions: ['onLoadError'],
           },
         },
       },
@@ -30,6 +33,10 @@ const Hawk = Machine<HawkContext, HawkStateSchema, HawkEvent>(
           idle: {
             on: {
               PLAY: 'playing',
+              ERROR: {
+                target: 'error',
+                actions: 'onPlayError',
+              },
             },
           },
           playing: {
@@ -37,6 +44,10 @@ const Hawk = Machine<HawkContext, HawkStateSchema, HawkEvent>(
               PAUSE: 'paused',
               STOP: 'stopped',
               END: 'ended',
+              ERROR: {
+                target: 'error',
+                actions: 'onPlayError',
+              },
             },
           },
           paused: {
@@ -55,20 +66,24 @@ const Hawk = Machine<HawkContext, HawkStateSchema, HawkEvent>(
               RETRY: 'playing',
             },
           },
+          error: {
+            type: 'final',
+          },
         },
       },
       error: {
-        on: {
-          RETRY: 'idle',
-        },
+        type: 'final',
       },
     },
   },
   {
     actions: {
-      loadAudio: () => {
-        console.log('loading audio...');
-      },
+      onLoadError: assign<HawkMachineContext, HawkMachineEvent>({
+        error: event => event.error,
+      }),
+      onPlayError: assign<HawkMachineContext, HawkMachineEvent>({
+        error: event => event.error,
+      }),
     },
   }
 );

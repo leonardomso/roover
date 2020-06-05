@@ -4,32 +4,44 @@ import * as ReactDOM from 'react-dom';
 
 import { useHawk } from "../src"
 
-import { Button } from "./styles"
+import { Button, InputContainer, InputStyled } from "./styles";
+
+const src =
+  "https://traffic.omny.fm/d/clips/a858b0a5-e5e6-4a14-9717-a70b010facc1/7d7ad78a-afa7-4af6-b0ab-a7bf00d33acc/af860e31-b511-4f3b-8eb7-a95101178792/audio.mp3?utm_source=Podcast&in_playlist=63b76787-ee2e-44cd-86e1-a8c500bf6f64&t=1536141755";
 
 const App = () => {
   const {
-    ready,
     loading,
-    playing,
-    paused,
-    stopped,
-    onLoad,
-    onToggle,
-    onPlay,
-    onPause,
-    onStop,
-    onEnd,
-  } = useHawk();
+    ready,
+    error,
+    onToggle, 
+    onPlay, 
+    onPause 
+  } = useHawk({
+    src,
+    preload: true,
+    autoplay: false,
+    volume: 1
+  });
 
   return (
     <div>
-      <Button onClick={onLoad}>Load</Button>
+      <InputContainer>
+        <InputStyled
+          type="text"
+          name="url"
+          placeholder="Enter your URL"
+          value=""
+          onChange={() => {}}
+          autoComplete={false}
+        />
+      </InputContainer>
       <h3>Ready: {ready ? "true" : "false"}</h3>
       <h3>Loading: {loading ? "true" : "false"}</h3>
-      <h3>Stopped: {stopped ? "true" : "false"}</h3>
-      <Button onClick={onPlay}>Play</Button>
-      <Button onClick={onPause}>Pause</Button>
-      <Button onClick={onStop}>Stop</Button>
+      <h3>Error: {error}</h3>
+      <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
+      <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
+      <Button type="button" onClick={onToggle} disabled={!ready}>Toggle</Button>
     </div>
   );
 };

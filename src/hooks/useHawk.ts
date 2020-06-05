@@ -1,50 +1,81 @@
+import { useState, useEffect } from 'react';
+import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
 
 import HawkMachine from '../machines/HawkMachine';
 
-const useHawk = () => {
-  const [current, send] = useMachine(HawkMachine);
+import { HawkOptions } from '../types';
 
-  const onLoad = () => {
-    send('LOAD');
-  };
+const useHawk = ({
+  src,
+  format,
+  html5 = false,
+  preload = true,
+  autoplay = false,
+  volume = 100,
+  mute = false,
+  loop = false,
+  rate = 1.0,
+}: HawkOptions) => {
+  const [current, send] = useMachine(HawkMachine, { devTools: true });
+  const [howl, setHowl] = useState<Howl | null>(null);
+
+  useEffect(() => {
+    if (!src) return;
+
+    const newHowl = new Howl({
+      src,
+      format,
+      html5,
+      preload,
+      autoplay,
+      volume,
+      mute,
+      loop,
+      rate,
+      onload: () => send('READY'),
+      onloaderror: (_, message) => send({ type: 'ERROR', error: message }),
+      onplay: () => send('PLAY'),
+      onplayerror: (_, message) => send({ type: 'ERROR', error: message }),
+      onpause: () => send('PAUSE'),
+      onstop: () => send('STOP'),
+      onend: () => send('END'),
+    });
+
+    setHowl(newHowl);
+
+    return () => {
+      if (!howl) return;
+      howl.off();
+      howl.stop();
+      howl.unload();
+    };
+  }, [src, format, html5, preload, autoplay, volume]);
 
   const onToggle = () => {
-    if (current.matches('idle') || current.matches('paused')) {
-      send('PLAY');
+    if (howl?.playing()) {
+      howl.pause();
     } else {
-      send('PAUSE');
+      howl?.play();
     }
   };
 
   const onPlay = () => {
-    send('PLAY');
+    if (howl?.playing()) return;
+    howl?.play();
   };
 
   const onPause = () => {
-    send('PAUSE');
-  };
-
-  const onStop = () => {
-    send('STOP');
-  };
-
-  const onEnd = () => {
-    send('END');
+    howl?.pause();
   };
 
   return {
-    ready: current.matches('ready'),
     loading: current.matches('loading'),
-    playing: current.matches('ready.playing'),
-    paused: current.matches('ready.paused'),
-    stopped: current.matches('ready.stopped'),
-    onLoad,
+    ready: current.matches('ready'),
+    error: current.context.error,
     onToggle,
     onPlay,
     onPause,
-    onStop,
-    onEnd,
   };
 };
 

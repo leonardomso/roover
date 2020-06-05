@@ -6,25 +6,32 @@ export type UseHawk = (
   autoplay?: boolean
 ) => void;
 
+export type HawkError = {
+  message: string;
+};
+
 export interface HawkOptions {
   src: string | string[];
   format?: string;
-  html?: boolean;
+  html5?: boolean;
   preload?: boolean;
-  ready: boolean;
-  loading: boolean;
-  volume: number;
-  mute: boolean;
-  loop: boolean;
-  playing: boolean;
-  paused: boolean;
-  stopped: boolean;
-  seek: () => any;
-  rate: () => any;
-  onToggle: () => any;
-  onPlay: () => any;
-  onPause: () => any;
-  onStop: () => any;
-  onMute: () => any;
-  onSeek: () => any;
+  autoplay?: boolean;
+  volume?: number;
+  mute?: boolean;
+  loop?: boolean;
+  rate?: number;
+}
+
+export interface HawkAudioContext {
+  ready: null | boolean;
+  loading: null | boolean;
+  error: null | HawkError;
+  playing: null | boolean;
+  paused: null | boolean;
+  stopped: null | boolean;
+  duration: null | number;
+  position: null | number;
+  ended: null | boolean;
+  player: null | Howl;
+  load: (args: HawkOptions) => void | null;
 }

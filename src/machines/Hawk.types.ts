@@ -1,8 +1,9 @@
-export type HawkContext = {};
+export type HawkMachineContext = {
+  error: null | string;
+};
 
-export type HawkStateSchema = {
+export type HawkMachineStateSchema = {
   states: {
-    idle: {};
     loading: {};
     ready: {
       states: {
@@ -11,16 +12,19 @@ export type HawkStateSchema = {
         paused: {};
         stopped: {};
         ended: {};
+        error: {};
       };
     };
     error: {};
   };
 };
 
-export type HawkEvent =
+export type HawkMachineEvent =
   | { type: 'LOAD' }
+  | { type: 'READY' }
   | { type: 'PLAY' }
   | { type: 'PAUSE' }
   | { type: 'STOP' }
   | { type: 'END' }
+  | { type: 'ERROR'; error?: string }
   | { type: 'RETRY' };
