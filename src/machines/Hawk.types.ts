@@ -1,4 +1,7 @@
 export type HawkMachineContext = {
+  position: number | null;
+  duration: number | null;
+  seek: (position?: number) => number | undefined;
   error: null | string;
 };
 

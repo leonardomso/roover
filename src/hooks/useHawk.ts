@@ -50,7 +50,17 @@ const useHawk = ({
       howl.stop();
       howl.unload();
     };
-  }, [src, format, html5, preload, autoplay, volume]);
+  }, [
+    src,
+    format,
+    html5,
+    preload,
+    autoplay,
+    volume,
+    mute,
+    loop,
+    rate,
+  ]);
 
   const onToggle = () => {
     if (howl?.playing()) {
@@ -73,6 +83,12 @@ const useHawk = ({
     loading: current.matches('loading'),
     ready: current.matches('ready'),
     error: current.context.error,
+    seek: current.context.seek,
+    duration: current.context.duration,
+    position: current.context.position,
+    playing: current.matches('ready.playing'),
+    paused: current.matches('ready.paused'),
+    stopped: current.matches('ready.stopped'),
     onToggle,
     onPlay,
     onPause,

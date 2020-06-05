@@ -29,17 +29,9 @@ export const Button = styled.button<ButtonProps>`
     `};
 `;
 
-export const InputContainer = styled.div`
+export const Input = styled.input`
   width: 100%;
   max-width: 400px;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-export const InputStyled = styled.input`
-  width: 100%;
   height: 40px;
   font-family: Inter;
   font-style: normal;

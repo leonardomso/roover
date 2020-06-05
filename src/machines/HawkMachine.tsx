@@ -15,6 +15,9 @@ const Hawk = Machine<
     id: 'HawkMachine',
     initial: 'loading',
     context: {
+      position: null,
+      duration: null,
+      seek: () => undefined,
       error: null,
     },
     states: {
@@ -23,7 +26,7 @@ const Hawk = Machine<
           READY: 'ready',
           ERROR: {
             target: 'error',
-            actions: ['onLoadError'],
+            actions: 'onLoadError',
           },
         },
       },
@@ -33,10 +36,6 @@ const Hawk = Machine<
           idle: {
             on: {
               PLAY: 'playing',
-              ERROR: {
-                target: 'error',
-                actions: 'onPlayError',
-              },
             },
           },
           playing: {
@@ -83,7 +82,7 @@ const Hawk = Machine<
       }),
       onPlayError: assign<HawkMachineContext, HawkMachineEvent>({
         error: event => event.error,
-      }),
+      })
     },
   }
 );
