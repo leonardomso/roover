@@ -15,6 +15,7 @@ const Hawk = Machine<
     id: 'HawkMachine',
     initial: 'loading',
     context: {
+      muted: false,
       position: null,
       duration: null,
       seek: () => undefined,
@@ -36,12 +37,20 @@ const Hawk = Machine<
           idle: {
             on: {
               PLAY: 'playing',
+              MUTE: {
+                target: '',
+                actions: 'onMute',
+              },
             },
           },
           playing: {
             on: {
               PAUSE: 'paused',
               STOP: 'stopped',
+              MUTE: {
+                target: '',
+                actions: 'onMute',
+              },
               END: 'ended',
               ERROR: {
                 target: 'error',
@@ -52,12 +61,21 @@ const Hawk = Machine<
           paused: {
             on: {
               PLAY: 'playing',
+              STOP: 'stopped',
+              MUTE: {
+                target: '',
+                actions: 'onMute',
+              },
               END: 'ended',
             },
           },
           stopped: {
             on: {
               PLAY: 'playing',
+              MUTE: {
+                target: '',
+                actions: 'onMute',
+              },
             },
           },
           ended: {
@@ -82,7 +100,10 @@ const Hawk = Machine<
       }),
       onPlayError: assign<HawkMachineContext, HawkMachineEvent>({
         error: event => event.error,
-      })
+      }),
+      onMute: assign({
+        muted: context => !context.muted,
+      }),
     },
   }
 );

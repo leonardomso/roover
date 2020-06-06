@@ -9,9 +9,41 @@ const HawkContext = React.createContext<HawkAudioContext | undefined>(
 );
 
 const HawkProvider = ({ children }: any) => {
-  const { play, handlePlay } = useHawk();
+  const {
+    loading,
+    ready,
+    error,
+    playing,
+    paused,
+    stopped,
+    muted,
+    seek,
+    duration,
+    position,
+    onToggle,
+    onPlay,
+    onPause,
+    onStop,
+    onMute,
+  } = useHawk();
 
-  const value = [play, handlePlay];
+  const value = [
+    loading,
+    ready,
+    error,
+    playing,
+    paused,
+    stopped,
+    muted,
+    seek,
+    duration,
+    position,
+    onToggle,
+    onPlay,
+    onPause,
+    onStop,
+    onMute,
+  ];
 
   return <HawkContext.Provider value={value}>{children}</HawkContext.Provider>;
 };

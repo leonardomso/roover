@@ -1,4 +1,5 @@
 export type HawkMachineContext = {
+  muted: boolean;
   position: number | null;
   duration: number | null;
   seek: (position?: number) => number | undefined;
@@ -28,6 +29,7 @@ export type HawkMachineEvent =
   | { type: 'PLAY' }
   | { type: 'PAUSE' }
   | { type: 'STOP' }
+  | { type: 'MUTE' }
   | { type: 'END' }
   | { type: 'ERROR'; error?: string }
   | { type: 'RETRY' };
