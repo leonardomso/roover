@@ -121,18 +121,18 @@ const Hawk = Machine<
         // const animate = () => assign({
         //   position: event.howl.seek()
         // });
-    
+
         // event.ref.current = raf(animate)
-    
+
         // return () => {
         //   if (event.ref.current) {
         //     raf.cancel(event.ref.current)
         //   }
         // }
 
-        console.log("look at howl -> ", context.howl)
-      }
-    }
+        console.log('look at howl -> ', context.howl);
+      },
+    },
   }
 );
 

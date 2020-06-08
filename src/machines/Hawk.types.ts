@@ -58,7 +58,7 @@ export type HawkErrorEvent = {
 
 export type HawkDurationEvent = {
   type: 'READY';
-  howl: Howl | null;
+  howl: Howl;
   duration: number;
   position: number;
 };

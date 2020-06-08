@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, createRef } from 'react';
 import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
 import raf from 'raf';
@@ -16,12 +16,13 @@ const useHawk = ({
   rate = 1.0,
 }: HawkOptions) => {
   const [current, send] = useMachine(HawkMachine, {
-    devTools: true
+    devTools: true,
   });
   const [howl, setHowl] = useState<Howl | null>(null);
   const [, setPosition] = useState<number>(0);
 
   const animationRef = useRef<number>();
+  const howlRef = useRef<Howl>();
 
   const isPlaying = current.matches('playing');
   const isStopped = current.matches('stopped');
@@ -54,16 +55,16 @@ const useHawk = ({
         send({
           type: 'READY',
           howl: newHowl as Howl,
-          duration: newHowl.duration(),
-          position: newHowl.seek() as number,
+          duration: newHowl?.duration() as number,
+          position: newHowl?.seek() as number,
         });
         send('PLAY');
       } else {
         send({
           type: 'READY',
           howl: newHowl as Howl,
-          duration: newHowl.duration(),
-          position: newHowl.seek() as number,
+          duration: newHowl?.duration() as number,
+          position: newHowl?.seek() as number,
         });
       }
     });
