@@ -17,7 +17,6 @@ export interface HawkOptions {
   preload?: boolean;
   autoplay?: boolean;
   volume?: number;
-  mute?: boolean;
   loop?: boolean;
   rate?: number;
 }

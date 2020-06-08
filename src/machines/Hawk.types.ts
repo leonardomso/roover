@@ -1,9 +1,9 @@
 export type HawkMachineContext = {
+  howl: Howl | null;
   muted: boolean;
   position: number | null;
   duration: number | null;
-  seek: (position?: number) => number | undefined;
-  error: null | string;
+  error: string | null;
 };
 
 export type HawkMachineStateSchema = {
@@ -31,5 +31,6 @@ export type HawkMachineEvent =
   | { type: 'STOP' }
   | { type: 'MUTE' }
   | { type: 'END' }
-  | { type: 'ERROR'; error?: string }
+  | { type: 'ERROR'; error: string }
+  | { type: 'READY'; howl: Howl | null; duration: number | undefined }
   | { type: 'RETRY' };
