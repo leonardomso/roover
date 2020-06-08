@@ -18,7 +18,6 @@ const App = () => {
     paused,
     stopped,
     muted,
-    seek,
     duration,
     position,
     onToggle, 
@@ -33,7 +32,7 @@ const App = () => {
     volume: 1
   });
 
-  console.log('Position: ', position)
+  console.log('Duration: ', duration)
 
   return (
     <div>
@@ -50,6 +49,7 @@ const App = () => {
       <h3>Paused: {paused ? "true" : "false"}</h3>
       <h3>Stopped: {stopped ? "true" : "false"}</h3>
       <h3>Muted: {muted ? "true" : "false"}</h3>
+      <h3>Duration: {duration}</h3>
       <h3>Error: {error}</h3>
       <label>Mute:
         <input type="checkbox" checked={muted} onChange={onMute} />
