@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 
 import { useHawk } from "../src"
 
-import { Button, Input } from "./styles";
+import { Button, TextContainer, Text, BooleanText, SliderContainer } from "./styles";
 
 const src =
   "https://traffic.omny.fm/d/clips/a858b0a5-e5e6-4a14-9717-a70b010facc1/7d7ad78a-afa7-4af6-b0ab-a7bf00d33acc/af860e31-b511-4f3b-8eb7-a95101178792/audio.mp3?utm_source=Podcast&in_playlist=63b76787-ee2e-44cd-86e1-a8c500bf6f64&t=1536141755";
@@ -37,24 +37,43 @@ const App = () => {
 
   return (
     <div>
-      <Input
-        type="text"
-        name="url"
-        placeholder="Enter your URL"
-        value=""
-        onChange={() => {}}
-      />
-      <h3>Ready: {ready ? "true" : "false"}</h3>
-      <h3>Loading: {loading ? "true" : "false"}</h3>
-      <h3>Playing: {playing ? "true" : "false"}</h3>
-      <h3>Paused: {paused ? "true" : "false"}</h3>
-      <h3>Stopped: {stopped ? "true" : "false"}</h3>
-      <h3>Muted: {muted ? "true" : "false"}</h3>
-      <h3>Duration: {duration}</h3>
-      <br />
+      <TextContainer>
+        <Text>Ready: </Text>
+        <BooleanText prop={ready}>{ready ? "true" : "false"}</BooleanText>
+      </TextContainer>
 
-      <label>Position: {position}
-      <br />
+      <TextContainer>
+        <Text>Loading: </Text>
+        <BooleanText prop={loading}>{loading ? "true" : "false"}</BooleanText>
+      </TextContainer>
+
+      <TextContainer>
+        <Text>Playing: </Text>
+        <BooleanText prop={playing}>{playing ? "true" : "false"}</BooleanText>
+      </TextContainer>
+
+      <TextContainer>
+        <Text>Paused: </Text>
+        <BooleanText prop={paused}>{paused ? "true" : "false"}</BooleanText>
+      </TextContainer>
+
+      <TextContainer>
+        <Text>Stopped: </Text>
+        <BooleanText prop={stopped}>{stopped ? "true" : "false"}</BooleanText>
+      </TextContainer>
+
+      <TextContainer>
+        <Text>Muted: </Text>
+        <BooleanText prop={muted}>{muted ? "true" : "false"}</BooleanText>
+      </TextContainer>
+
+      <TextContainer>
+        <Text>Duration: {duration}</Text>
+      </TextContainer>
+
+      <SliderContainer>
+        <Text>Position: {position}</Text>
+
         <input 
           type="range"
           min={0}
@@ -63,11 +82,11 @@ const App = () => {
           step={0.1}
           onChange={onPosition} 
         />
-      </label>
-      <br />
+      </SliderContainer>
 
-      <label>Volume: {volume}
-      <br />
+      <SliderContainer>
+        <Text>Volume: {volume}</Text>
+
         <input 
           type="range"
           min={0}
@@ -76,11 +95,11 @@ const App = () => {
           step={0.1}
           onChange={onVolume} 
         />
-      </label>
-      <br />
+      </SliderContainer>
 
-      <label>Rate: {rate}
-      <br />
+      <SliderContainer>
+        <Text>Rate: {rate}</Text>
+
         <input 
           type="range"
           min={0}
@@ -89,13 +108,18 @@ const App = () => {
           step={0.1}
           onChange={onRate} 
         />
-      </label>
-      <br />
+      </SliderContainer>
 
-      <label>Mute:
+      <SliderContainer>
+        <Text>Mute</Text>
+
         <input type="checkbox" checked={muted} onChange={onMute} />
-      </label>
-      <h3>Error: {error}</h3>
+      </SliderContainer>
+
+      <TextContainer>
+        <Text>Error: {error ? error : ""}</Text>
+      </TextContainer>
+
       <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
       <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
       <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>

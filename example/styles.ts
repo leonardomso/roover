@@ -66,3 +66,45 @@ export const Input = styled.input`
     text-indent: 20px;
   }
 `;
+
+export const TextContainer = styled.div`
+  width: fit-content;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Text = styled.h1`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: black;
+`;
+
+interface BoolenTextProps {
+  prop: boolean;
+}
+
+export const BooleanText = styled.p<BoolenTextProps>`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: ${({ prop }) => prop ? "black" : "#B7B7B7"};
+`;
+
+export const SliderContainer = styled.div`
+  width: fit-content;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content max-content;
+  grid-row-gap: 5px;
+  align-items: center;
+  justify-content: center;
+`;
