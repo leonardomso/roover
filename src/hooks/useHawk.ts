@@ -15,9 +15,11 @@ const useHawk = ({
   loop = false,
   rate = 1.0,
 }: HawkOptions) => {
-  const [current, send] = useMachine(HawkMachine, { devTools: true });
+  const [current, send] = useMachine(HawkMachine, {
+    devTools: true
+  });
   const [howl, setHowl] = useState<Howl | null>(null);
-  const [position, setPosition] = useState<number>(0);
+  const [, setPosition] = useState<number>(0);
 
   const animationRef = useRef<number>();
 
@@ -45,16 +47,26 @@ const useHawk = ({
       onmute: () => send('MUTE'),
     });
 
+    setHowl(newHowl);
+
     newHowl.once('load', () => {
       if (autoplay) {
-        send({ type: 'READY', duration: newHowl.duration() });
+        send({
+          type: 'READY',
+          howl: newHowl as Howl,
+          duration: newHowl.duration(),
+          position: newHowl.seek() as number,
+        });
         send('PLAY');
       } else {
-        send({ type: 'READY', duration: newHowl.duration() });
+        send({
+          type: 'READY',
+          howl: newHowl as Howl,
+          duration: newHowl.duration(),
+          position: newHowl.seek() as number,
+        });
       }
     });
-
-    setHowl(newHowl);
 
     return () => {
       if (!howl) return;
@@ -64,30 +76,23 @@ const useHawk = ({
     };
   }, [src, format, html5, autoplay, loop, rate]);
 
-  // Sets position on player initialization and when the audio is stopped
-  useEffect(() => {
-    if (howl) {
-      setPosition(howl?.seek() as number)
-    }
-  }, [howl, isStopped])
-
   // Updates position on a 60fps loop for high refresh rate setting
   useLayoutEffect(() => {
     const animate = () => {
-      setPosition(howl?.seek() as number)
-      animationRef.current = raf(animate)
-    }
+      setPosition(howl?.seek() as number);
+      animationRef.current = raf(animate);
+    };
 
     if (howl && isPlaying) {
-      animationRef.current = raf(animate)
+      animationRef.current = raf(animate);
     }
 
     return () => {
       if (animationRef.current) {
-        raf.cancel(animationRef.current)
+        raf.cancel(animationRef.current);
       }
-    }
-  }, [howl, isPlaying, isStopped])
+    };
+  }, [howl, isPlaying, isStopped]);
 
   const onToggle = () => {
     if (howl?.playing()) {
@@ -127,7 +132,7 @@ const useHawk = ({
     stopped: current.matches('ready.stopped'),
     muted: current.context.muted,
     duration: current.context.duration,
-    position,
+    position: current.context.position,
     onToggle,
     onPlay,
     onPause,

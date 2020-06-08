@@ -46,6 +46,7 @@ const App = () => {
       <h3>Stopped: {stopped ? "true" : "false"}</h3>
       <h3>Muted: {muted ? "true" : "false"}</h3>
       <h3>Duration: {duration}</h3>
+      <h3>Position: {position}</h3>
       <h3>Error: {error}</h3>
       <label>Mute:
         <input type="checkbox" checked={muted} onChange={onMute} />

@@ -1,4 +1,5 @@
 export type HawkMachineContext = {
+  howl: Howl | null;
   muted: boolean;
   position: number | null;
   duration: number | null;
@@ -23,31 +24,31 @@ export type HawkMachineStateSchema = {
 };
 
 export type HawkLoadEvent = {
-  type: 'LOAD'
+  type: 'LOAD';
 };
 
 export type HawkReadyEvent = {
-  type: 'READY'
+  type: 'READY';
 };
 
 export type HawkPlayEvent = {
-  type: 'PLAY'
+  type: 'PLAY';
 };
 
 export type HawkPauseEvent = {
-  type: 'PAUSE'
+  type: 'PAUSE';
 };
 
 export type HawkStopEvent = {
-  type: 'STOP'
+  type: 'STOP';
 };
 
 export type HawkMuteEvent = {
-  type: 'MUTE'
+  type: 'MUTE';
 };
 
 export type HawkEndEvent = {
-  type: 'END'
+  type: 'END';
 };
 
 export type HawkErrorEvent = {
@@ -57,11 +58,13 @@ export type HawkErrorEvent = {
 
 export type HawkDurationEvent = {
   type: 'READY';
+  howl: Howl | null;
   duration: number;
+  position: number;
 };
 
 export type HawkRetryEvent = {
-  type: 'RETRY'
+  type: 'RETRY';
 };
 
 export type HawkMachineEvent =

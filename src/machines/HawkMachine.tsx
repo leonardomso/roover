@@ -1,11 +1,12 @@
 import { Machine, assign } from 'xstate';
+// import raf from 'raf';
 
 import {
   HawkMachineContext,
   HawkMachineStateSchema,
   HawkMachineEvent,
   HawkErrorEvent,
-  HawkDurationEvent
+  HawkDurationEvent,
 } from './Hawk.types';
 
 const Hawk = Machine<
@@ -17,6 +18,7 @@ const Hawk = Machine<
     id: 'HawkMachine',
     initial: 'loading',
     context: {
+      howl: null,
       muted: false,
       position: 0,
       duration: 0,
@@ -27,7 +29,7 @@ const Hawk = Machine<
         on: {
           READY: {
             target: 'ready',
-            actions: 'onReady'
+            actions: 'onReady',
           },
           ERROR: {
             target: 'error',
@@ -48,6 +50,7 @@ const Hawk = Machine<
             },
           },
           playing: {
+            activities: 'onPosition',
             on: {
               PAUSE: 'paused',
               STOP: 'stopped',
@@ -63,6 +66,7 @@ const Hawk = Machine<
             },
           },
           paused: {
+            activities: 'onPosition',
             on: {
               PLAY: 'playing',
               STOP: 'stopped',
@@ -74,6 +78,7 @@ const Hawk = Machine<
             },
           },
           stopped: {
+            activities: 'onPosition',
             on: {
               PLAY: 'playing',
               MUTE: {
@@ -100,15 +105,34 @@ const Hawk = Machine<
   {
     actions: {
       onError: assign<HawkMachineContext, any>({
-        error: (_, event) => (event as HawkErrorEvent).error
+        error: (_, event) => (event as HawkErrorEvent).error,
       }),
       onMute: assign<HawkMachineContext, HawkMachineEvent>({
         muted: context => !context.muted,
       }),
       onReady: assign<HawkMachineContext, any>({
-        duration: (_, event) => (event as HawkDurationEvent).duration
+        howl: (_, event) => (event as HawkDurationEvent).howl,
+        duration: (_, event) => (event as HawkDurationEvent).duration,
+        position: (_, event) => (event as HawkDurationEvent).position,
       }),
     },
+    activities: {
+      onPosition: (context: HawkMachineContext) => {
+        // const animate = () => assign({
+        //   position: event.howl.seek()
+        // });
+    
+        // event.ref.current = raf(animate)
+    
+        // return () => {
+        //   if (event.ref.current) {
+        //     raf.cancel(event.ref.current)
+        //   }
+        // }
+
+        console.log("look at howl -> ", context.howl)
+      }
+    }
   }
 );
 
