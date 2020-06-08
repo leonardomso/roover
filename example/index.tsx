@@ -18,6 +18,7 @@ const App = () => {
     paused,
     stopped,
     volume,
+    rate,
     muted,
     duration,
     position,
@@ -27,7 +28,8 @@ const App = () => {
     onStop,
     onMute,
     onPosition,
-    onVolume
+    onVolume,
+    onRate
   } = useHawk({
     src,
     autoplay: false
@@ -49,6 +51,8 @@ const App = () => {
       <h3>Stopped: {stopped ? "true" : "false"}</h3>
       <h3>Muted: {muted ? "true" : "false"}</h3>
       <h3>Duration: {duration}</h3>
+      <br />
+
       <label>Position: {position}
       <br />
         <input 
@@ -61,6 +65,7 @@ const App = () => {
         />
       </label>
       <br />
+
       <label>Volume: {volume}
       <br />
         <input 
@@ -72,6 +77,21 @@ const App = () => {
           onChange={onVolume} 
         />
       </label>
+      <br />
+
+      <label>Rate: {rate}
+      <br />
+        <input 
+          type="range"
+          min={0}
+          max={4.0}
+          value={rate}
+          step={0.1}
+          onChange={onRate} 
+        />
+      </label>
+      <br />
+
       <label>Mute:
         <input type="checkbox" checked={muted} onChange={onMute} />
       </label>

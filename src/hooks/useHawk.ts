@@ -19,7 +19,8 @@ const useHawk = ({
   html5 = true,
   autoplay = false,
   loop = false,
-  rate = 1.0,
+  defaultVolume = 1.0,
+  defaultRate = 1.0,
 }: HawkOptions) => {
   const [current, send] = useMachine(HawkMachine, {
     devTools: true,
@@ -27,6 +28,7 @@ const useHawk = ({
   const [howl, setHowl] = useState<Howl | null>(null);
   const [position, setPosition] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.5);
+  const [rate, setRate] = useState<number>(1.0);
 
   const positionRef = useRef<number>();
 
@@ -42,9 +44,9 @@ const useHawk = ({
       html5,
       preload: true,
       autoplay,
-      volume,
+      volume: defaultVolume,
       loop,
-      rate,
+      rate: defaultRate,
       onloaderror: (_, message) => send({ type: 'ERROR', error: message }),
       onplay: () => send('PLAY'),
       onplayerror: (_, message) => send({ type: 'ERROR', error: message }),
@@ -79,7 +81,7 @@ const useHawk = ({
       howl.stop();
       howl.unload();
     };
-  }, [src, format, html5, autoplay, loop, rate]);
+  }, [src, format, html5, autoplay, loop, defaultVolume, defaultRate]);
 
   useLayoutEffect(() => {
     const animate = () => {
@@ -138,6 +140,12 @@ const useHawk = ({
     howl?.volume(volume);
   };
 
+  const onRate = (e: ChangeEvent<any>) => {
+    const rate = parseFloat(e.target.value);
+    setRate(rate);
+    howl?.rate(rate);
+  };
+
   return {
     loading: current.matches('loading'),
     ready: current.matches('ready'),
@@ -146,6 +154,7 @@ const useHawk = ({
     paused: current.matches('ready.paused'),
     stopped: current.matches('ready.stopped'),
     volume,
+    rate,
     muted: current.context.muted,
     duration: current.context.duration,
     position,
@@ -156,6 +165,7 @@ const useHawk = ({
     onMute,
     onPosition,
     onVolume,
+    onRate,
   };
 };
 

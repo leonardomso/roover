@@ -16,7 +16,8 @@ export interface HawkOptions {
   html5?: boolean;
   autoplay?: boolean;
   loop?: boolean;
-  rate?: number;
+  defaultVolume?: number;
+  defaultRate?: number;
 }
 
 export interface HawkAudioContext {
