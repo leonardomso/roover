@@ -10,7 +10,7 @@ import { HawkOptions } from '../types';
 const useHawk = ({
   src,
   format,
-  html5 = false,
+  html5 = true,
   autoplay = false,
   loop = false,
   rate = 1.0,
@@ -36,14 +36,6 @@ const useHawk = ({
       volume: 1,
       loop,
       rate,
-      onload: () => {
-        if (autoplay) {
-          send('READY');
-          send('PLAY');
-        } else {
-          send('READY');
-        }
-      },
       onloaderror: (_, message) => send({ type: 'ERROR', error: message }),
       onplay: () => send('PLAY'),
       onplayerror: (_, message) => send({ type: 'ERROR', error: message }),
@@ -51,6 +43,16 @@ const useHawk = ({
       onstop: () => send('STOP'),
       onend: () => send('END'),
       onmute: () => send('MUTE'),
+    });
+
+    // Clear listener after first call.
+    newHowl.once('load', () => {
+      if (autoplay) {
+        send({ type: 'READY', duration: newHowl.duration() });
+        send('PLAY');
+      } else {
+        send({ type: 'READY', duration: newHowl.duration() });
+      }
     });
 
     setHowl(newHowl);
@@ -125,7 +127,7 @@ const useHawk = ({
     paused: current.matches('ready.paused'),
     stopped: current.matches('ready.stopped'),
     muted: current.context.muted,
-    duration: howl?.duration(),
+    duration: current.context.duration,
     position,
     onToggle,
     onPlay,

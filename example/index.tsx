@@ -27,7 +27,6 @@ const App = () => {
     onMute
   } = useHawk({
     src,
-    html5: true,
     autoplay: false
   });
 

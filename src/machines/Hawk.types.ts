@@ -23,14 +23,56 @@ export type HawkMachineStateSchema = {
   };
 };
 
+export type HawkLoadEvent = {
+  type: 'LOAD'
+};
+
+export type HawkReadyEvent = {
+  type: 'READY'
+};
+
+export type HawkPlayEvent = {
+  type: 'PLAY'
+};
+
+export type HawkPauseEvent = {
+  type: 'PAUSE'
+};
+
+export type HawkStopEvent = {
+  type: 'STOP'
+};
+
+export type HawkMuteEvent = {
+  type: 'MUTE'
+};
+
+export type HawkEndEvent = {
+  type: 'END'
+};
+
+export type HawkErrorEvent = {
+  type: 'ERROR';
+  error: string;
+};
+
+export type HawkDurationEvent = {
+  type: 'READY';
+  duration: number;
+};
+
+export type HawkRetryEvent = {
+  type: 'RETRY'
+};
+
 export type HawkMachineEvent =
-  | { type: 'LOAD' }
-  | { type: 'READY' }
-  | { type: 'PLAY' }
-  | { type: 'PAUSE' }
-  | { type: 'STOP' }
-  | { type: 'MUTE' }
-  | { type: 'END' }
-  | { type: 'ERROR'; error: string }
-  | { type: 'READY'; duration: number | undefined }
-  | { type: 'RETRY' };
+  | HawkLoadEvent
+  | HawkReadyEvent
+  | HawkPlayEvent
+  | HawkPauseEvent
+  | HawkStopEvent
+  | HawkMuteEvent
+  | HawkEndEvent
+  | HawkErrorEvent
+  | HawkDurationEvent
+  | HawkRetryEvent;

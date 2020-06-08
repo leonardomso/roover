@@ -4,6 +4,8 @@ import {
   HawkMachineContext,
   HawkMachineStateSchema,
   HawkMachineEvent,
+  HawkErrorEvent,
+  HawkDurationEvent
 } from './Hawk.types';
 
 const Hawk = Machine<
@@ -17,14 +19,17 @@ const Hawk = Machine<
     context: {
       howl: null,
       muted: false,
-      position: null,
-      duration: null,
+      position: 0,
+      duration: 0,
       error: null,
     },
     states: {
       loading: {
         on: {
-          READY: 'ready',
+          READY: {
+            target: 'ready',
+            actions: 'onReady'
+          },
           ERROR: {
             target: 'error',
             actions: 'onError',
@@ -95,15 +100,14 @@ const Hawk = Machine<
   },
   {
     actions: {
-      onError: assign<HawkMachineContext, HawkMachineEvent>({
-        error: event => event.error,
+      onError: assign<HawkMachineContext, any>({
+        error: (_, event) => (event as HawkErrorEvent).error
       }),
       onMute: assign<HawkMachineContext, HawkMachineEvent>({
         muted: context => !context.muted,
       }),
-      onReady: assign<HawkMachineContext, HawkMachineEvent>({
-        howl: event => event.howl,
-        duration: event => event.duration,
+      onReady: assign<HawkMachineContext, any>({
+        duration: (_, event) => (event as HawkDurationEvent).duration
       }),
     },
   }
