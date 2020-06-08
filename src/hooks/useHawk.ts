@@ -131,17 +131,17 @@ const useHawk = ({
 
   const onPosition = (e: ChangeEvent<any>) => {
     const position = parseFloat(e.target.value);
-    setPosition(position);
+    setPosition(position)
     howl?.seek(position);
   };
 
-  const onVolume = (e: ChangeEvent<any>) => {
+  const onVolume = (e: ChangeEvent<HTMLInputElement>) => {
     const volume = parseFloat(e.target.value);
     setVolume(volume);
     howl?.volume(volume);
   };
 
-  const onRate = (e: ChangeEvent<any>) => {
+  const onRate = (e: ChangeEvent<HTMLInputElement>) => {
     const rate = parseFloat(e.target.value);
     setRate(rate);
     howl?.rate(rate);
