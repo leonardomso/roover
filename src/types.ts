@@ -14,9 +14,7 @@ export interface HawkOptions {
   src: string | string[];
   format?: string;
   html5?: boolean;
-  preload?: boolean;
   autoplay?: boolean;
-  volume?: number;
   loop?: boolean;
   rate?: number;
 }

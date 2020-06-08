@@ -40,7 +40,7 @@ const Hawk = Machine<
               MUTE: {
                 target: '',
                 actions: 'onMute',
-              }
+              },
             },
           },
           playing: {
@@ -103,8 +103,8 @@ const Hawk = Machine<
       }),
       onReady: assign<HawkMachineContext, HawkMachineEvent>({
         howl: event => event.howl,
-        duration: event => event.duration
-      })
+        duration: event => event.duration,
+      }),
     },
   }
 );

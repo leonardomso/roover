@@ -32,5 +32,5 @@ export type HawkMachineEvent =
   | { type: 'MUTE' }
   | { type: 'END' }
   | { type: 'ERROR'; error: string }
-  | { type: 'READY'; howl: Howl | null; duration: number | undefined }
+  | { type: 'READY'; duration: number | undefined }
   | { type: 'RETRY' };

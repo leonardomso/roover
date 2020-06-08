@@ -27,12 +27,9 @@ const App = () => {
     onMute
   } = useHawk({
     src,
-    preload: true,
-    autoplay: false,
-    volume: 1
+    html5: true,
+    autoplay: false
   });
-
-  console.log('Duration: ', duration)
 
   return (
     <div>
