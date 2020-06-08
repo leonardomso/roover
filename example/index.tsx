@@ -33,6 +33,8 @@ const App = () => {
     volume: 1
   });
 
+  console.log('Position: ', position)
+
   return (
     <div>
       <Input
