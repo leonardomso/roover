@@ -1,4 +1,10 @@
-import { useState, useEffect, useLayoutEffect, useRef, createRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  ChangeEvent,
+} from 'react';
 import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
 import raf from 'raf';
@@ -19,13 +25,13 @@ const useHawk = ({
     devTools: true,
   });
   const [howl, setHowl] = useState<Howl | null>(null);
-  const [, setPosition] = useState<number>(0);
+  const [position, setPosition] = useState<number>(0);
+  const [volume, setVolume] = useState<number>(0.5);
 
-  const animationRef = useRef<number>();
-  const howlRef = useRef<Howl>();
+  const positionRef = useRef<number>();
 
-  const isPlaying = current.matches('playing');
-  const isStopped = current.matches('stopped');
+  const isPlaying = current.matches('ready.playing');
+  const isStopped = current.matches('ready.stopped');
 
   useEffect(() => {
     if (!src) return;
@@ -36,7 +42,7 @@ const useHawk = ({
       html5,
       preload: true,
       autoplay,
-      volume: 1,
+      volume,
       loop,
       rate,
       onloaderror: (_, message) => send({ type: 'ERROR', error: message }),
@@ -48,26 +54,24 @@ const useHawk = ({
       onmute: () => send('MUTE'),
     });
 
-    setHowl(newHowl);
-
     newHowl.once('load', () => {
       if (autoplay) {
         send({
           type: 'READY',
-          howl: newHowl as Howl,
-          duration: newHowl?.duration() as number,
-          position: newHowl?.seek() as number,
+          duration: newHowl.duration() as number,
+          position: newHowl.seek() as number,
         });
         send('PLAY');
       } else {
         send({
           type: 'READY',
-          howl: newHowl as Howl,
-          duration: newHowl?.duration() as number,
-          position: newHowl?.seek() as number,
+          duration: newHowl.duration() as number,
+          position: newHowl.seek() as number,
         });
       }
     });
+
+    setHowl(newHowl);
 
     return () => {
       if (!howl) return;
@@ -77,20 +81,19 @@ const useHawk = ({
     };
   }, [src, format, html5, autoplay, loop, rate]);
 
-  // Updates position on a 60fps loop for high refresh rate setting
   useLayoutEffect(() => {
     const animate = () => {
       setPosition(howl?.seek() as number);
-      animationRef.current = raf(animate);
+      positionRef.current = raf(animate);
     };
 
     if (howl && isPlaying) {
-      animationRef.current = raf(animate);
+      positionRef.current = raf(animate);
     }
 
     return () => {
-      if (animationRef.current) {
-        raf.cancel(animationRef.current);
+      if (positionRef.current) {
+        raf.cancel(positionRef.current);
       }
     };
   }, [howl, isPlaying, isStopped]);
@@ -124,6 +127,17 @@ const useHawk = ({
     }
   };
 
+  const onPosition = (e: ChangeEvent<any>) => {
+    const { value } = e.target;
+    howl?.seek(value);
+  };
+
+  const onVolume = (e: ChangeEvent<any>) => {
+    const volume = parseFloat(e.target.value);
+    setVolume(volume);
+    howl?.volume(volume);
+  };
+
   return {
     loading: current.matches('loading'),
     ready: current.matches('ready'),
@@ -131,14 +145,17 @@ const useHawk = ({
     playing: current.matches('ready.playing'),
     paused: current.matches('ready.paused'),
     stopped: current.matches('ready.stopped'),
+    volume,
     muted: current.context.muted,
     duration: current.context.duration,
-    position: current.context.position,
+    position,
     onToggle,
     onPlay,
     onPause,
     onStop,
     onMute,
+    onPosition,
+    onVolume,
   };
 };
 

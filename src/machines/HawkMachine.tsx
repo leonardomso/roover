@@ -1,5 +1,4 @@
 import { Machine, assign } from 'xstate';
-// import raf from 'raf';
 
 import {
   HawkMachineContext,
@@ -29,7 +28,7 @@ const Hawk = Machine<
         on: {
           READY: {
             target: 'ready',
-            actions: 'onReady',
+            actions: ['onReady'],
           },
           ERROR: {
             target: 'error',
@@ -50,7 +49,6 @@ const Hawk = Machine<
             },
           },
           playing: {
-            activities: 'onPosition',
             on: {
               PAUSE: 'paused',
               STOP: 'stopped',
@@ -66,7 +64,6 @@ const Hawk = Machine<
             },
           },
           paused: {
-            activities: 'onPosition',
             on: {
               PLAY: 'playing',
               STOP: 'stopped',
@@ -78,7 +75,6 @@ const Hawk = Machine<
             },
           },
           stopped: {
-            activities: 'onPosition',
             on: {
               PLAY: 'playing',
               MUTE: {
@@ -115,23 +111,6 @@ const Hawk = Machine<
         duration: (_, event) => (event as HawkDurationEvent).duration,
         position: (_, event) => (event as HawkDurationEvent).position,
       }),
-    },
-    activities: {
-      onPosition: (context: HawkMachineContext) => {
-        // const animate = () => assign({
-        //   position: event.howl.seek()
-        // });
-
-        // event.ref.current = raf(animate)
-
-        // return () => {
-        //   if (event.ref.current) {
-        //     raf.cancel(event.ref.current)
-        //   }
-        // }
-
-        console.log('look at howl -> ', context.howl);
-      },
     },
   }
 );
