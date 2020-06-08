@@ -1,5 +1,4 @@
 export type HawkMachineContext = {
-  howl: Howl | null;
   muted: boolean;
   position: number | null;
   duration: number | null;

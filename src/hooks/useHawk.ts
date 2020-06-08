@@ -45,7 +45,6 @@ const useHawk = ({
       onmute: () => send('MUTE'),
     });
 
-    // Clear listener after first call.
     newHowl.once('load', () => {
       if (autoplay) {
         send({ type: 'READY', duration: newHowl.duration() });

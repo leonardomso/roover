@@ -17,7 +17,6 @@ const Hawk = Machine<
     id: 'HawkMachine',
     initial: 'loading',
     context: {
-      howl: null,
       muted: false,
       position: 0,
       duration: 0,
