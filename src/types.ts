@@ -40,7 +40,6 @@ export type HawkTypeContext = {
 export type HawkMachineContext = {
   howl: Howl | null;
   muted: boolean;
-  position: number;
   duration: number;
   error: string | null;
 };
@@ -99,7 +98,6 @@ export type HawkDurationEvent = {
   type: 'READY';
   howl: Howl;
   duration: number;
-  position: number;
 };
 
 export type HawkRetryEvent = {

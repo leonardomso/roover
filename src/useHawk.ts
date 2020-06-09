@@ -15,7 +15,7 @@ const useHawk = ({
   defaultVolume = 1.0,
   defaultRate = 1.0,
 }: HawkOptions) => {
-  const [current, send] = useMachine(HawkMachine);
+  const [current, send] = useMachine(HawkMachine, { devTools: true });
   const [howl, setHowl] = useState<Howl | null>(null);
   const [position, setPosition] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.5);
@@ -38,14 +38,12 @@ const useHawk = ({
           send({
             type: 'READY',
             duration: newHowl.duration() as number,
-            position: newHowl.seek() as number,
           });
           send('PLAY');
         } else {
           send({
             type: 'READY',
             duration: newHowl.duration() as number,
-            position: newHowl.seek() as number,
           });
         }
       },

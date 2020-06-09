@@ -19,7 +19,6 @@ const Hawk = Machine<
     context: {
       howl: null,
       muted: false,
-      position: 0,
       duration: 0,
       error: null,
     },
@@ -109,7 +108,6 @@ const Hawk = Machine<
       onReady: assign<HawkMachineContext, any>({
         howl: (_, event) => (event as HawkDurationEvent).howl,
         duration: (_, event) => (event as HawkDurationEvent).duration,
-        position: (_, event) => (event as HawkDurationEvent).position,
       }),
     },
   }
