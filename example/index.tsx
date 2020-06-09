@@ -4,7 +4,25 @@ import * as ReactDOM from 'react-dom';
 
 import { useHawk } from "../src"
 
-import { Button, TextContainer, Text, BooleanText, SliderContainer } from "./styles";
+import 'rc-slider/assets/index.css';
+
+import { 
+  Container, 
+  InnerContainer, 
+  RehawkTitle,
+  ButtonsContainer,
+  Button, 
+  InputsContainer,
+  InputContainer,
+  Text,
+  StatesContainer,
+  StateTitle,
+  StatesLeftContainer,
+  StatesRightContainer,
+  StateContainer,
+  StateProperty,
+  StateValue
+} from "./styles";
 
 const src =
   "https://traffic.omny.fm/d/clips/a858b0a5-e5e6-4a14-9717-a70b010facc1/7d7ad78a-afa7-4af6-b0ab-a7bf00d33acc/af860e31-b511-4f3b-8eb7-a95101178792/audio.mp3?utm_source=Podcast&in_playlist=63b76787-ee2e-44cd-86e1-a8c500bf6f64&t=1536141755";
@@ -36,95 +54,124 @@ const App = () => {
   });
 
   return (
-    <div>
-      <TextContainer>
-        <Text>Ready: </Text>
-        <BooleanText prop={ready}>{ready ? "true" : "false"}</BooleanText>
-      </TextContainer>
+    <Container>
+      <InnerContainer>
+        <RehawkTitle>Rehawk</RehawkTitle>
 
-      <TextContainer>
-        <Text>Loading: </Text>
-        <BooleanText prop={loading}>{loading ? "true" : "false"}</BooleanText>
-      </TextContainer>
+        <ButtonsContainer>
+          <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
+          <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
+          <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>
+          <Button type="button" onClick={onToggle} disabled={!ready}>Toggle</Button>
+        </ButtonsContainer>
 
-      <TextContainer>
-        <Text>Playing: </Text>
-        <BooleanText prop={playing}>{playing ? "true" : "false"}</BooleanText>
-      </TextContainer>
+        <InputsContainer>
+          <InputContainer>
+            <Text>Seek</Text>
+            <input 
+              type="range"
+              min={0}
+              max={duration}
+              value={position}
+              step={0.1}
+              onChange={onPosition} 
+            />
+          </InputContainer>
 
-      <TextContainer>
-        <Text>Paused: </Text>
-        <BooleanText prop={paused}>{paused ? "true" : "false"}</BooleanText>
-      </TextContainer>
+          <InputContainer>
+            <Text>Volume</Text>
+            <input 
+              type="range"
+              min={0}
+              max={1}
+              value={volume}
+              step={0.1}
+              onChange={onVolume} 
+            />
+          </InputContainer>
 
-      <TextContainer>
-        <Text>Stopped: </Text>
-        <BooleanText prop={stopped}>{stopped ? "true" : "false"}</BooleanText>
-      </TextContainer>
+          <InputContainer>
+            <Text>Rate</Text>
+            <input 
+              type="range"
+              min={0}
+              max={4.0}
+              value={rate}
+              step={0.1}
+              onChange={onRate} 
+            />
+          </InputContainer>
 
-      <TextContainer>
-        <Text>Muted: </Text>
-        <BooleanText prop={muted}>{muted ? "true" : "false"}</BooleanText>
-      </TextContainer>
+          <InputContainer>
+            <Text>Mute</Text>
+            <input type="checkbox" checked={muted} onChange={onMute} />
+          </InputContainer>
 
-      <TextContainer>
-        <Text>Duration: {duration}</Text>
-      </TextContainer>
+          <InputContainer>
+            <Text>Loop</Text>
+            <input type="checkbox" checked={muted} onChange={onMute} />
+          </InputContainer>
+        </InputsContainer>
 
-      <SliderContainer>
-        <Text>Position: {position}</Text>
+        <StatesContainer>
+          <StateTitle>State</StateTitle>
 
-        <input 
-          type="range"
-          min={0}
-          max={duration}
-          value={position}
-          step={0.1}
-          onChange={onPosition} 
-        />
-      </SliderContainer>
+          <StatesLeftContainer>
+            <StateContainer>
+              <StateProperty>Loading: </StateProperty>
+              <StateValue>{loading ? "TRUE" : "FALSE"}</StateValue>
+            </StateContainer>
 
-      <SliderContainer>
-        <Text>Volume: {volume}</Text>
+            <StateContainer>
+              <StateProperty>Ready: </StateProperty>
+              <StateValue>{ready ? "TRUE" : "FALSE"}</StateValue>
+            </StateContainer>
 
-        <input 
-          type="range"
-          min={0}
-          max={1}
-          value={volume}
-          step={0.1}
-          onChange={onVolume} 
-        />
-      </SliderContainer>
+            <StateContainer>
+              <StateProperty>Playing: </StateProperty>
+              <StateValue>{playing ? "TRUE" : "FALSE"}</StateValue>
+            </StateContainer>
 
-      <SliderContainer>
-        <Text>Rate: {rate}</Text>
+            <StateContainer>
+              <StateProperty>Paused: </StateProperty>
+              <StateValue>{paused ? "TRUE" : "FALSE"}</StateValue>
+            </StateContainer>
 
-        <input 
-          type="range"
-          min={0}
-          max={4.0}
-          value={rate}
-          step={0.1}
-          onChange={onRate} 
-        />
-      </SliderContainer>
+            <StateContainer>
+              <StateProperty>Stopped: </StateProperty>
+              <StateValue>{stopped ? "TRUE" : "FALSE"}</StateValue>
+            </StateContainer>
+          </StatesLeftContainer>
 
-      <SliderContainer>
-        <Text>Mute</Text>
+          <StatesRightContainer>
+            <StateContainer>
+              <StateProperty>Duration: </StateProperty>
+              <StateValue>{duration}</StateValue>
+            </StateContainer>
 
-        <input type="checkbox" checked={muted} onChange={onMute} />
-      </SliderContainer>
+            <StateContainer>
+              <StateProperty>Volume: </StateProperty>
+              <StateValue>{volume}</StateValue>
+            </StateContainer>
 
-      <TextContainer>
-        <Text>Error: {error ? error : ""}</Text>
-      </TextContainer>
+            <StateContainer>
+              <StateProperty>Seek: </StateProperty>
+              <StateValue>{position}</StateValue>
+            </StateContainer>
 
-      <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
-      <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
-      <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>
-      <Button type="button" onClick={onToggle} disabled={!ready}>Toggle</Button>
-    </div>
+            <StateContainer>
+              <StateProperty>Rate: </StateProperty>
+              <StateValue>{rate}</StateValue>
+            </StateContainer>
+
+            <StateContainer>
+              <StateProperty></StateProperty>
+              <StateValue></StateValue>
+            </StateContainer>
+          </StatesRightContainer>
+        </StatesContainer>
+      </InnerContainer>
+    </Container>
   );
 };
 
