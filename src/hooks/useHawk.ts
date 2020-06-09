@@ -1,13 +1,10 @@
 import {
   useState,
   useEffect,
-  useLayoutEffect,
-  useRef,
   ChangeEvent,
 } from 'react';
 import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
-import raf from 'raf';
 
 import HawkMachine from '../machines/HawkMachine';
 
@@ -30,11 +27,6 @@ const useHawk = ({
   const [volume, setVolume] = useState<number>(0.5);
   const [rate, setRate] = useState<number>(1.0);
 
-  const positionRef = useRef<number>();
-
-  const isPlaying = current.matches('ready.playing');
-  const isStopped = current.matches('ready.stopped');
-
   useEffect(() => {
     if (!src) return;
 
@@ -47,30 +39,35 @@ const useHawk = ({
       volume: defaultVolume,
       loop,
       rate: defaultRate,
+      onload: () => {
+        if (autoplay) {
+          send({
+            type: 'READY',
+            duration: newHowl.duration() as number,
+            position: newHowl.seek() as number,
+          });
+          send('PLAY');
+        } else {
+          send({
+            type: 'READY',
+            duration: newHowl.duration() as number,
+            position: newHowl.seek() as number,
+          });
+        }
+      },
       onloaderror: (_, message) => send({ type: 'ERROR', error: message }),
       onplay: () => send('PLAY'),
       onplayerror: (_, message) => send({ type: 'ERROR', error: message }),
       onpause: () => send('PAUSE'),
-      onstop: () => send('STOP'),
-      onend: () => send('END'),
+      onstop: () => {
+        send('STOP');
+        setPosition(0);
+      },
+      onend: () => {
+        send('END');
+        setPosition(0);
+      },
       onmute: () => send('MUTE'),
-    });
-
-    newHowl.once('load', () => {
-      if (autoplay) {
-        send({
-          type: 'READY',
-          duration: newHowl.duration() as number,
-          position: newHowl.seek() as number,
-        });
-        send('PLAY');
-      } else {
-        send({
-          type: 'READY',
-          duration: newHowl.duration() as number,
-          position: newHowl.seek() as number,
-        });
-      }
     });
 
     setHowl(newHowl);
@@ -83,22 +80,30 @@ const useHawk = ({
     };
   }, [src, format, html5, autoplay, loop, defaultVolume, defaultRate]);
 
-  useLayoutEffect(() => {
-    const animate = () => {
-      setPosition(howl?.seek() as number);
-      positionRef.current = raf(animate);
-    };
+  // To render position smoothly, need to figure this out.
+  // It's throwing an error showing that howl.seek is an object.
 
-    if (howl && isPlaying) {
-      positionRef.current = raf(animate);
-    }
+  // const positionRef = useRef<number>();
+  // const isPlaying = current.matches('ready.playing');
+  // const isStopped = current.matches('ready.stopped');
 
-    return () => {
-      if (positionRef.current) {
-        raf.cancel(positionRef.current);
-      }
-    };
-  }, [howl, isPlaying, isStopped]);
+  // useEffect(() => {
+  //   const animate = () => {
+  //     const seek = howl?.seek() as number;
+  //     setPosition(seek as number);
+  //     positionRef.current = raf(animate);
+  //   };
+
+  //   if (howl && isPlaying) {
+  //     positionRef.current = raf(animate);
+  //   }
+
+  //   return () => {
+  //     if (positionRef.current) {
+  //       raf.cancel(positionRef.current);
+  //     }
+  //   };
+  // }, [howl, isPlaying, isStopped]);
 
   const onToggle = () => {
     if (howl?.playing()) {
@@ -131,7 +136,7 @@ const useHawk = ({
 
   const onPosition = (e: ChangeEvent<any>) => {
     const position = parseFloat(e.target.value);
-    setPosition(position)
+    setPosition(position);
     howl?.seek(position);
   };
 

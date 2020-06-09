@@ -1,6 +1,6 @@
 export type UseHawk = (
   src: string | string[],
-  format?: string,
+  format?: string | string[],
   html5?: boolean,
   preload?: boolean,
   autoplay?: boolean

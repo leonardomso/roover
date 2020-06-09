@@ -16,15 +16,19 @@ const HawkProvider = ({ children }: any) => {
     playing,
     paused,
     stopped,
+    volume,
+    rate,
     muted,
-    seek,
     duration,
     position,
-    onToggle,
-    onPlay,
+    onToggle, 
+    onPlay, 
     onPause,
     onStop,
     onMute,
+    onPosition,
+    onVolume,
+    onRate
   } = useHawk();
 
   const value = [
@@ -34,15 +38,19 @@ const HawkProvider = ({ children }: any) => {
     playing,
     paused,
     stopped,
+    volume,
+    rate,
     muted,
-    seek,
     duration,
     position,
-    onToggle,
-    onPlay,
+    onToggle, 
+    onPlay, 
     onPause,
     onStop,
     onMute,
+    onPosition,
+    onVolume,
+    onRate
   ];
 
   return <HawkContext.Provider value={value}>{children}</HawkContext.Provider>;
