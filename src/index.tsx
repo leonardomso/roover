@@ -1,2 +1,2 @@
-export { default as useHawk } from './useHawk';
-export { default as HawkProvider } from './HawkProvider';
+export { default as useRehawk } from './useRehawk';
+export { default as RehawkProvider } from './RehawkProvider';

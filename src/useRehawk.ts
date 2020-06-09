@@ -1,21 +1,21 @@
 import { useContext, useState, useEffect, ChangeEvent } from 'react';
 
-import HawkContext from './HawkContext';
+import RehawkContext from './RehawkContext';
 
-import { HawkOptions } from './types';
+import { RehawkOptions } from './types';
 
-const useHawk = ({
+const useRehawk = ({
   src,
   format,
   html5 = true,
   autoplay = false,
   volume = 1.0,
   rate = 1.0,
-}: HawkOptions) => {
-  const context = useContext(HawkContext);
+}: RehawkOptions) => {
+  const context = useContext(RehawkContext);
 
   if (context === undefined) {
-    throw new Error('useHawk can only be used inside HawkProvider');
+    throw new Error('useRehawk can only be used inside RehawkProvider');
   }
 
   const {
@@ -35,8 +35,8 @@ const useHawk = ({
     setSeek,
   } = context;
 
-  const [hawkVolume, setHawkVolume] = useState<number>(0.5);
-  const [hawkRate, setHawkRate] = useState<number>(1.0);
+  const [hawkVolume, setRehawkVolume] = useState<number>(0.5);
+  const [hawkRate, setRehawkRate] = useState<number>(1.0);
 
   useEffect(() => {
     if (!src) return;
@@ -117,13 +117,13 @@ const useHawk = ({
 
   const onVolume = (e: ChangeEvent<HTMLInputElement>) => {
     const volume = parseFloat(e.target.value);
-    setHawkVolume(volume);
+    setRehawkVolume(volume);
     howl?.volume(volume);
   };
 
   const onRate = (e: ChangeEvent<HTMLInputElement>) => {
     const rate = parseFloat(e.target.value);
-    setHawkRate(rate);
+    setRehawkRate(rate);
     howl?.rate(rate);
   };
 
@@ -152,4 +152,4 @@ const useHawk = ({
   };
 };
 
-export default useHawk;
+export default useRehawk;

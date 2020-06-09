@@ -1,20 +1,20 @@
 import { Machine, assign } from 'xstate';
 
 import {
-  HawkMachineContext,
-  HawkMachineStateSchema,
-  HawkMachineEvent,
-  HawkErrorEvent,
-  HawkDurationEvent,
+  RehawkMachineContext,
+  RehawkMachineStateSchema,
+  RehawkMachineEvent,
+  RehawkErrorEvent,
+  RehawkDurationEvent,
 } from './types';
 
-const Hawk = Machine<
-  HawkMachineContext,
-  HawkMachineStateSchema,
-  HawkMachineEvent
+const Rehawk = Machine<
+  RehawkMachineContext,
+  RehawkMachineStateSchema,
+  RehawkMachineEvent
 >(
   {
-    id: 'HawkMachine',
+    id: 'RehawkMachine',
     initial: 'loading',
     context: {
       howl: null,
@@ -116,20 +116,20 @@ const Hawk = Machine<
   },
   {
     actions: {
-      onError: assign<HawkMachineContext, any>({
-        error: (_, event) => (event as HawkErrorEvent).error,
+      onError: assign<RehawkMachineContext, any>({
+        error: (_, event) => (event as RehawkErrorEvent).error,
       }),
-      onMute: assign<HawkMachineContext, HawkMachineEvent>({
+      onMute: assign<RehawkMachineContext, RehawkMachineEvent>({
         muted: context => !context.muted,
       }),
-      onLoop: assign<HawkMachineContext, HawkMachineEvent>({
+      onLoop: assign<RehawkMachineContext, RehawkMachineEvent>({
         loop: context => !context.loop,
       }),
-      onReady: assign<HawkMachineContext, any>({
-        duration: (_, event) => (event as HawkDurationEvent).duration,
+      onReady: assign<RehawkMachineContext, any>({
+        duration: (_, event) => (event as RehawkDurationEvent).duration,
       }),
     },
   }
 );
 
-export default Hawk;
+export default Rehawk;

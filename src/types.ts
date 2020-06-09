@@ -1,7 +1,7 @@
 import { SetStateAction } from 'react';
 import { EventObject, Interpreter, State } from 'xstate';
 
-export type HawkOptions = {
+export type RehawkOptions = {
   src: string | string[];
   format?: string | string[];
   html5?: boolean;
@@ -11,9 +11,9 @@ export type HawkOptions = {
   preload?: boolean;
 };
 
-export type HawkTypeContext = {
+export type RehawkTypeContext = {
   howl: Howl | undefined;
-  load: (args: HawkOptions) => void;
+  load: (args: RehawkOptions) => void;
   loading: null | boolean;
   ready: null | boolean;
   error: null | string;
@@ -28,7 +28,7 @@ export type HawkTypeContext = {
   setSeek: (value: SetStateAction<number>) => void;
 };
 
-export type HawkMachineContext = {
+export type RehawkMachineContext = {
   howl: Howl | null;
   duration: number;
   muted: boolean;
@@ -36,7 +36,7 @@ export type HawkMachineContext = {
   error: string | null;
 };
 
-export type HawkMachineStateSchema = {
+export type RehawkMachineStateSchema = {
   states: {
     loading: {};
     ready: {
@@ -53,64 +53,64 @@ export type HawkMachineStateSchema = {
   };
 };
 
-export type HawkLoadEvent = {
+export type RehawkLoadEvent = {
   type: 'LOAD';
 };
 
-export type HawkReadyEvent = {
+export type RehawkReadyEvent = {
   type: 'READY';
 };
 
-export type HawkPlayEvent = {
+export type RehawkPlayEvent = {
   type: 'PLAY';
 };
 
-export type HawkPauseEvent = {
+export type RehawkPauseEvent = {
   type: 'PAUSE';
 };
 
-export type HawkStopEvent = {
+export type RehawkStopEvent = {
   type: 'STOP';
 };
 
-export type HawkMuteEvent = {
+export type RehawkMuteEvent = {
   type: 'MUTE';
 };
 
-export type HawkLoopEvent = {
+export type RehawkLoopEvent = {
   type: 'LOOP';
 };
 
-export type HawkEndEvent = {
+export type RehawkEndEvent = {
   type: 'END';
 };
 
-export type HawkErrorEvent = {
+export type RehawkErrorEvent = {
   type: 'ERROR';
   error: string;
 };
 
-export type HawkDurationEvent = {
+export type RehawkDurationEvent = {
   type: 'READY';
   duration: number;
 };
 
-export type HawkRetryEvent = {
+export type RehawkRetryEvent = {
   type: 'RETRY';
 };
 
-export type HawkMachineEvent =
-  | HawkLoadEvent
-  | HawkReadyEvent
-  | HawkPlayEvent
-  | HawkPauseEvent
-  | HawkStopEvent
-  | HawkMuteEvent
-  | HawkLoopEvent
-  | HawkEndEvent
-  | HawkErrorEvent
-  | HawkDurationEvent
-  | HawkRetryEvent;
+export type RehawkMachineEvent =
+  | RehawkLoadEvent
+  | RehawkReadyEvent
+  | RehawkPlayEvent
+  | RehawkPauseEvent
+  | RehawkStopEvent
+  | RehawkMuteEvent
+  | RehawkLoopEvent
+  | RehawkEndEvent
+  | RehawkErrorEvent
+  | RehawkDurationEvent
+  | RehawkRetryEvent;
 
 export type StateType<ContextType, EventType extends EventObject> = State<
   ContextType,
@@ -123,18 +123,6 @@ export type SendType<ContextType, EventType extends EventObject> = Interpreter<
   EventType
 >['send'];
 
-export interface HawkProviderProps {
+export interface RehawkProviderProps {
   children: React.ReactNode;
 }
-
-export type MachineContext<
-  ContextType,
-  EventType extends EventObject
-> = React.Context<{
-  state: StateType<ContextType, EventType>;
-  send: SendType<ContextType, EventType>;
-} | null>;
-
-export type MachineProps<ContextType, EventType extends EventObject> = {
-  machine: MachineContext<ContextType, EventType>;
-};

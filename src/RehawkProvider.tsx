@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
 
-import HawkMachine from './HawkMachine';
-import HawkContext from './HawkContext';
+import RehawkMachine from './RehawkMachine';
+import RehawkContext from './RehawkContext';
 
-import { HawkProviderProps, HawkOptions, HawkTypeContext } from './types';
+import { RehawkProviderProps, RehawkOptions, RehawkTypeContext } from './types';
 
-const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
-  const [current, send] = useMachine(HawkMachine, { devTools: true });
+const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
+  const [current, send] = useMachine(RehawkMachine, { devTools: true });
   const [howl, setHowl] = useState<Howl | undefined>(undefined);
   const [seek, setSeek] = useState<number>(0);
 
@@ -21,7 +21,7 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
       volume,
       rate,
       preload,
-    }: HawkOptions): Howl => {
+    }: RehawkOptions): Howl => {
       return new Howl({
         src,
         format,
@@ -43,7 +43,7 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
       autoplay = false,
       volume = 1.0,
       rate = 1.0,
-    }: HawkOptions) => {
+    }: RehawkOptions) => {
       const currentHowl = newHowl({
         src,
         format,
@@ -105,7 +105,7 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
   const muted = current.context.muted;
   const loop = current.context.loop;
 
-  const context: HawkTypeContext = {
+  const context: RehawkTypeContext = {
     howl,
     load,
     loading,
@@ -123,8 +123,8 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
   };
 
   return (
-    <HawkContext.Provider value={context}>{children}</HawkContext.Provider>
+    <RehawkContext.Provider value={context}>{children}</RehawkContext.Provider>
   );
 };
 
-export default HawkProvider;
+export default RehawkProvider;

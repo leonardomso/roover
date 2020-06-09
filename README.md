@@ -2,7 +2,7 @@
 # Rehawk
 
 
-[![Actions Status](https://github.com/leonardomso/hawk/workflows/CI/badge.svg)](https://github.com/leonardomso/hawk/actions)
+[![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/hawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/thangngoc89/react-howler)
 [![npm](https://img.shields.io/npm/v/react-howler.svg)](https://npmjs.org/package/react-howler)
 [![dependencies](https://david-dm.org/thangngoc89/react-howler.svg)](https://david-dm.org/thangngoc89/react-howler)
@@ -23,13 +23,13 @@ yarn add rehawk
 
 ## Usage
 
-All you need to do is import the `HawkProvider` context and the `useHawk` hook. Context was the best choice here because sometimes we might want to use different properties of our custom hook in different components in our React tree.
+All you need to do is import the `RehawkProvider` context and the `useRehawk` hook. Context was the best choice here because sometimes we might want to use different properties of our custom hook in different components in our React tree.
 
 The following is a very basic usage example of Rehawk. If you want the most complete example of Rehawk working, click here.
 
 ```typescript
 import React from "react"
-import { HawkProvider, useHawk } from "rehawk"
+import { RehawkProvider, useRehawk } from "rehawk"
 
 const src = "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
@@ -41,7 +41,7 @@ const Player = () => {
 		playing,
 		paused,
 		stopped
-	} = useHawk({
+	} = useRehawk({
 		src,
 		autoplay: false
 	});
@@ -60,9 +60,9 @@ const Player = () => {
 
 const App = () => {
     return (
-        <HawkProvider>
+        <RehawkProvider>
             <Player />
-        </HawkProvider>
+        </RehawkProvider>
     )
 }
 ```
@@ -282,7 +282,7 @@ const App = () => {
 To run the example do the following steps:
 
 1. `git clone` the repository
-2. `cd hawk/example`
+2. `cd rehawk/example`
 3. `yarn install`
 4. `yarn start`
 
@@ -292,4 +292,4 @@ Your contributions are welcome! If you have any questions or want to start to co
 
 - - -
 
-If there are any questions about this library or about any other topic, please contact me on Twitter [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.
+If there are any questions about this library or about any other topic, please contact me on Twitter  [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.

@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { useHawk, HawkProvider } from "../src"
+import { useRehawk, RehawkProvider } from "../src"
 
 import 'rc-slider/assets/index.css';
 
@@ -50,7 +50,7 @@ const Player = () => {
     onSeek,
     onVolume,
     onRate
-  } = useHawk({
+  } = useRehawk({
     src,
     autoplay: false
   });
@@ -179,9 +179,9 @@ const Player = () => {
 
 const App = () => {
   return (
-    <HawkProvider>
+    <RehawkProvider>
       <Player />
-    </HawkProvider>
+    </RehawkProvider>
   );
 };
 
