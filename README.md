@@ -1,6 +1,7 @@
 
 # Rehawk
 
+
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
 [![npm](https://img.shields.io/npm/v/rehawk.svg)](https://npmjs.org/package/rehawk)
@@ -58,11 +59,11 @@ const Player = () => {
 };
 
 const App = () => {
-    return (
-        <RehawkProvider>
-            <Player />
-        </RehawkProvider>
-    )
+  return (
+    <RehawkProvider>
+      <Player />
+    </RehawkProvider>
+  )
 }
 ```
 

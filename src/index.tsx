@@ -1,1 +1,2 @@
-export { default as useHawk } from './hooks/useHawk';
+export { default as useRehawk } from './useRehawk';
+export { default as RehawkProvider } from './RehawkProvider';
