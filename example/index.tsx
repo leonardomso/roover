@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { useHawk } from "../src"
+import { useHawk, HawkProvider } from "../src"
 
 import 'rc-slider/assets/index.css';
 
@@ -27,7 +27,7 @@ import {
 const src =
   "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
-const App = () => {
+const Player = () => {
   const {
     loading,
     ready,
@@ -174,6 +174,14 @@ const App = () => {
         </StatesContainer>
       </InnerContainer>
     </Container>
+  )
+}
+
+const App = () => {
+  return (
+    <HawkProvider>
+      <Player />
+    </HawkProvider>
   );
 };
 

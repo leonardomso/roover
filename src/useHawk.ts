@@ -1,8 +1,6 @@
 import { useState, useEffect, ChangeEvent } from 'react';
-import { Howl } from 'howler';
-import { useMachine } from '@xstate/react';
 
-import HawkMachine from './HawkMachine';
+import useHawkContext from './useHawkContext';
 
 import { HawkOptions } from './types';
 
@@ -14,62 +12,30 @@ const useHawk = ({
   defaultVolume = 1.0,
   defaultRate = 1.0,
 }: HawkOptions) => {
-  const [current, send] = useMachine(HawkMachine, { devTools: true });
-  const [howl, setHowl] = useState<Howl | null>(null);
-  const [seek, setSeek] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.5);
   const [rate, setRate] = useState<number>(1.0);
 
+  const {
+    howl,
+    load,
+    loading,
+    ready,
+    error,
+    playing,
+    paused,
+    stopped,
+    duration,
+    muted,
+    loop,
+    send,
+    seek,
+    setSeek,
+  } = useHawkContext();
+
   useEffect(() => {
     if (!src) return;
-
-    const newHowl = new Howl({
-      src,
-      format,
-      html5,
-      preload: true,
-      autoplay,
-      volume: defaultVolume,
-      rate: defaultRate,
-      onload: () => {
-        if (autoplay) {
-          send({
-            type: 'READY',
-            duration: newHowl.duration() as number,
-          });
-          send('PLAY');
-        } else {
-          send({
-            type: 'READY',
-            duration: newHowl.duration() as number,
-          });
-        }
-      },
-      onloaderror: (_, message) => send({ type: 'ERROR', error: message }),
-      onplay: () => send('PLAY'),
-      onplayerror: (_, message) => send({ type: 'ERROR', error: message }),
-      onpause: () => send('PAUSE'),
-      onstop: () => {
-        send('STOP');
-        setSeek(0);
-      },
-      onend: () => {
-        send('END');
-        send('RETRY');
-        setSeek(0);
-      },
-      onmute: () => send('MUTE'),
-    });
-
-    setHowl(newHowl);
-
-    return () => {
-      if (!howl) return;
-      howl.off();
-      howl.stop();
-      howl.unload();
-    };
-  }, [src, format, html5, autoplay, defaultVolume, defaultRate]);
+    load({ src, format, html5, autoplay, defaultVolume, defaultRate });
+  }, [src, format, html5, autoplay, defaultVolume, defaultRate, load]);
 
   // To render seek smoothly, need to figure this out.
   // It's throwing an error showing that howl.seek is an object.
@@ -154,18 +120,18 @@ const useHawk = ({
   };
 
   return {
-    loading: current.matches('loading'),
-    ready: current.matches('ready'),
-    error: current.context.error,
-    playing: current.matches('ready.playing'),
-    paused: current.matches('ready.paused'),
-    stopped: current.matches('ready.stopped'),
-    duration: current.context.duration,
+    loading,
+    ready,
+    error,
+    playing,
+    paused,
+    stopped,
+    duration,
     seek,
     volume,
     rate,
-    muted: current.context.muted,
-    loop: current.context.loop,
+    muted,
+    loop,
     onToggle,
     onPlay,
     onPause,

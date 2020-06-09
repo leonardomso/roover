@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { SetStateAction } from 'react';
 import { EventObject, Interpreter, State } from 'xstate';
 
 export type HawkError = {
@@ -15,27 +15,20 @@ export interface HawkOptions {
 }
 
 export type HawkTypeContext = {
+  howl: Howl | undefined;
+  load: (args: HawkOptions) => void;
   loading: null | boolean;
   ready: null | boolean;
   error: null | HawkError;
   playing: null | boolean;
   paused: null | boolean;
   stopped: null | boolean;
-  duration: null | number;
-  seek: null | number;
-  volume: null | number;
-  rate: null | number;
+  duration: number;
   muted: boolean;
   loop: boolean;
-  onToggle: () => void;
-  onPlay: () => void;
-  onPause: () => void;
-  onStop: () => void;
-  onMute: () => void;
-  onLoop: () => void;
-  onSeek: (e: ChangeEvent<HTMLInputElement>) => void;
-  onVolume: (e: ChangeEvent<HTMLInputElement>) => void;
-  onRate: (e: ChangeEvent<HTMLInputElement>) => void;
+  send: any;
+  seek: number;
+  setSeek: (value: SetStateAction<number>) => void;
 };
 
 export type HawkMachineContext = {
@@ -43,7 +36,7 @@ export type HawkMachineContext = {
   duration: number;
   muted: boolean;
   loop: boolean;
-  error: string | null;
+  error: HawkError | null;
 };
 
 export type HawkMachineStateSchema = {
@@ -136,7 +129,6 @@ export type SendType<ContextType, EventType extends EventObject> = Interpreter<
 
 export interface HawkProviderProps {
   children: React.ReactNode;
-  value: HawkTypeContext;
 }
 
 export type MachineContext<
