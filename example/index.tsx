@@ -36,7 +36,7 @@ const App = () => {
     paused,
     stopped,
     duration,
-    position,
+    seek,
     volume,
     rate,
     muted,
@@ -47,7 +47,7 @@ const App = () => {
     onStop,
     onMute,
     onLoop,
-    onPosition,
+    onSeek,
     onVolume,
     onRate
   } = useHawk({
@@ -74,9 +74,9 @@ const App = () => {
               type="range"
               min={0}
               max={duration}
-              value={position}
+              value={seek}
               step={0.1}
-              onChange={onPosition} 
+              onChange={onSeek} 
             />
           </InputContainer>
 
@@ -158,7 +158,7 @@ const App = () => {
 
             <StateContainer>
               <StateProperty>Seek: </StateProperty>
-              <StateValue>{position}</StateValue>
+              <StateValue>{seek}</StateValue>
             </StateContainer>
 
             <StateContainer>
@@ -167,8 +167,8 @@ const App = () => {
             </StateContainer>
 
             <StateContainer>
-              <StateProperty></StateProperty>
-              <StateValue></StateValue>
+              <StateProperty>Error: </StateProperty>
+              <StateValue>{error}</StateValue>
             </StateContainer>
           </StatesRightContainer>
         </StatesContainer>

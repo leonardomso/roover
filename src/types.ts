@@ -22,7 +22,7 @@ export type HawkTypeContext = {
   paused: null | boolean;
   stopped: null | boolean;
   duration: null | number;
-  position: null | number;
+  seek: null | number;
   volume: null | number;
   rate: null | number;
   muted: boolean;
@@ -33,7 +33,7 @@ export type HawkTypeContext = {
   onStop: () => void;
   onMute: () => void;
   onLoop: () => void;
-  onPosition: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSeek: (e: ChangeEvent<HTMLInputElement>) => void;
   onVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   onRate: (e: ChangeEvent<HTMLInputElement>) => void;
 };

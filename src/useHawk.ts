@@ -16,7 +16,7 @@ const useHawk = ({
 }: HawkOptions) => {
   const [current, send] = useMachine(HawkMachine, { devTools: true });
   const [howl, setHowl] = useState<Howl | null>(null);
-  const [position, setPosition] = useState<number>(0);
+  const [seek, setSeek] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.5);
   const [rate, setRate] = useState<number>(1.0);
 
@@ -51,12 +51,12 @@ const useHawk = ({
       onpause: () => send('PAUSE'),
       onstop: () => {
         send('STOP');
-        setPosition(0);
+        setSeek(0);
       },
       onend: () => {
         send('END');
         send('RETRY');
-        setPosition(0);
+        setSeek(0);
       },
       onmute: () => send('MUTE'),
     });
@@ -71,27 +71,27 @@ const useHawk = ({
     };
   }, [src, format, html5, autoplay, defaultVolume, defaultRate]);
 
-  // To render position smoothly, need to figure this out.
+  // To render seek smoothly, need to figure this out.
   // It's throwing an error showing that howl.seek is an object.
 
-  // const positionRef = useRef<number>();
+  // const seekRef = useRef<number>();
   // const isPlaying = current.matches('ready.playing');
   // const isStopped = current.matches('ready.stopped');
 
   // useEffect(() => {
   //   const animate = () => {
   //     const seek = howl?.seek() as number;
-  //     setPosition(seek);
-  //     positionRef.current = raf(animate);
+  //     setSeek(seek);
+  //     seekRef.current = raf(animate);
   //   };
 
   //   if (howl && isPlaying) {
-  //     positionRef.current = raf(animate);
+  //     seekRef.current = raf(animate);
   //   }
 
   //   return () => {
-  //     if (positionRef.current) {
-  //       raf.cancel(positionRef.current);
+  //     if (seekRef.current) {
+  //       raf.cancel(seekRef.current);
   //     }
   //   };
   // }, [howl, isPlaying, isStopped]);
@@ -135,10 +135,10 @@ const useHawk = ({
     }
   };
 
-  const onPosition = (e: ChangeEvent<HTMLInputElement>) => {
-    const position = parseFloat(e.target.value);
-    setPosition(position);
-    howl?.seek(position);
+  const onSeek = (e: ChangeEvent<HTMLInputElement>) => {
+    const seek = parseFloat(e.target.value);
+    setSeek(seek);
+    howl?.seek(seek);
   };
 
   const onVolume = (e: ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +161,7 @@ const useHawk = ({
     paused: current.matches('ready.paused'),
     stopped: current.matches('ready.stopped'),
     duration: current.context.duration,
-    position,
+    seek,
     volume,
     rate,
     muted: current.context.muted,
@@ -172,7 +172,7 @@ const useHawk = ({
     onStop,
     onMute,
     onLoop,
-    onPosition,
+    onSeek,
     onVolume,
     onRate,
   };
