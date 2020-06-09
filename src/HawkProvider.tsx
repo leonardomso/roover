@@ -12,15 +12,28 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
   const [howl, setHowl] = useState<Howl | undefined>(undefined);
   const [seek, setSeek] = useState<number>(0);
 
-  const newHowl = ({ src, format, html5, preload, autoplay }: any): Howl => {
-    return new Howl({
+  const newHowl = useCallback(
+    ({
       src,
       format,
       html5,
-      preload,
       autoplay,
-    });
-  };
+      volume,
+      rate,
+      preload,
+    }: HawkOptions): Howl => {
+      return new Howl({
+        src,
+        format,
+        html5,
+        autoplay,
+        volume,
+        rate,
+        preload,
+      });
+    },
+    []
+  );
 
   const load = useCallback(
     ({
@@ -28,17 +41,16 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
       format,
       html5 = true,
       autoplay = false,
-      defaultVolume = 1.0,
-      defaultRate = 1.0,
+      volume = 1.0,
+      rate = 1.0,
     }: HawkOptions) => {
       const currentHowl = newHowl({
         src,
         format,
         html5,
-        preload: true,
         autoplay,
-        volume: defaultVolume,
-        rate: defaultRate,
+        volume,
+        rate,
       });
 
       currentHowl.on('load', () => {
@@ -55,13 +67,9 @@ const HawkProvider: React.FC<HawkProviderProps> = ({ children }) => {
           });
         }
       });
-      currentHowl.on('loaderror', (_, message) =>
-        send({ type: 'ERROR', error: message })
-      );
+      currentHowl.on('loaderror', (_, error) => send({ type: 'ERROR', error }));
       currentHowl.on('play', () => send('PLAY'));
-      currentHowl.on('playerror', (_, message) =>
-        send({ type: 'ERROR', error: message })
-      );
+      currentHowl.on('playerror', (_, error) => send({ type: 'ERROR', error }));
       currentHowl.on('pause', () => send('PAUSE'));
       currentHowl.on('stop', () => {
         send('STOP');

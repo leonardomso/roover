@@ -1,6 +1,6 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useContext, useState, useEffect, ChangeEvent } from 'react';
 
-import useHawkContext from './useHawkContext';
+import HawkContext from './HawkContext';
 
 import { HawkOptions } from './types';
 
@@ -9,11 +9,14 @@ const useHawk = ({
   format,
   html5 = true,
   autoplay = false,
-  defaultVolume = 1.0,
-  defaultRate = 1.0,
+  volume = 1.0,
+  rate = 1.0,
 }: HawkOptions) => {
-  const [volume, setVolume] = useState<number>(0.5);
-  const [rate, setRate] = useState<number>(1.0);
+  const context = useContext(HawkContext);
+
+  if (context === undefined) {
+    throw new Error('useHawk can only be used inside HawkProvider');
+  }
 
   const {
     howl,
@@ -30,12 +33,15 @@ const useHawk = ({
     send,
     seek,
     setSeek,
-  } = useHawkContext();
+  } = context;
+
+  const [hawkVolume, setHawkVolume] = useState<number>(0.5);
+  const [hawkRate, setHawkRate] = useState<number>(1.0);
 
   useEffect(() => {
     if (!src) return;
-    load({ src, format, html5, autoplay, defaultVolume, defaultRate });
-  }, [src, format, html5, autoplay, defaultVolume, defaultRate, load]);
+    load({ src, format, html5, autoplay, volume, rate });
+  }, [src, format, html5, autoplay, volume, rate, load]);
 
   // To render seek smoothly, need to figure this out.
   // It's throwing an error showing that howl.seek is an object.
@@ -86,8 +92,10 @@ const useHawk = ({
   const onMute = () => {
     if (!howl?.mute()) {
       howl?.mute(true);
+      send('MUTE');
     } else {
       howl?.mute(false);
+      send('MUTE');
     }
   };
 
@@ -109,13 +117,13 @@ const useHawk = ({
 
   const onVolume = (e: ChangeEvent<HTMLInputElement>) => {
     const volume = parseFloat(e.target.value);
-    setVolume(volume);
+    setHawkVolume(volume);
     howl?.volume(volume);
   };
 
   const onRate = (e: ChangeEvent<HTMLInputElement>) => {
     const rate = parseFloat(e.target.value);
-    setRate(rate);
+    setHawkRate(rate);
     howl?.rate(rate);
   };
 
@@ -128,8 +136,8 @@ const useHawk = ({
     stopped,
     duration,
     seek,
-    volume,
-    rate,
+    volume: hawkVolume,
+    rate: hawkRate,
     muted,
     loop,
     onToggle,

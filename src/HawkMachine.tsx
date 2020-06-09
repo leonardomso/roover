@@ -126,7 +126,6 @@ const Hawk = Machine<
         loop: context => !context.loop,
       }),
       onReady: assign<HawkMachineContext, any>({
-        howl: (_, event) => (event as HawkDurationEvent).howl,
         duration: (_, event) => (event as HawkDurationEvent).duration,
       }),
     },

@@ -1,25 +1,22 @@
 import { SetStateAction } from 'react';
 import { EventObject, Interpreter, State } from 'xstate';
 
-export type HawkError = {
-  message: string;
-};
-
-export interface HawkOptions {
+export type HawkOptions = {
   src: string | string[];
   format?: string | string[];
   html5?: boolean;
   autoplay?: boolean;
-  defaultVolume?: number;
-  defaultRate?: number;
-}
+  volume?: number;
+  rate?: number;
+  preload?: boolean;
+};
 
 export type HawkTypeContext = {
   howl: Howl | undefined;
   load: (args: HawkOptions) => void;
   loading: null | boolean;
   ready: null | boolean;
-  error: null | HawkError;
+  error: null | string;
   playing: null | boolean;
   paused: null | boolean;
   stopped: null | boolean;
@@ -36,7 +33,7 @@ export type HawkMachineContext = {
   duration: number;
   muted: boolean;
   loop: boolean;
-  error: HawkError | null;
+  error: string | null;
 };
 
 export type HawkMachineStateSchema = {
@@ -95,7 +92,6 @@ export type HawkErrorEvent = {
 
 export type HawkDurationEvent = {
   type: 'READY';
-  howl: Howl;
   duration: number;
 };
 
