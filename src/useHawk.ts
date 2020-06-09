@@ -1,14 +1,10 @@
-import {
-  useState,
-  useEffect,
-  ChangeEvent,
-} from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
 
-import HawkMachine from '../machines/HawkMachine';
+import HawkMachine from './HawkMachine';
 
-import { HawkOptions } from '../types';
+import { HawkOptions } from './types';
 
 const useHawk = ({
   src,
@@ -19,9 +15,7 @@ const useHawk = ({
   defaultVolume = 1.0,
   defaultRate = 1.0,
 }: HawkOptions) => {
-  const [current, send] = useMachine(HawkMachine, {
-    devTools: true,
-  });
+  const [current, send] = useMachine(HawkMachine);
   const [howl, setHowl] = useState<Howl | null>(null);
   const [position, setPosition] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.5);

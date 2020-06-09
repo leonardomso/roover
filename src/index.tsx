@@ -1,1 +1,1 @@
-export { default as useHawk } from './hooks/useHawk';
+export { default as useHawk } from './useHawk';

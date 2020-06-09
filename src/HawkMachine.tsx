@@ -6,7 +6,7 @@ import {
   HawkMachineEvent,
   HawkErrorEvent,
   HawkDurationEvent,
-} from './Hawk.types';
+} from './types';
 
 const Hawk = Machine<
   HawkMachineContext,
