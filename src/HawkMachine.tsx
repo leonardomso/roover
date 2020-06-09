@@ -84,7 +84,7 @@ const Hawk = Machine<
           },
           ended: {
             on: {
-              RETRY: 'playing',
+              RETRY: 'idle',
             },
           },
           error: {

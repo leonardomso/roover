@@ -57,6 +57,7 @@ const useHawk = ({
       },
       onend: () => {
         send('END');
+        send('RETRY');
         setPosition(0);
       },
       onmute: () => send('MUTE'),
