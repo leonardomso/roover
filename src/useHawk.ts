@@ -83,7 +83,7 @@ const useHawk = ({
   // useEffect(() => {
   //   const animate = () => {
   //     const seek = howl?.seek() as number;
-  //     setPosition(seek as number);
+  //     setPosition(seek);
   //     positionRef.current = raf(animate);
   //   };
 
@@ -127,7 +127,7 @@ const useHawk = ({
     }
   };
 
-  const onPosition = (e: ChangeEvent<any>) => {
+  const onPosition = (e: ChangeEvent<HTMLInputElement>) => {
     const position = parseFloat(e.target.value);
     setPosition(position);
     howl?.seek(position);
