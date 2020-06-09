@@ -25,7 +25,7 @@ import {
 } from "./styles";
 
 const src =
-  "https://traffic.omny.fm/d/clips/a858b0a5-e5e6-4a14-9717-a70b010facc1/7d7ad78a-afa7-4af6-b0ab-a7bf00d33acc/af860e31-b511-4f3b-8eb7-a95101178792/audio.mp3?utm_source=Podcast&in_playlist=63b76787-ee2e-44cd-86e1-a8c500bf6f64&t=1536141755";
+  "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
 const App = () => {
   const {
@@ -35,16 +35,18 @@ const App = () => {
     playing,
     paused,
     stopped,
+    duration,
+    position,
     volume,
     rate,
     muted,
-    duration,
-    position,
-    onToggle, 
-    onPlay, 
+    loop,
+    onToggle,
+    onPlay,
     onPause,
     onStop,
     onMute,
+    onLoop,
     onPosition,
     onVolume,
     onRate
@@ -109,7 +111,7 @@ const App = () => {
 
           <InputContainer>
             <Text>Loop</Text>
-            <input type="checkbox" checked={muted} onChange={onMute} />
+            <input type="checkbox" checked={loop} onChange={onLoop} />
           </InputContainer>
         </InputsContainer>
 

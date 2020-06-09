@@ -11,7 +11,6 @@ const useHawk = ({
   format,
   html5 = true,
   autoplay = false,
-  loop = false,
   defaultVolume = 1.0,
   defaultRate = 1.0,
 }: HawkOptions) => {
@@ -31,7 +30,6 @@ const useHawk = ({
       preload: true,
       autoplay,
       volume: defaultVolume,
-      loop,
       rate: defaultRate,
       onload: () => {
         if (autoplay) {
@@ -71,7 +69,7 @@ const useHawk = ({
       howl.stop();
       howl.unload();
     };
-  }, [src, format, html5, autoplay, loop, defaultVolume, defaultRate]);
+  }, [src, format, html5, autoplay, defaultVolume, defaultRate]);
 
   // To render position smoothly, need to figure this out.
   // It's throwing an error showing that howl.seek is an object.
@@ -127,6 +125,16 @@ const useHawk = ({
     }
   };
 
+  const onLoop = () => {
+    if (!howl?.mute()) {
+      howl?.loop(true);
+      send('LOOP');
+    } else {
+      howl?.loop(false);
+      send('LOOP');
+    }
+  };
+
   const onPosition = (e: ChangeEvent<HTMLInputElement>) => {
     const position = parseFloat(e.target.value);
     setPosition(position);
@@ -152,16 +160,18 @@ const useHawk = ({
     playing: current.matches('ready.playing'),
     paused: current.matches('ready.paused'),
     stopped: current.matches('ready.stopped'),
+    duration: current.context.duration,
+    position,
     volume,
     rate,
     muted: current.context.muted,
-    duration: current.context.duration,
-    position,
+    loop: current.context.loop,
     onToggle,
     onPlay,
     onPause,
     onStop,
     onMute,
+    onLoop,
     onPosition,
     onVolume,
     onRate,

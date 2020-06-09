@@ -18,8 +18,9 @@ const Hawk = Machine<
     initial: 'loading',
     context: {
       howl: null,
-      muted: false,
       duration: 0,
+      muted: false,
+      loop: false,
       error: null,
     },
     states: {
@@ -45,6 +46,10 @@ const Hawk = Machine<
                 target: '',
                 actions: 'onMute',
               },
+              LOOP: {
+                target: '',
+                actions: 'onLoop',
+              },
             },
           },
           playing: {
@@ -54,6 +59,10 @@ const Hawk = Machine<
               MUTE: {
                 target: '',
                 actions: 'onMute',
+              },
+              LOOP: {
+                target: '',
+                actions: 'onLoop',
               },
               END: 'ended',
               ERROR: {
@@ -70,6 +79,10 @@ const Hawk = Machine<
                 target: '',
                 actions: 'onMute',
               },
+              LOOP: {
+                target: '',
+                actions: 'onLoop',
+              },
               END: 'ended',
             },
           },
@@ -79,6 +92,10 @@ const Hawk = Machine<
               MUTE: {
                 target: '',
                 actions: 'onMute',
+              },
+              LOOP: {
+                target: '',
+                actions: 'onLoop',
               },
             },
           },
@@ -104,6 +121,9 @@ const Hawk = Machine<
       }),
       onMute: assign<HawkMachineContext, HawkMachineEvent>({
         muted: context => !context.muted,
+      }),
+      onLoop: assign<HawkMachineContext, HawkMachineEvent>({
+        loop: context => !context.loop,
       }),
       onReady: assign<HawkMachineContext, any>({
         howl: (_, event) => (event as HawkDurationEvent).howl,

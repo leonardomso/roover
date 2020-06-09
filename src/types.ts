@@ -10,7 +10,6 @@ export interface HawkOptions {
   format?: string | string[];
   html5?: boolean;
   autoplay?: boolean;
-  loop?: boolean;
   defaultVolume?: number;
   defaultRate?: number;
 }
@@ -22,16 +21,18 @@ export type HawkTypeContext = {
   playing: null | boolean;
   paused: null | boolean;
   stopped: null | boolean;
+  duration: null | number;
+  position: null | number;
   volume: null | number;
   rate: null | number;
   muted: boolean;
-  duration: null | number;
-  position: null | number;
+  loop: boolean;
   onToggle: () => void;
   onPlay: () => void;
   onPause: () => void;
   onStop: () => void;
   onMute: () => void;
+  onLoop: () => void;
   onPosition: (e: ChangeEvent<HTMLInputElement>) => void;
   onVolume: (e: ChangeEvent<HTMLInputElement>) => void;
   onRate: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -39,8 +40,9 @@ export type HawkTypeContext = {
 
 export type HawkMachineContext = {
   howl: Howl | null;
-  muted: boolean;
   duration: number;
+  muted: boolean;
+  loop: boolean;
   error: string | null;
 };
 
@@ -85,6 +87,10 @@ export type HawkMuteEvent = {
   type: 'MUTE';
 };
 
+export type HawkLoopEvent = {
+  type: 'LOOP';
+};
+
 export type HawkEndEvent = {
   type: 'END';
 };
@@ -111,6 +117,7 @@ export type HawkMachineEvent =
   | HawkPauseEvent
   | HawkStopEvent
   | HawkMuteEvent
+  | HawkLoopEvent
   | HawkEndEvent
   | HawkErrorEvent
   | HawkDurationEvent
@@ -129,7 +136,7 @@ export type SendType<ContextType, EventType extends EventObject> = Interpreter<
 
 export interface HawkProviderProps {
   children: React.ReactNode;
-  value: HawkContext;
+  value: HawkTypeContext;
 }
 
 export type MachineContext<
