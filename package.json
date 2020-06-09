@@ -1,11 +1,11 @@
 {
-  "name": "hawk",
-  "version": "0.1.0",
-  "private": true,
+  "name": "rehawk",
+  "version": "0.1.1",
+  "private": false,
   "author": "Leonardo Maldonado <leonardomso11@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/hawk.esm.js",
+  "module": "dist/rehawk.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",

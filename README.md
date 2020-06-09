@@ -1,183 +1,294 @@
-# TSDX React User Guide
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+# Rehawk
 
-> This TSDX setup is meant for developing React components (not apps!) that can be published to NPM. If you’re looking to build an app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+[![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
+[![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
+[![npm](https://img.shields.io/npm/v/rehawk.svg)](https://npmjs.org/package/rehawk)
+[![dependencies](https://david-dm.org/leonardomso/rehawk.svg)](https://david-dm.org/leonardomso/rehawk)
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
+Work with audio in React it's painful sometimes, that's why this library was created. A custom React hook powered by the JavaScript audio library called [Howler.js](https://howlerjs.com/) library.
 
-## Commands
+Using only a custom React hook and finite-state machine using XState, this library aims to solve a few points when developers want to work with audio in React. It provides a few functions and properties so you don't need to waste time trying to figure out how to get that specific value.
 
-TSDX scaffolds your new library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
+The **only** feature now that needs to be implemented is to figure out how to update the *seek* property smoothly using the RAF library without breaking the *seek* property. 
 
-The recommended workflow is to run TSDX in one terminal:
+Feel free to submit a PR.
 
-```
-npm start # or yarn start
-```
+## Install
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
-
-Then run either example playground or storybook:
-
-### Storybook
-
-Run inside another terminal:
-
-```
-yarn storybook
+```bash
+yarn add rehawk
 ```
 
-This loads the stories from `./stories`.
+## Usage
 
-> NOTE: Stories should reference the components as if using the library, similar to the example playground. This means importing from the root project directory. This has been aliased in the tsconfig and the storybook webpack config as a helper.
+All you need to do is import the `RehawkProvider` context and the `useRehawk` hook. Context was the best choice here because sometimes we might want to use different properties of our custom hook in different components in our React tree.
 
-### Example
+The following is a very basic usage example of Rehawk. If you want the most complete example of Rehawk working, click here.
 
-Then run the example inside another:
+```typescript
+import React from "react"
+import { RehawkProvider, useRehawk } from "rehawk"
 
-```
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
-```
+const src = "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**, [we use Parcel's aliasing](https://github.com/palmerhq/tsdx/pull/88/files).
+const Player = () => {
+	const {
+		ready,
+		loading,
+		error,
+		playing,
+		paused,
+		stopped
+	} = useRehawk({
+		src,
+		autoplay: false
+	});
+	
+	return (
+		<div>
+			<p>Ready: {ready ? "true" : "false"}</p>
+			<p>Loading: {loading ? "true" : "false"}</p>
+			<p>Error: {error}</p>
+			<p>Playing: {playing ? "true" : "false"}</p>
+			<p>Paused: {paused ? "true" : "false"}</p>
+			<p>Stopped: {stopped ? "true" : "false"}</p>
+		</div>
+	);
+};
 
-To do a one-off build, use `npm run build` or `yarn build`.
-
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is [set up for you](https://github.com/palmerhq/tsdx/pull/45/files) with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`. This runs the test watcher (Jest) in an interactive mode. By default, runs tests related to files changed since the last commit.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```
-/example
-  index.html
-  index.tsx       # test your component here in a demo app
-  package.json
-  tsconfig.json
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
-```
-
-#### React Testing Library
-
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
-
-### Rollup
-
-TSDX uses [Rollup v1.x](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
-
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### Travis
-
-_to be completed_
-
-### Circle
-
-_to be completed_
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+const App = () => {
+    return (
+        <RehawkProvider>
+            <Player />
+        </RehawkProvider>
+    )
 }
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+## API
 
-## Module Formats
+### Props
 
-CJS, ESModules, and UMD module formats are supported.
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+  </tr>
+  <tr>
+    <td><code>src</code></td>
+    <td><code>string | string[]</code></td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>format</code></td>
+    <td><code>string | string[]</code></td>
+    <td><code>false</code></td>
+  </tr>
+    <tr>
+    <td><code>html5</code></td>
+    <td><code>boolean</code></td>
+    <td><code>false</code></td>
+  </tr>
+   <tr>
+    <td><code>autoplay</code></td>
+    <td><code>boolean</code></td>
+    <td><code>false</code></td>
+  </tr>
+   <tr>
+    <td><code>volume</code></td>
+    <td><code>number (0.0 to 1.0)</code></td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>rate</code></td>
+    <td><code>number (0.5 to 4.0, with 1.0 being normal speed)</code></td>
+    <td><code>false</code></td>
+  </tr>
+</table>
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+### Returned values
 
-## Using the Playground
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>loading</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if the audio is been loaded.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>ready</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if the audio is ready to be played.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>error</code></td>
+    <td><code>string | null</code></td>
+    <td>
+    <code>Return a string if any error occurs, otherwise returns null.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>playing</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if audio is been played.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>paused</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if audio is paused.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>stopped</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if audio is stopped.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>duration</code></td>
+    <td><code>number</code></td>
+    <td>
+    <code>Return the duration of the actual audio, in case there's no audio it returns 0.</code>
+    </td>
+  </tr>
+    <tr>
+    <td><code>seek</code></td>
+    <td><code>number</code></td>
+    <td>
+    <code>Return the seek of the actual audio, in case there's no audio it returns 0.</code>
+    </td>
+  </tr>
+    <tr>
+    <td><code>volume</code></td>
+    <td><code>number</code></td>
+    <td>
+    <code>Return the volume of the actual audio, in case there's no audio it returns 0.</code>
+    </td>
+  </tr>
+    <tr>
+    <td><code>rate</code></td>
+    <td><code>number</code></td>
+    <td>
+    <code>Return the rate of the audio, in case there's no audio it returns 0.</code>
+    </td>
+  </tr>
+   <tr>
+    <td><code>muted</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if the audio is muted.</code>
+    </td>
+  </tr>
+   <tr>
+    <td><code>loop</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if the audio is set to loop forever.</code>
+    </td>
+  </tr>
+</table>
 
-```
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
-```
+### Returned methods
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**!
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>onToggle</code></td>
+    <td><code>() => void</code></td>
+    <td>
+    <code>Switch between playing and paused.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onPlay</code></td>
+    <td><code>() => void</code></td>
+    <td>
+    <code>Set playing to true.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onPause</code></td>
+    <td><code>() => void</code></td>
+    <td>
+    <code>Set paused to true.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onStop</code></td>
+    <td><code>() => void</code></td>
+    <td>
+    <code>Set stopped to true.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onMute</code></td>
+    <td><code>() => void</code></td>
+    <td>
+    <code>Set muted to the opposite actual value.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onLoop</code></td>
+    <td><code>() => void</code></td>
+    <td>
+    <code>Set loop to the opposite actual value.</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onSeek</code></td>
+    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td>
+    <code>Change seek to a specific value (recommended to be used in a input element).</code>
+    </td>
+  </tr>
+     <tr>
+    <td><code>onVolume</code></td>
+    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td>
+    <code>Change volume to a specific value (recommended to be used in a input element).</code>
+    </td>
+  </tr>
+   <tr>
+    <td><code>onRate</code></td>
+    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td>
+    <code>Change rate to a specific value (recommended to be used in a input element).</code>
+    </td>
+  </tr>
+</table>
 
-## Deploying the Playground
 
-The Playground is just a simple [Parcel](https://parceljs.org) app, you can deploy it anywhere you would normally deploy that. Here are some guidelines for **manually** deploying with the Netlify CLI (`npm i -g netlify-cli`):
+## Example
 
-```bash
-cd example # if not already in the example folder
-npm run build # builds to dist
-netlify deploy # deploy the dist folder
-```
+To run the example do the following steps:
 
-Alternatively, if you already have a git repo connected, you can set up continuous deployment with Netlify:
+1. `git clone` the repository
+2. `cd rehawk/example`
+3. `yarn install`
+4. `yarn start`
 
-```bash
-netlify init
-# build command: yarn build && cd example && yarn && yarn build
-# directory to deploy: example/dist
-# pick yes for netlify.toml
-```
+## Contributing
 
-## Named Exports
+Your contributions are welcome! If you have any questions or want to start to contribute to this library in any form, please open an issue. Feel free to open PR.
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
+- - -
 
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using https://github.com/sindresorhus/np.
-
-## Usage with Lerna
-
-When creating a new package with TSDX within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
-
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
-
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
-
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
-```
-
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/palmerhq/tsdx/issues/64)
+If there are any questions about this library or about any other topic, please contact me on Twitter  [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.
