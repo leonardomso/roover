@@ -52,6 +52,7 @@ const Player = () => {
     onRate
   } = useRehawk({
     src,
+    html5: true,
     autoplay: false
   });
 
