@@ -34,28 +34,28 @@ import { RehawkProvider, useRehawk } from "rehawk"
 const src = "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
 const Player = () => {
-	const {
-		ready,
-		loading,
-		error,
-		playing,
-		paused,
-		stopped
-	} = useRehawk({
-		src,
-		autoplay: false
-	});
+  const {
+    ready,
+    loading,
+    error,
+    playing,
+    paused,
+    stopped
+  } = useRehawk({
+    src,
+    autoplay: false
+  });
 	
-	return (
-		<div>
-			<p>Ready: {ready ? "true" : "false"}</p>
-			<p>Loading: {loading ? "true" : "false"}</p>
-			<p>Error: {error}</p>
-			<p>Playing: {playing ? "true" : "false"}</p>
-			<p>Paused: {paused ? "true" : "false"}</p>
-			<p>Stopped: {stopped ? "true" : "false"}</p>
-		</div>
-	);
+  return (
+    <div>
+      <p>Ready: {ready ? "true" : "false"}</p>
+      <p>Loading: {loading ? "true" : "false"}</p>
+      <p>Error: {error}</p>
+      <p>Playing: {playing ? "true" : "false"}</p>
+      <p>Paused: {paused ? "true" : "false"}</p>
+      <p>Stopped: {stopped ? "true" : "false"}</p>
+    </div>
+  );
 };
 
 const App = () => {
