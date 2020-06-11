@@ -1,4 +1,5 @@
-import { useContext, useState, useEffect, ChangeEvent } from 'react';
+import { useContext, useState, useEffect, useRef, ChangeEvent } from 'react';
+import raf from 'raf';
 
 import RehawkContext from './RehawkContext';
 
@@ -6,11 +7,8 @@ import { RehawkOptions } from './types';
 
 const useRehawk = ({
   src,
-  format,
-  html5 = true,
   autoplay = false,
-  volume = 1.0,
-  rate = 1.0,
+  volume = 0.5
 }: RehawkOptions) => {
   const context = useContext(RehawkContext);
 
@@ -19,7 +17,7 @@ const useRehawk = ({
   }
 
   const {
-    howl,
+    audio,
     load,
     loading,
     ready,
@@ -31,100 +29,92 @@ const useRehawk = ({
     muted,
     loop,
     send,
-    seek,
-    setSeek,
   } = context;
 
-  const [hawkVolume, setRehawkVolume] = useState<number>(0.5);
+  const [hawkVolume, setRehawkVolume] = useState<number>(volume);
   const [hawkRate, setRehawkRate] = useState<number>(1.0);
+  const [hawkSeek, setHawkSeek] = useState<number>(0);
+
+  const seekRef = useRef<number>();
 
   useEffect(() => {
     if (!src) return;
-    load({ src, format, html5, autoplay, volume, rate });
-  }, [src, format, html5, autoplay, volume, rate, load]);
+    load({ src, autoplay, volume });
+  }, [src, autoplay, volume, load]);
 
-  // To render seek smoothly, need to figure this out.
-  // It's throwing an error showing that howl.seek is an object.
+  useEffect(() => {
+    const animate = () => {
+      const seek = audio?.currentTime;
+      setHawkSeek(seek as number);
+      seekRef.current = raf(animate);
+    };
 
-  // const seekRef = useRef<number>();
-  // const isPlaying = current.matches('ready.playing');
-  // const isStopped = current.matches('ready.stopped');
+    if (audio && playing) {
+      seekRef.current = raf(animate);
+    }
 
-  // useEffect(() => {
-  //   const animate = () => {
-  //     const seek = howl?.seek() as number;
-  //     setSeek(seek);
-  //     seekRef.current = raf(animate);
-  //   };
-
-  //   if (howl && isPlaying) {
-  //     seekRef.current = raf(animate);
-  //   }
-
-  //   return () => {
-  //     if (seekRef.current) {
-  //       raf.cancel(seekRef.current);
-  //     }
-  //   };
-  // }, [howl, isPlaying, isStopped]);
+    return () => {
+      if (seekRef.current) {
+        raf.cancel(seekRef.current);
+      }
+    };
+  }, [audio, playing, stopped]);
 
   const onToggle = () => {
-    if (howl?.playing()) {
-      howl.pause();
-    } else {
-      howl?.play();
-    }
-  };
+    if (!audio) return;
+    if (ready) audio.play();
+    if (playing) audio.pause();
+  }
 
   const onPlay = () => {
-    if (howl?.playing()) return;
-    howl?.play();
+    if (!audio) return;
+    audio.play();
   };
 
   const onPause = () => {
-    howl?.pause();
+    if (!audio) return;
+    audio.pause();
   };
 
   const onStop = () => {
-    howl?.stop();
-  };
+    if (!audio) return;
+    audio.pause();
+    send('STOP');
+    setHawkSeek(0);
+    audio.currentTime = 0;
+  }
 
   const onMute = () => {
-    if (!howl?.mute()) {
-      howl?.mute(true);
-      send('MUTE');
-    } else {
-      howl?.mute(false);
-      send('MUTE');
-    }
+    if (!audio) return;
+    audio.muted = !muted;
+    send('MUTE');
   };
 
   const onLoop = () => {
-    if (!howl?.mute()) {
-      howl?.loop(true);
-      send('LOOP');
-    } else {
-      howl?.loop(false);
-      send('LOOP');
-    }
-  };
-
-  const onSeek = (e: ChangeEvent<HTMLInputElement>) => {
-    const seek = parseFloat(e.target.value);
-    setSeek(seek);
-    howl?.seek(seek);
+    if (!audio) return;
+    audio.loop = !loop;
+    send('LOOP');
   };
 
   const onVolume = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!audio) return;
     const volume = parseFloat(e.target.value);
     setRehawkVolume(volume);
-    howl?.volume(volume);
+    audio.volume = volume;
   };
 
   const onRate = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!audio) return;
     const rate = parseFloat(e.target.value);
     setRehawkRate(rate);
-    howl?.rate(rate);
+    audio.playbackRate = rate;
+  };
+
+  const onSeek = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!audio) return;
+    const seek = parseFloat(e.target.value);
+    setHawkSeek(seek);
+    audio.currentTime = seek;
   };
 
   return {
@@ -135,10 +125,10 @@ const useRehawk = ({
     paused,
     stopped,
     duration,
-    seek,
+    seek: hawkSeek,
     volume: hawkVolume,
-    rate: hawkRate,
     muted,
+    rate: hawkRate,
     loop,
     onToggle,
     onPlay,
@@ -146,9 +136,9 @@ const useRehawk = ({
     onStop,
     onMute,
     onLoop,
-    onSeek,
     onVolume,
     onRate,
+    onSeek
   };
 };
 

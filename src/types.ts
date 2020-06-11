@@ -1,18 +1,16 @@
-import { SetStateAction } from 'react';
 import { EventObject, Interpreter, State } from 'xstate';
 
 export type RehawkOptions = {
-  src: string | string[];
-  format?: string | string[];
-  html5?: boolean;
+  src: string;
   autoplay?: boolean;
   volume?: number;
+  muted?: boolean;
+  loop?: boolean;
   rate?: number;
-  preload?: boolean;
 };
 
 export type RehawkTypeContext = {
-  howl: Howl | undefined;
+  audio: HTMLAudioElement | undefined;
   load: (args: RehawkOptions) => void;
   loading: null | boolean;
   ready: null | boolean;
@@ -24,12 +22,10 @@ export type RehawkTypeContext = {
   muted: boolean;
   loop: boolean;
   send: any;
-  seek: number;
-  setSeek: (value: SetStateAction<number>) => void;
 };
 
 export type RehawkMachineContext = {
-  howl: Howl | null;
+  audio: HTMLAudioElement | undefined;
   duration: number;
   muted: boolean;
   loop: boolean;

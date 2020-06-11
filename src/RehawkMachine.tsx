@@ -17,7 +17,7 @@ const Rehawk = Machine<
     id: 'RehawkMachine',
     initial: 'loading',
     context: {
-      howl: null,
+      audio: undefined,
       duration: 0,
       muted: false,
       loop: false,

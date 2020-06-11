@@ -4,8 +4,6 @@ import * as ReactDOM from 'react-dom';
 
 import { useRehawk, RehawkProvider } from "../src"
 
-import 'rc-slider/assets/index.css';
-
 import { 
   Container, 
   InnerContainer, 
@@ -38,8 +36,8 @@ const Player = () => {
     duration,
     seek,
     volume,
-    rate,
     muted,
+    rate,
     loop,
     onToggle,
     onPlay,
@@ -47,13 +45,15 @@ const Player = () => {
     onStop,
     onMute,
     onLoop,
-    onSeek,
     onVolume,
-    onRate
+    onRate,
+    onSeek
   } = useRehawk({
     src,
-    html5: true,
-    autoplay: false
+    autoplay: false,
+    volume: 1.0,
+    rate: 1.5,
+    muted: true
   });
 
   return (
@@ -97,8 +97,8 @@ const Player = () => {
             <Text>Rate</Text>
             <input 
               type="range"
-              min={0}
-              max={4.0}
+              min={0.25}
+              max={5.0}
               value={rate}
               step={0.1}
               onChange={onRate} 

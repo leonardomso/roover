@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Howl } from 'howler';
 import { useMachine } from '@xstate/react';
 
 import RehawkMachine from './RehawkMachine';
@@ -9,89 +8,70 @@ import { RehawkProviderProps, RehawkOptions, RehawkTypeContext } from './types';
 
 const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
   const [current, send] = useMachine(RehawkMachine, { devTools: true });
-  const [howl, setHowl] = useState<Howl | undefined>(undefined);
-  const [seek, setSeek] = useState<number>(0);
+  const [audio, setAudio] = useState<HTMLAudioElement | undefined>(undefined);
 
-  const newHowl = useCallback(
+  const newAudio = useCallback(
     ({
       src,
-      format,
-      html5,
-      autoplay,
-      volume,
-      rate,
-      preload,
-    }: RehawkOptions): Howl => {
-      return new Howl({
-        src,
-        format,
-        html5,
-        autoplay,
-        volume,
-        rate,
-        preload,
-      });
-    },
-    []
-  );
+      autoplay = false,
+      volume = 0.5,
+      muted = false,
+      loop = false,
+      rate = 1.0
+    }: RehawkOptions): HTMLAudioElement => {
+      const audioElement = new Audio(src);
+      audioElement.autoplay = autoplay;
+      audioElement.volume = volume;
+      audioElement.defaultMuted = muted;
+      audioElement.loop = loop;
+      audioElement.defaultPlaybackRate = rate;
+      return audioElement;
+    }, []);
 
   const load = useCallback(
     ({
       src,
-      format,
-      html5 = true,
       autoplay = false,
-      volume = 1.0,
-      rate = 1.0,
+      volume = 0.5,
+      muted = false,
+      loop = false,
+      rate = 1.0
     }: RehawkOptions) => {
-      const currentHowl = newHowl({
+      const audio = newAudio({
         src,
-        format,
-        html5,
         autoplay,
         volume,
-        rate,
+        muted,
+        loop,
+        rate
       });
 
-      currentHowl.on('load', () => {
+      audio?.addEventListener('abort', () => send({ type: 'ERROR', error: "Error" }))
+      audio?.addEventListener('error', () => send({ type: 'ERROR', error: "Error" }));
+      audio?.addEventListener('loadeddata', () => {
         if (autoplay) {
           send({
             type: 'READY',
-            duration: currentHowl.duration() as number,
+            duration: audio.duration,
           });
           send('PLAY');
         } else {
           send({
             type: 'READY',
-            duration: currentHowl.duration() as number,
+            duration: audio.duration,
           });
         }
-      });
-      currentHowl.on('loaderror', (_, error) => send({ type: 'ERROR', error }));
-      currentHowl.on('play', () => send('PLAY'));
-      currentHowl.on('playerror', (_, error) => send({ type: 'ERROR', error }));
-      currentHowl.on('pause', () => send('PAUSE'));
-      currentHowl.on('stop', () => {
-        send('STOP');
-        setSeek(0);
-      });
-      currentHowl.on('end', () => {
-        send('END');
-        send('RETRY');
-        setSeek(0);
-      });
-
-      setHowl(currentHowl);
-    },
-    [newHowl]
-  );
+      })
+      audio?.addEventListener('play', () => send('PLAY'));
+      audio?.addEventListener('pause', () => send('PAUSE'));
+      
+      setAudio(audio);
+  }, [newAudio]);
 
   useEffect(() => {
     return () => {
-      if (!howl) return;
-      howl.off();
-      howl.stop();
-      howl.unload();
+      if (!audio) return;
+      audio.pause();
     };
   }, []);
 
@@ -106,7 +86,7 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
   const loop = current.context.loop;
 
   const context: RehawkTypeContext = {
-    howl,
+    audio,
     load,
     loading,
     ready,
@@ -118,8 +98,6 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
     muted,
     loop,
     send,
-    seek,
-    setSeek,
   };
 
   return (
