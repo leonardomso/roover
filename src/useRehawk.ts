@@ -8,7 +8,10 @@ import { RehawkOptions } from './types';
 const useRehawk = ({
   src,
   autoplay = false,
-  volume = 0.5
+  volume = 0.5,
+  muted = false,
+  loop = false,
+  rate = 1.0,
 }: RehawkOptions) => {
   const context = useContext(RehawkContext);
 
@@ -22,12 +25,12 @@ const useRehawk = ({
     loading,
     ready,
     error,
-    playing,
-    paused,
-    stopped,
-    duration,
-    muted,
-    loop,
+    playing: hawkPlaying,
+    paused: hawkPaused,
+    stopped: hawkStopped,
+    duration: hawkDuration,
+    muted: hawkMuted,
+    loop: hawkLoop,
     send,
   } = context;
 
@@ -39,8 +42,8 @@ const useRehawk = ({
 
   useEffect(() => {
     if (!src) return;
-    load({ src, autoplay, volume });
-  }, [src, autoplay, volume, load]);
+    load({ src, autoplay, volume, muted, loop, rate });
+  }, [src, autoplay, volume, muted, loop, rate, load]);
 
   useEffect(() => {
     const animate = () => {
@@ -49,7 +52,7 @@ const useRehawk = ({
       seekRef.current = raf(animate);
     };
 
-    if (audio && playing) {
+    if (audio && hawkPlaying) {
       seekRef.current = raf(animate);
     }
 
@@ -58,13 +61,13 @@ const useRehawk = ({
         raf.cancel(seekRef.current);
       }
     };
-  }, [audio, playing, stopped]);
+  }, [audio, hawkPlaying, hawkStopped]);
 
   const onToggle = () => {
     if (!audio) return;
     if (ready) audio.play();
-    if (playing) audio.pause();
-  }
+    if (hawkPlaying) audio.pause();
+  };
 
   const onPlay = () => {
     if (!audio) return;
@@ -82,17 +85,17 @@ const useRehawk = ({
     send('STOP');
     setHawkSeek(0);
     audio.currentTime = 0;
-  }
+  };
 
   const onMute = () => {
     if (!audio) return;
-    audio.muted = !muted;
+    audio.muted = !hawkMuted;
     send('MUTE');
   };
 
   const onLoop = () => {
     if (!audio) return;
-    audio.loop = !loop;
+    audio.loop = !hawkLoop;
     send('LOOP');
   };
 
@@ -121,15 +124,15 @@ const useRehawk = ({
     loading,
     ready,
     error,
-    playing,
-    paused,
-    stopped,
-    duration,
+    playing: hawkPlaying,
+    paused: hawkPaused,
+    stopped: hawkStopped,
+    duration: hawkDuration,
     seek: hawkSeek,
     volume: hawkVolume,
-    muted,
+    muted: hawkMuted,
     rate: hawkRate,
-    loop,
+    loop: hawkLoop,
     onToggle,
     onPlay,
     onPause,
@@ -138,7 +141,7 @@ const useRehawk = ({
     onLoop,
     onVolume,
     onRate,
-    onSeek
+    onSeek,
   };
 };
 

@@ -17,7 +17,7 @@ const Rehawk = Machine<
     id: 'RehawkMachine',
     initial: 'loading',
     context: {
-      audio: undefined,
+      audio: null,
       duration: 0,
       muted: false,
       loop: false,
@@ -28,7 +28,7 @@ const Rehawk = Machine<
         on: {
           READY: {
             target: 'ready',
-            actions: ['onReady'],
+            actions: 'onReady',
           },
           ERROR: {
             target: 'error',

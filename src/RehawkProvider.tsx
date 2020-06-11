@@ -8,7 +8,7 @@ import { RehawkProviderProps, RehawkOptions, RehawkTypeContext } from './types';
 
 const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
   const [current, send] = useMachine(RehawkMachine, { devTools: true });
-  const [audio, setAudio] = useState<HTMLAudioElement | undefined>(undefined);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
   const newAudio = useCallback(
     ({
@@ -17,7 +17,7 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
       volume = 0.5,
       muted = false,
       loop = false,
-      rate = 1.0
+      rate = 1.0,
     }: RehawkOptions): HTMLAudioElement => {
       const audioElement = new Audio(src);
       audioElement.autoplay = autoplay;
@@ -26,7 +26,9 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
       audioElement.loop = loop;
       audioElement.defaultPlaybackRate = rate;
       return audioElement;
-    }, []);
+    },
+    []
+  );
 
   const load = useCallback(
     ({
@@ -35,7 +37,7 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
       volume = 0.5,
       muted = false,
       loop = false,
-      rate = 1.0
+      rate = 1.0,
     }: RehawkOptions) => {
       const audio = newAudio({
         src,
@@ -43,11 +45,15 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
         volume,
         muted,
         loop,
-        rate
+        rate,
       });
 
-      audio?.addEventListener('abort', () => send({ type: 'ERROR', error: "Error" }))
-      audio?.addEventListener('error', () => send({ type: 'ERROR', error: "Error" }));
+      audio?.addEventListener('abort', () =>
+        send({ type: 'ERROR', error: 'Error' })
+      );
+      audio?.addEventListener('error', () =>
+        send({ type: 'ERROR', error: 'Error' })
+      );
       audio?.addEventListener('loadeddata', () => {
         if (autoplay) {
           send({
@@ -61,12 +67,14 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
             duration: audio.duration,
           });
         }
-      })
+      });
       audio?.addEventListener('play', () => send('PLAY'));
       audio?.addEventListener('pause', () => send('PAUSE'));
-      
+
       setAudio(audio);
-  }, [newAudio]);
+    },
+    [newAudio]
+  );
 
   useEffect(() => {
     return () => {

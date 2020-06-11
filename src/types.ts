@@ -1,7 +1,7 @@
 import { EventObject, Interpreter, State } from 'xstate';
 
 export type RehawkOptions = {
-  src: string;
+  src?: string;
   autoplay?: boolean;
   volume?: number;
   muted?: boolean;
@@ -10,7 +10,7 @@ export type RehawkOptions = {
 };
 
 export type RehawkTypeContext = {
-  audio: HTMLAudioElement | undefined;
+  audio: HTMLAudioElement | null;
   load: (args: RehawkOptions) => void;
   loading: null | boolean;
   ready: null | boolean;
@@ -25,7 +25,7 @@ export type RehawkTypeContext = {
 };
 
 export type RehawkMachineContext = {
-  audio: HTMLAudioElement | undefined;
+  audio: HTMLAudioElement | null;
   duration: number;
   muted: boolean;
   loop: boolean;
