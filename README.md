@@ -1,17 +1,13 @@
-
 # Rehawk
-
 
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
 [![npm](https://img.shields.io/npm/v/rehawk.svg)](https://npmjs.org/package/rehawk)
 [![dependencies](https://david-dm.org/leonardomso/rehawk.svg)](https://david-dm.org/leonardomso/rehawk)
 
-Work with audio in React it's painful sometimes, that's why this library was created. A custom React hook powered by the JavaScript audio library called [Howler.js](https://howlerjs.com/) library.
+Work with audio in React it's painful sometimes, that's why this library was created. Especially in React, there are not too many good libraries out there to work with audio.
 
-Using only a custom React hook and finite-state machine using XState, this library aims to solve a few points when developers want to work with audio in React. It provides a few functions and properties so you don't need to waste time trying to figure out how to get that specific value.
-
-The **only** feature now that needs to be implemented is to figure out how to update the *seek* property smoothly using the RAF library without breaking the *seek* property. 
+Rehawk is a powerful and lightweight library that aims to make things easier for you to start to work with audio. Using the Audio API, a custom React Hook powered by an XState finite state machine, it brings a lot of functionalities and methods for you to start faster your development, without having to waste time implementing anything.
 
 Feel free to submit a PR.
 
@@ -80,19 +76,14 @@ const App = () => {
   <tr>
     <td><code>src</code></td>
     <td><code>string | string[]</code></td>
-    <td><code>true</code></td>
-  </tr>
-  <tr>
-    <td><code>format</code></td>
-    <td><code>string | string[]</code></td>
     <td><code>false</code></td>
   </tr>
-    <tr>
-    <td><code>html5</code></td>
+  <tr>
+    <td><code>preload</code></td>
     <td><code>boolean</code></td>
     <td><code>false</code></td>
   </tr>
-   <tr>
+    <tr>
     <td><code>autoplay</code></td>
     <td><code>boolean</code></td>
     <td><code>false</code></td>
@@ -102,9 +93,21 @@ const App = () => {
     <td><code>number (0.0 to 1.0)</code></td>
     <td><code>false</code></td>
   </tr>
+  </tr>
+    <tr>
+    <td><code>muted</code></td>
+    <td><code>boolean</code></td>
+    <td><code>false</code></td>
+  </tr>
+  </tr>
+    <tr>
+    <td><code>loop</code></td>
+    <td><code>boolean</code></td>
+    <td><code>false</code></td>
+  </tr>
   <tr>
     <td><code>rate</code></td>
-    <td><code>number (0.5 to 4.0, with 1.0 being normal speed)</code></td>
+    <td><code>number (0.25 to 5.0, with 1.0 being normal speed)</code></td>
     <td><code>false</code></td>
   </tr>
 </table>
@@ -180,18 +183,18 @@ const App = () => {
     <code>Return the volume of the actual audio, in case there's no audio it returns 0.</code>
     </td>
   </tr>
-    <tr>
-    <td><code>rate</code></td>
-    <td><code>number</code></td>
-    <td>
-    <code>Return the rate of the audio, in case there's no audio it returns 0.</code>
-    </td>
-  </tr>
    <tr>
     <td><code>muted</code></td>
     <td><code>boolean</code></td>
     <td>
     <code>Return true if the audio is muted.</code>
+    </td>
+  </tr>
+    <tr>
+    <td><code>rate</code></td>
+    <td><code>number</code></td>
+    <td>
+    <code>Return the rate of the audio, in case there's no audio it returns 0.</code>
     </td>
   </tr>
    <tr>
@@ -210,6 +213,13 @@ const App = () => {
     <th>Name</th>
     <th>Type</th>
     <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>load</code></td>
+    <td><code>({  src?: string; preload?: boolean; autoplay?: boolean; volume?: number; muted?: boolean; loop?: boolean; rate?: number; }) => void</code></td>
+    <td>
+    <code>Method to load the audio in case you want it.</code>
+    </td>
   </tr>
   <tr>
     <td><code>onToggle</code></td>
@@ -253,14 +263,7 @@ const App = () => {
     <code>Set loop to the opposite actual value.</code>
     </td>
   </tr>
-  <tr>
-    <td><code>onSeek</code></td>
-    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
-    <td>
-    <code>Change seek to a specific value (recommended to be used in a input element).</code>
-    </td>
-  </tr>
-     <tr>
+    <tr>
     <td><code>onVolume</code></td>
     <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
     <td>
@@ -272,6 +275,13 @@ const App = () => {
     <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
     <td>
     <code>Change rate to a specific value (recommended to be used in a input element).</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>onSeek</code></td>
+    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td>
+    <code>Change seek to a specific value (recommended to be used in a input element).</code>
     </td>
   </tr>
 </table>

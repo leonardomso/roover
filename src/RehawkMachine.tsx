@@ -2,22 +2,22 @@ import { Machine, assign } from 'xstate';
 
 import {
   RehawkMachineContext,
-  RehawkMachineStateSchema,
-  RehawkMachineEvent,
-  RehawkErrorEvent,
-  RehawkDurationEvent,
+  RehawkMachineState,
+  RehawkMachineEvents,
+  RehawkOnErrorEvent,
+  RehawkOnReadyEvent,
 } from './types';
 
 const Rehawk = Machine<
   RehawkMachineContext,
-  RehawkMachineStateSchema,
-  RehawkMachineEvent
+  RehawkMachineState,
+  RehawkMachineEvents
 >(
   {
     id: 'RehawkMachine',
     initial: 'loading',
     context: {
-      howl: null,
+      audio: null,
       duration: 0,
       muted: false,
       loop: false,
@@ -28,7 +28,7 @@ const Rehawk = Machine<
         on: {
           READY: {
             target: 'ready',
-            actions: ['onReady'],
+            actions: 'onReady',
           },
           ERROR: {
             target: 'error',
@@ -117,16 +117,18 @@ const Rehawk = Machine<
   {
     actions: {
       onError: assign<RehawkMachineContext, any>({
-        error: (_, event) => (event as RehawkErrorEvent).error,
+        error: (_, event) => (event as RehawkOnErrorEvent).error,
       }),
-      onMute: assign<RehawkMachineContext, RehawkMachineEvent>({
+      onMute: assign<RehawkMachineContext, RehawkMachineEvents>({
         muted: context => !context.muted,
       }),
-      onLoop: assign<RehawkMachineContext, RehawkMachineEvent>({
+      onLoop: assign<RehawkMachineContext, RehawkMachineEvents>({
         loop: context => !context.loop,
       }),
       onReady: assign<RehawkMachineContext, any>({
-        duration: (_, event) => (event as RehawkDurationEvent).duration,
+        duration: (_, event) => (event as RehawkOnReadyEvent).duration,
+        muted: (_, event) => (event as RehawkOnReadyEvent).muted,
+        loop: (_, event) => (event as RehawkOnReadyEvent).loop,
       }),
     },
   }
