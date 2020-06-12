@@ -88,6 +88,8 @@ export type RehawkOnErrorEvent = {
 export type RehawkOnReadyEvent = {
   type: 'READY';
   duration: number;
+  muted: boolean;
+  loop: boolean;
 };
 
 export type RehawkRetryEvent = {

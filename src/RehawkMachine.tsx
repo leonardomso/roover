@@ -127,6 +127,8 @@ const Rehawk = Machine<
       }),
       onReady: assign<RehawkMachineContext, any>({
         duration: (_, event) => (event as RehawkOnReadyEvent).duration,
+        muted: (_, event) => (event as RehawkOnReadyEvent).muted,
+        loop: (_, event) => (event as RehawkOnReadyEvent).loop,
       }),
     },
   }

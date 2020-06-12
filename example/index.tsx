@@ -54,8 +54,9 @@ const Player = () => {
     preload: true,
     autoplay: false,
     volume: 1.0,
-    rate: 1.5,
-    muted: true
+    muted: true,
+    loop: true,
+    rate: 1.0
   });
 
   return (

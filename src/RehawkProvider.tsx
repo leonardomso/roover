@@ -39,24 +39,16 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
       const audioElement = new Audio(src);
       audioElement.autoplay = autoplay;
       audioElement.volume = volume;
-      audioElement.defaultMuted = muted;
+      audioElement.muted = muted;
       audioElement.loop = loop;
-      audioElement.defaultPlaybackRate = rate;
+      audioElement.playbackRate = rate;
       return audioElement;
     },
     []
   );
 
   const load = useCallback(
-    ({
-      src,
-      preload = true,
-      autoplay = false,
-      volume = 0.5,
-      muted = false,
-      loop = false,
-      rate = 1.0,
-    }: RehawkOptions) => {
+    ({ src, preload, autoplay, volume, muted, loop, rate }: RehawkOptions) => {
       if (rehawkRef.current) {
         if (rehawkRef.current.currentSrc === src) return;
 
@@ -94,12 +86,16 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
           send({
             type: 'READY',
             duration: newAudioElement.duration,
+            muted,
+            loop,
           });
           send('PLAY');
         } else {
           send({
             type: 'READY',
             duration: newAudioElement.duration,
+            muted,
+            loop,
           });
         }
       });

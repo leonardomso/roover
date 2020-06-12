@@ -36,7 +36,7 @@ const useRehawk = ({
   } = context;
 
   const [hawkVolume, setRehawkVolume] = useState<number>(volume);
-  const [hawkRate, setRehawkRate] = useState<number>(1.0);
+  const [hawkRate, setRehawkRate] = useState<number>(rate);
   const [hawkSeek, setHawkSeek] = useState<number>(0);
 
   const rehawkSeekRef = useRef<number>();
