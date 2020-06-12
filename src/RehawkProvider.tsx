@@ -1,14 +1,31 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useMachine } from '@xstate/react';
 
 import RehawkMachine from './RehawkMachine';
 import RehawkContext from './RehawkContext';
 
-import { RehawkProviderProps, RehawkOptions, RehawkTypeContext } from './types';
+import {
+  RehawkProviderProps,
+  RehawkOptions,
+  RehawkStateContext,
+} from './types';
 
 const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
   const [current, send] = useMachine(RehawkMachine, { devTools: true });
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  const loading = current.matches('loading');
+  const ready = current.matches('ready');
+  const error = current.context.error;
+  const playing = current.matches('ready.playing');
+  const paused = current.matches('ready.paused');
+  const stopped = current.matches('ready.stopped');
+  const duration = current.context.duration;
+  const muted = current.context.muted;
+  const loop = current.context.loop;
+
+  const rehawkRef = useRef<HTMLAudioElement | null>();
+  const previousRehawkRef = useRef<HTMLAudioElement | null>();
 
   const newAudio = useCallback(
     ({
@@ -33,14 +50,32 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
   const load = useCallback(
     ({
       src,
+      preload = true,
       autoplay = false,
       volume = 0.5,
       muted = false,
       loop = false,
       rate = 1.0,
     }: RehawkOptions) => {
-      const audio = newAudio({
+      if (rehawkRef.current) {
+        if (rehawkRef.current.currentSrc === src) return;
+
+        if (loading) {
+          previousRehawkRef.current = rehawkRef.current;
+          previousRehawkRef.current.addEventListener('loadeddata', () => {
+            previousRehawkRef.current = null;
+          });
+        }
+
+        rehawkRef.current.addEventListener('playing', () => {
+          rehawkRef.current?.pause();
+          rehawkRef.current = null;
+        });
+      }
+
+      const newAudioElement = newAudio({
         src,
+        preload,
         autoplay,
         volume,
         muted,
@@ -48,30 +83,31 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
         rate,
       });
 
-      audio?.addEventListener('abort', () =>
+      newAudioElement?.addEventListener('abort', () =>
         send({ type: 'ERROR', error: 'Error' })
       );
-      audio?.addEventListener('error', () =>
+      newAudioElement?.addEventListener('error', () =>
         send({ type: 'ERROR', error: 'Error' })
       );
-      audio?.addEventListener('loadeddata', () => {
+      newAudioElement?.addEventListener('loadeddata', () => {
         if (autoplay) {
           send({
             type: 'READY',
-            duration: audio.duration,
+            duration: newAudioElement.duration,
           });
           send('PLAY');
         } else {
           send({
             type: 'READY',
-            duration: audio.duration,
+            duration: newAudioElement.duration,
           });
         }
       });
-      audio?.addEventListener('play', () => send('PLAY'));
-      audio?.addEventListener('pause', () => send('PAUSE'));
+      newAudioElement?.addEventListener('play', () => send('PLAY'));
+      newAudioElement?.addEventListener('pause', () => send('PAUSE'));
 
-      setAudio(audio);
+      setAudio(newAudioElement);
+      rehawkRef.current = newAudioElement;
     },
     [newAudio]
   );
@@ -83,17 +119,7 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const loading = current.matches('loading');
-  const ready = current.matches('ready');
-  const error = current.context.error;
-  const playing = current.matches('ready.playing');
-  const paused = current.matches('ready.paused');
-  const stopped = current.matches('ready.stopped');
-  const duration = current.context.duration;
-  const muted = current.context.muted;
-  const loop = current.context.loop;
-
-  const context: RehawkTypeContext = {
+  const context: RehawkStateContext = {
     audio,
     load,
     loading,

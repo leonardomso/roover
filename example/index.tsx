@@ -39,6 +39,7 @@ const Player = () => {
     muted,
     rate,
     loop,
+    load,
     onToggle,
     onPlay,
     onPause,
@@ -50,6 +51,7 @@ const Player = () => {
     onSeek
   } = useRehawk({
     src,
+    preload: true,
     autoplay: false,
     volume: 1.0,
     rate: 1.5,
@@ -62,6 +64,7 @@ const Player = () => {
         <RehawkTitle>Rehawk</RehawkTitle>
 
         <ButtonsContainer>
+        <Button type="button" onClick={() => load({ src })} disabled={!load}>Load</Button>
           <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
           <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
           <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>

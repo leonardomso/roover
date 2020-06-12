@@ -1,7 +1,6 @@
-import { EventObject, Interpreter, State } from 'xstate';
-
 export type RehawkOptions = {
   src?: string;
+  preload?: boolean;
   autoplay?: boolean;
   volume?: number;
   muted?: boolean;
@@ -9,15 +8,15 @@ export type RehawkOptions = {
   rate?: number;
 };
 
-export type RehawkTypeContext = {
+export type RehawkStateContext = {
   audio: HTMLAudioElement | null;
   load: (args: RehawkOptions) => void;
-  loading: null | boolean;
-  ready: null | boolean;
-  error: null | string;
-  playing: null | boolean;
-  paused: null | boolean;
-  stopped: null | boolean;
+  loading: boolean;
+  ready: boolean;
+  error: string | null;
+  playing: boolean;
+  paused: boolean;
+  stopped: boolean;
   duration: number;
   muted: boolean;
   loop: boolean;
@@ -32,7 +31,7 @@ export type RehawkMachineContext = {
   error: string | null;
 };
 
-export type RehawkMachineStateSchema = {
+export type RehawkMachineState = {
   states: {
     loading: {};
     ready: {
@@ -81,12 +80,12 @@ export type RehawkEndEvent = {
   type: 'END';
 };
 
-export type RehawkErrorEvent = {
+export type RehawkOnErrorEvent = {
   type: 'ERROR';
   error: string;
 };
 
-export type RehawkDurationEvent = {
+export type RehawkOnReadyEvent = {
   type: 'READY';
   duration: number;
 };
@@ -95,7 +94,7 @@ export type RehawkRetryEvent = {
   type: 'RETRY';
 };
 
-export type RehawkMachineEvent =
+export type RehawkMachineEvents =
   | RehawkLoadEvent
   | RehawkReadyEvent
   | RehawkPlayEvent
@@ -104,21 +103,14 @@ export type RehawkMachineEvent =
   | RehawkMuteEvent
   | RehawkLoopEvent
   | RehawkEndEvent
-  | RehawkErrorEvent
-  | RehawkDurationEvent
+  | RehawkOnErrorEvent
+  | RehawkOnReadyEvent
   | RehawkRetryEvent;
-
-export type StateType<ContextType, EventType extends EventObject> = State<
-  ContextType,
-  EventType,
-  any
->;
-export type SendType<ContextType, EventType extends EventObject> = Interpreter<
-  ContextType,
-  any,
-  EventType
->['send'];
 
 export interface RehawkProviderProps {
   children: React.ReactNode;
+}
+
+export interface RehawkState {
+  playing: boolean;
 }

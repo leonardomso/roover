@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
-import { RehawkTypeContext } from './types';
+import { RehawkStateContext } from './types';
 
-const RehawkContext = createContext<RehawkTypeContext | undefined>(
+const RehawkContext = createContext<RehawkStateContext | undefined>(
   undefined as any
 );
 

@@ -7,6 +7,7 @@ import { RehawkOptions } from './types';
 
 const useRehawk = ({
   src,
+  preload = true,
   autoplay = false,
   volume = 0.5,
   muted = false,
@@ -38,27 +39,28 @@ const useRehawk = ({
   const [hawkRate, setRehawkRate] = useState<number>(1.0);
   const [hawkSeek, setHawkSeek] = useState<number>(0);
 
-  const seekRef = useRef<number>();
+  const rehawkSeekRef = useRef<number>();
 
   useEffect(() => {
     if (!src) return;
+    if (!preload) return;
     load({ src, autoplay, volume, muted, loop, rate });
-  }, [src, autoplay, volume, muted, loop, rate, load]);
+  }, [src, preload, autoplay, volume, muted, loop, rate, load]);
 
   useEffect(() => {
     const animate = () => {
       const seek = audio?.currentTime;
       setHawkSeek(seek as number);
-      seekRef.current = raf(animate);
+      rehawkSeekRef.current = raf(animate);
     };
 
     if (audio && hawkPlaying) {
-      seekRef.current = raf(animate);
+      rehawkSeekRef.current = raf(animate);
     }
 
     return () => {
-      if (seekRef.current) {
-        raf.cancel(seekRef.current);
+      if (rehawkSeekRef.current) {
+        raf.cancel(rehawkSeekRef.current);
       }
     };
   }, [audio, hawkPlaying, hawkStopped]);
@@ -133,6 +135,7 @@ const useRehawk = ({
     muted: hawkMuted,
     rate: hawkRate,
     loop: hawkLoop,
+    load,
     onToggle,
     onPlay,
     onPause,

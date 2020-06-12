@@ -2,16 +2,16 @@ import { Machine, assign } from 'xstate';
 
 import {
   RehawkMachineContext,
-  RehawkMachineStateSchema,
-  RehawkMachineEvent,
-  RehawkErrorEvent,
-  RehawkDurationEvent,
+  RehawkMachineState,
+  RehawkMachineEvents,
+  RehawkOnErrorEvent,
+  RehawkOnReadyEvent,
 } from './types';
 
 const Rehawk = Machine<
   RehawkMachineContext,
-  RehawkMachineStateSchema,
-  RehawkMachineEvent
+  RehawkMachineState,
+  RehawkMachineEvents
 >(
   {
     id: 'RehawkMachine',
@@ -117,16 +117,16 @@ const Rehawk = Machine<
   {
     actions: {
       onError: assign<RehawkMachineContext, any>({
-        error: (_, event) => (event as RehawkErrorEvent).error,
+        error: (_, event) => (event as RehawkOnErrorEvent).error,
       }),
-      onMute: assign<RehawkMachineContext, RehawkMachineEvent>({
+      onMute: assign<RehawkMachineContext, RehawkMachineEvents>({
         muted: context => !context.muted,
       }),
-      onLoop: assign<RehawkMachineContext, RehawkMachineEvent>({
+      onLoop: assign<RehawkMachineContext, RehawkMachineEvents>({
         loop: context => !context.loop,
       }),
       onReady: assign<RehawkMachineContext, any>({
-        duration: (_, event) => (event as RehawkDurationEvent).duration,
+        duration: (_, event) => (event as RehawkOnReadyEvent).duration,
       }),
     },
   }
