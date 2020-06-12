@@ -122,6 +122,13 @@ const useRehawk = ({
     audio.currentTime = seek;
   };
 
+  if (audio?.ended) {
+    send('END');
+    send('RETRY');
+    setHawkSeek(0);
+    audio.currentTime = 0;
+  }
+
   return {
     loading,
     ready,

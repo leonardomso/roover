@@ -75,13 +75,13 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
         rate,
       });
 
-      newAudioElement?.addEventListener('abort', () =>
+      newAudioElement.addEventListener('abort', () =>
         send({ type: 'ERROR', error: 'Error' })
       );
-      newAudioElement?.addEventListener('error', () =>
+      newAudioElement.addEventListener('error', () =>
         send({ type: 'ERROR', error: 'Error' })
       );
-      newAudioElement?.addEventListener('loadeddata', () => {
+      newAudioElement.addEventListener('loadeddata', () => {
         if (autoplay) {
           send({
             type: 'READY',
@@ -99,8 +99,8 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
           });
         }
       });
-      newAudioElement?.addEventListener('play', () => send('PLAY'));
-      newAudioElement?.addEventListener('pause', () => send('PAUSE'));
+      newAudioElement.addEventListener('play', () => send('PLAY'));
+      newAudioElement.addEventListener('pause', () => send('PAUSE'));
 
       setAudio(newAudioElement);
       rehawkRef.current = newAudioElement;
