@@ -114,8 +114,11 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
 
   useEffect(() => {
     return () => {
-      if (!audio) return;
-      audio.pause();
+      if (!rehawkRef.current) return;
+      if (rehawkRef.current) {
+        rehawkRef.current.pause();
+        rehawkRef.current.removeAttribute('src');
+      }
     };
   }, []);
 
