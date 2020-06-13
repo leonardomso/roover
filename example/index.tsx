@@ -39,6 +39,7 @@ const Player = () => {
     muted,
     rate,
     loop,
+    end,
     load,
     onToggle,
     onPlay,
@@ -59,8 +60,32 @@ const Player = () => {
     muted: false,
     loop: false,
     rate: 1.0,
+    onLoading: () => {
+      console.log("loading loading loading!");
+    },
     onReady: () => {
       console.log("ready ready ready!");
+    },
+    onError: () => {
+      console.log("error error error!");
+    },
+    onPlaying: () => {
+      console.log("playing playing playing!");
+    },
+    onPaused: () => {
+      console.log("paused paused paused!");
+    },
+    onStopped: () => {
+      console.log("stopped stopped stopped!");
+    },
+    onMuted: () => {
+      console.log("muted muted muted!");
+    },
+    onLooped: () => {
+      console.log("looped looped looped!");
+    },
+    onEnd: () => {
+      console.log("ended ended ended!");
     }
   });
 

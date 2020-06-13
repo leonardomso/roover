@@ -13,7 +13,15 @@ const useRehawk = ({
   muted = false,
   loop = false,
   rate = 1.0,
+  onLoading = () => {},
   onReady = () => {},
+  onError = () => {},
+  onPlaying = () => {},
+  onPaused = () => {},
+  onStopped = () => {},
+  onMuted = () => {},
+  onLooped = () => {},
+  onEnd = () => {},
 }: RehawkOptions) => {
   const context = useContext(RehawkContext);
 
@@ -35,6 +43,9 @@ const useRehawk = ({
     loop: hawkLoop,
     send,
   } = context;
+
+  const end = audio?.ended;
+  if (end) send('END');
 
   const [hawkVolume, setRehawkVolume] = useState<number>(volume);
   const [hawkRate, setRehawkRate] = useState<number>(rate);
@@ -65,6 +76,56 @@ const useRehawk = ({
       }
     };
   }, [audio, hawkPlaying, hawkStopped]);
+
+  // I am not sure about this code, I think it can be improved, for sure.
+  useEffect(() => {
+    if (loading) {
+      onLoading();
+    }
+    if (ready) {
+      onReady();
+    }
+    if (error) {
+      onError();
+    }
+    if (hawkPlaying) {
+      onPlaying();
+    }
+    if (hawkPaused) {
+      onPaused();
+    }
+    if (hawkStopped) {
+      onStopped();
+    }
+    if (hawkMuted) {
+      onMuted();
+    }
+    if (hawkLoop) {
+      onLooped();
+    }
+    if (end) {
+      onEnd();
+    }
+  }, [
+    ready,
+    loading,
+    error,
+    hawkPlaying,
+    hawkPaused,
+    hawkStopped,
+    hawkMuted,
+    hawkLoop,
+    end,
+    onLoading,
+    onReady,
+    onError,
+    onPlaying,
+    onPaused,
+    onStopped,
+    onMuted,
+    onLooped,
+    onEnd,
+  ]);
 
   const onToggle = () => {
     if (!audio) return;
@@ -123,17 +184,6 @@ const useRehawk = ({
     audio.currentTime = seek;
   };
 
-  if (audio?.ended) {
-    send('END');
-    send('RETRY');
-    setHawkSeek(0);
-    audio.currentTime = 0;
-  }
-
-  if (ready) {
-    onReady();
-  }
-
   const onForward = (value: number = 15) => {
     if (!audio) return;
     const seek = hawkSeek + value;
@@ -161,6 +211,7 @@ const useRehawk = ({
     muted: hawkMuted,
     rate: hawkRate,
     loop: hawkLoop,
+    end,
     load,
     onToggle,
     onPlay,

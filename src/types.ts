@@ -6,7 +6,15 @@ export type RehawkOptions = {
   muted?: boolean;
   loop?: boolean;
   rate?: number;
+  onLoading?: () => void;
   onReady?: () => void;
+  onError?: () => void;
+  onPlaying?: () => void;
+  onPaused?: () => void;
+  onStopped?: () => void;
+  onMuted?: () => void;
+  onLooped?: () => void;
+  onEnd?: () => void;
 };
 
 export type RehawkStateContext = {
