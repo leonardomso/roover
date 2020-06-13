@@ -34,7 +34,7 @@ export const ButtonsContainer = styled.div`
   width: auto;
   height: 30px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   grid-row-gap: 1fr;
   grid-column-gap: 10px;
   grid-row: 2 / 3;

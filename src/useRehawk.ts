@@ -129,6 +129,20 @@ const useRehawk = ({
     audio.currentTime = 0;
   }
 
+  const onForward = (value: number = 15) => {
+    if (!audio) return;
+    const seek = hawkSeek + value;
+    setHawkSeek(seek);
+    audio.currentTime = seek;
+  };
+
+  const onBackward = (value: number = 15) => {
+    if (!audio) return;
+    const seek = hawkSeek - value;
+    setHawkSeek(seek);
+    audio.currentTime = seek;
+  };
+
   return {
     loading,
     ready,
@@ -152,6 +166,8 @@ const useRehawk = ({
     onVolume,
     onRate,
     onSeek,
+    onForward,
+    onBackward,
   };
 };
 

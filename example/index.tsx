@@ -48,7 +48,9 @@ const Player = () => {
     onLoop,
     onVolume,
     onRate,
-    onSeek
+    onSeek,
+    onForward,
+    onBackward
   } = useRehawk({
     src,
     preload: true,
@@ -65,11 +67,13 @@ const Player = () => {
         <RehawkTitle>Rehawk</RehawkTitle>
 
         <ButtonsContainer>
-        <Button type="button" onClick={() => load({ src })} disabled={!load}>Load</Button>
+          <Button type="button" onClick={() => load({ src })} disabled={!load}>Load</Button>
           <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
           <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
           <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>
           <Button type="button" onClick={onToggle} disabled={!ready}>Toggle</Button>
+          <Button type="button" onClick={() => onForward(15)} disabled={!ready}>+15</Button>
+          <Button type="button" onClick={() => onBackward(15)} disabled={!ready}>-15</Button>
         </ButtonsContainer>
 
         <InputsContainer>
