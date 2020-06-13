@@ -13,6 +13,7 @@ const useRehawk = ({
   muted = false,
   loop = false,
   rate = 1.0,
+  onReady = () => {},
 }: RehawkOptions) => {
   const context = useContext(RehawkContext);
 
@@ -127,6 +128,10 @@ const useRehawk = ({
     send('RETRY');
     setHawkSeek(0);
     audio.currentTime = 0;
+  }
+
+  if (ready) {
+    onReady();
   }
 
   const onForward = (value: number = 15) => {

@@ -58,7 +58,10 @@ const Player = () => {
     volume: 0.5,
     muted: false,
     loop: false,
-    rate: 1.0
+    rate: 1.0,
+    onReady: () => {
+      console.log("ready ready ready!");
+    }
   });
 
   return (

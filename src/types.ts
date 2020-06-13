@@ -6,6 +6,7 @@ export type RehawkOptions = {
   muted?: boolean;
   loop?: boolean;
   rate?: number;
+  onReady?: () => void;
 };
 
 export type RehawkStateContext = {
