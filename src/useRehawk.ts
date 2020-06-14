@@ -21,7 +21,7 @@ const useRehawk = ({
   onStopped = () => {},
   onMuted = () => {},
   onLooped = () => {},
-  onEnd = () => {},
+  onEnded = () => {},
 }: RehawkOptions) => {
   const context = useContext(RehawkContext);
 
@@ -78,55 +78,59 @@ const useRehawk = ({
     };
   }, [audio, hawkPlaying, hawkStopped]);
 
-  // I am not sure about this code, I think it can be improved, for sure.
   useEffect(() => {
     if (loading) {
       onLoading();
     }
+  }, [loading]);
+
+  useEffect(() => {
     if (ready) {
       onReady();
     }
+  }, [ready]);
+
+  useEffect(() => {
     if (error) {
       onError();
     }
+  }, [error]);
+
+  useEffect(() => {
     if (hawkPlaying) {
       onPlaying();
     }
+  }, [hawkPlaying]);
+
+  useEffect(() => {
     if (hawkPaused) {
       onPaused();
     }
+  }, [hawkPaused]);
+
+  useEffect(() => {
     if (hawkStopped) {
       onStopped();
     }
+  }, [hawkStopped]);
+
+  useEffect(() => {
     if (hawkMuted) {
       onMuted();
     }
+  }, [hawkMuted]);
+
+  useEffect(() => {
     if (hawkLoop) {
       onLooped();
     }
+  }, [hawkLoop]);
+
+  useEffect(() => {
     if (ended) {
-      onEnd();
+      onEnded();
     }
-  }, [
-    ready,
-    loading,
-    error,
-    hawkPlaying,
-    hawkPaused,
-    hawkStopped,
-    hawkMuted,
-    hawkLoop,
-    ended,
-    onLoading,
-    onReady,
-    onError,
-    onPlaying,
-    onPaused,
-    onStopped,
-    onMuted,
-    onLooped,
-    onEnd,
-  ]);
+  }, [ended]);
 
   const onToggle = () => {
     if (!audio) return;

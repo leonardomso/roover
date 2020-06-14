@@ -14,7 +14,7 @@ export type RehawkOptions = {
   onStopped?: () => void;
   onMuted?: () => void;
   onLooped?: () => void;
-  onEnd?: () => void;
+  onEnded?: () => void;
 };
 
 export type RehawkStateContext = {
