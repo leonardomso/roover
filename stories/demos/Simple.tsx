@@ -16,7 +16,7 @@ const Simple = () => {
     <ExampleContainer>
       <Title>Simple</Title>
       <Description>Simple example working of Rehawk.</Description>
-      <Button type="Button" onClick={onToggle} name={playing ? `Pause` : `Play`} />
+      <Button type="button" onClick={onToggle} name={playing ? `Pause` : `Play`} />
     </ExampleContainer>
   )
 };

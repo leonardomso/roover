@@ -8,19 +8,19 @@ import { ExampleContainer, Title, Description } from '../components/styles';
 const src =
   "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
-const Seek = () => {
-  const { playing, seek, duration, onToggle, onSeek } = useRehawk({
+const Rate = () => {
+  const { playing, rate, duration, onToggle, onRate } = useRehawk({
     src
   });
 
   return (
     <ExampleContainer>
-      <Title>Seek</Title>
-      <Description>Example using the <strong>seek</strong> prop.</Description>
-      <Slider min={0} max={duration} step={0.1} value={seek} onChange={onSeek} />
+      <Title>Rate</Title>
+      <Description>Example using the <strong>rate</strong> prop.</Description>
+      <Slider min={0.4} max={5.0} step={0.1} value={rate} onChange={onRate} />
       <Button type="button" onClick={onToggle} name={playing ? `Pause` : `Play`} />
     </ExampleContainer>
   )
 };
 
-export default Seek;
+export default Rate;
