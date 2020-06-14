@@ -95,7 +95,7 @@ const Player = () => {
     onLooped: () => {
       console.log("looped looped looped!");
     },
-    onEnd: () => {
+    onEnded: () => {
       console.log("ended ended ended!");
     }
   });
