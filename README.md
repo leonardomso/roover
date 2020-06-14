@@ -2,6 +2,7 @@
 
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
+[![Bundle size]](https://img.badgesize.io/https://www.unpkg.com/rehawk/dist/rehawk.esm.js.svg)
 [![npm](https://img.shields.io/npm/v/rehawk.svg)](https://npmjs.org/package/rehawk)
 [![dependencies](https://david-dm.org/leonardomso/rehawk.svg)](https://david-dm.org/leonardomso/rehawk)
 
