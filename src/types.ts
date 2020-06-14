@@ -23,6 +23,7 @@ export type RehawkStateContext = {
   loading: boolean;
   ready: boolean;
   error: string | null;
+  idle: boolean;
   playing: boolean;
   paused: boolean;
   stopped: boolean;

@@ -35,6 +35,7 @@ const useRehawk = ({
     loading,
     ready,
     error,
+    idle,
     playing: hawkPlaying,
     paused: hawkPaused,
     stopped: hawkStopped,
@@ -44,8 +45,8 @@ const useRehawk = ({
     send,
   } = context;
 
-  const end = audio?.ended;
-  if (end) send('END');
+  const ended = audio?.ended;
+  if (ended) send('END');
 
   const [hawkVolume, setRehawkVolume] = useState<number>(volume);
   const [hawkRate, setRehawkRate] = useState<number>(rate);
@@ -103,7 +104,7 @@ const useRehawk = ({
     if (hawkLoop) {
       onLooped();
     }
-    if (end) {
+    if (ended) {
       onEnd();
     }
   }, [
@@ -115,7 +116,7 @@ const useRehawk = ({
     hawkStopped,
     hawkMuted,
     hawkLoop,
-    end,
+    ended,
     onLoading,
     onReady,
     onError,
@@ -186,6 +187,7 @@ const useRehawk = ({
 
   const onForward = (value: number = 15) => {
     if (!audio) return;
+    if (ended) return;
     const seek = hawkSeek + value;
     setHawkSeek(seek);
     audio.currentTime = seek;
@@ -193,6 +195,7 @@ const useRehawk = ({
 
   const onBackward = (value: number = 15) => {
     if (!audio) return;
+    if (idle) return;
     const seek = hawkSeek - value;
     setHawkSeek(seek);
     audio.currentTime = seek;
@@ -211,7 +214,7 @@ const useRehawk = ({
     muted: hawkMuted,
     rate: hawkRate,
     loop: hawkLoop,
-    end,
+    ended,
     load,
     onToggle,
     onPlay,

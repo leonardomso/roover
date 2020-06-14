@@ -25,6 +25,17 @@ import {
 const src =
   "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
+const Comp = () => {
+  const { loading, ready } = useRehawk({});
+
+  return (
+    <div>
+      <h1>Loading: {loading ? "TRUE" : "FALSE"}</h1>
+      <h1>Ready: {ready ? "TRUE" : "FALSE"}</h1>
+    </div>
+  )
+}
+
 const Player = () => {
   const {
     loading,
@@ -39,7 +50,7 @@ const Player = () => {
     muted,
     rate,
     loop,
-    end,
+    ended,
     load,
     onToggle,
     onPlay,
@@ -218,6 +229,7 @@ const App = () => {
   return (
     <RehawkProvider>
       <Player />
+      <Comp />
     </RehawkProvider>
   );
 };
