@@ -9,7 +9,7 @@ const src =
   "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
 const Volume = () => {
-  const { playing, volume, duration, onToggle, onVolume } = useRehawk({
+  const { playing, volume, onToggle, onVolume } = useRehawk({
     src
   });
 
