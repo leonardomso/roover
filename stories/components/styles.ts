@@ -1,75 +1,33 @@
-import styled, { css } from "styled-components";
+import styled from 'styled-components';
 
-export const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const InnerContainer = styled.main`
+export const ExampleContainer = styled.div`
   width: fit-content;
   height: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, max-content);
-  grid-row-gap: 30px;
-  align-items: center;
-  justify-content: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fill, max-content);
+  grid-row-gap: 20px;
 `;
 
-export const RehawkTitle = styled.h1`
+export const Title = styled.h1`
   grid-row: 1 / 2;
-  grid-column: 1 / 3;
+  grid-column: 1 / 2;
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 48px;
-  text-align: center;
   letter-spacing: -0.03em;
+  justify-self: flex-start;
 `;
 
-export const ButtonsContainer = styled.div`
-  width: auto;
-  height: 30px;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-row-gap: 1fr;
-  grid-column-gap: 10px;
-  grid-row: 2 / 3;
-  grid-column: 1 / 3;
-  align-self: center;
-  justify-self: center;
-`;
-
-interface ButtonProps {
-  disabled?: boolean;
-};
-
-export const Button = styled.button<ButtonProps>`
-  width: 65px;
-  height: 30px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+export const Description = styled.p`
   font-family: Inter;
   font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  text-align: center;
-  color: #FFFFFF;
-  outline: none;
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      background: #EAEAEA;
-      cursor: not-allowed;
-      outline: none;
-    `};
+  font-weight: 500;
+  font-size: 14px;
+  color: #999999;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
 `;
 
 export const InputsContainer = styled.div`
@@ -105,12 +63,12 @@ export const Text = styled.h1`
 `;
 
 export const StatesContainer = styled.div`
-  width: fit-content;
+  width: 100%;
   height: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, max-content);
-  grid-column-gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, max-content));
+  grid-template-rows: repeat(auto-fill, max-content);
+  grid-gap: 10px;
   grid-row: 3 / 4;
   grid-column: 2 / 3;
 `; 
@@ -131,9 +89,9 @@ export const StatesLeftContainer = styled.div`
   width: 100%;
   height: auto;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(5, max-content);
-  grid-row-gap: 10px;
+  grid-template-columns: repeat(5, max-content);
+  grid-template-rows: 1fr;
+  grid-column-gap: 20px;
   align-items: center;
   justify-content: center;
   grid-row: 2 / 3;
@@ -152,7 +110,6 @@ export const StatesRightContainer = styled.div`
   grid-row: 2 / 3;
   grid-column: 2 / 3;;
 `;
-
 
 export const StateContainer = styled.div`
   width: fit-content;

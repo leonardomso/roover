@@ -2,6 +2,7 @@
 
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
+[![Bundle size]](https://img.badgesize.io/https://www.unpkg.com/rehawk/dist/rehawk.esm.js.svg)
 [![npm](https://img.shields.io/npm/v/rehawk.svg)](https://npmjs.org/package/rehawk)
 [![dependencies](https://david-dm.org/leonardomso/rehawk.svg)](https://david-dm.org/leonardomso/rehawk)
 
@@ -110,6 +111,51 @@ const App = () => {
     <td><code>number (0.25 to 5.0, with 1.0 being normal speed)</code></td>
     <td><code>false</code></td>
   </tr>
+  <tr>
+    <td><code>onLoading</code></td>
+    <td><code>Callback function will run when 'loading' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+  <tr>
+    <td><code>onReady</code></td>
+    <td><code>Callback function will run when 'ready' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+  <tr>
+    <td><code>onError</code></td>
+    <td><code>Callback function will run when there's an error</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+  <tr>
+    <td><code>onPlaying</code></td>
+    <td><code>Callback function will run when 'playing' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+  <tr>
+    <td><code>onPaused</code></td>
+    <td><code>Callback function will run when 'paused' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+   <tr>
+    <td><code>onStopped</code></td>
+    <td><code>Callback function will run when 'stopped' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+   <tr>
+    <td><code>onMuted</code></td>
+    <td><code>Callback function will run when 'muted' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+   <tr>
+    <td><code>onLooped</code></td>
+    <td><code>Callback function will run when 'loop' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
+   <tr>
+    <td><code>onEnded</code></td>
+    <td><code>Callback function will run when 'ended' is true</code></td>
+    <td><code>() => {}</code></td>
+  </tr>
 </table>
 
 ### Returned values
@@ -204,6 +250,13 @@ const App = () => {
     <code>Return true if the audio is set to loop forever.</code>
     </td>
   </tr>
+  <tr>
+    <td><code>ended</code></td>
+    <td><code>boolean</code></td>
+    <td>
+    <code>Return true if the audio is ended.</code>
+    </td>
+  </tr>
 </table>
 
 ### Returned methods
@@ -216,7 +269,24 @@ const App = () => {
   </tr>
   <tr>
     <td><code>load</code></td>
-    <td><code>({  src?: string; preload?: boolean; autoplay?: boolean; volume?: number; muted?: boolean; loop?: boolean; rate?: number; }) => void</code></td>
+    <td><code>({ 
+      src?: string; 
+      preload?: boolean; 
+      autoplay?: boolean; 
+      volume?: number; 
+      muted?: boolean; 
+      loop?: boolean; 
+      rate?: number; 
+      onLoading = () => {};
+      onReady = () => {};
+      onError = () => {};
+      onPlaying = () => {};
+      onPaused = () => {};
+      onStopped = () => {};
+      onMuted = () => {};
+      onLooped = () => {};
+      onEnded = () => {}; 
+      }) => void</code></td>
     <td>
     <code>Method to load the audio in case you want it.</code>
     </td>
@@ -265,23 +335,37 @@ const App = () => {
   </tr>
     <tr>
     <td><code>onVolume</code></td>
-    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td><code>(e: React.ChangeEvent<HTMLInputElement>) => void</code></td>
     <td>
     <code>Change volume to a specific value (recommended to be used in a input element).</code>
     </td>
   </tr>
    <tr>
     <td><code>onRate</code></td>
-    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td><code>(e: React.ChangeEvent<HTMLInputElement>) => void</code></td>
     <td>
     <code>Change rate to a specific value (recommended to be used in a input element).</code>
     </td>
   </tr>
   <tr>
     <td><code>onSeek</code></td>
-    <td><code>(e:  React.ChangeEvent<HTMLInputElement>) =>  void</code></td>
+    <td><code>(e: React.ChangeEvent<HTMLInputElement>) => void</code></td>
     <td>
     <code>Change seek to a specific value (recommended to be used in a input element).</code>
+    </td>
+  </tr>
+   <tr>
+    <td><code>onForward</code></td>
+    <td><code>(number) => void</code></td>
+    <td>
+    <code>Forward the audio for the specified number.</code>
+    </td>
+  </tr>
+   <tr>
+    <td><code>onBackward</code></td>
+    <td><code>(number) => void</code></td>
+    <td>
+    <code>Backward the audio for the specified number.</code>
     </td>
   </tr>
 </table>

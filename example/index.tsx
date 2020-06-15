@@ -39,6 +39,7 @@ const Player = () => {
     muted,
     rate,
     loop,
+    ended,
     load,
     onToggle,
     onPlay,
@@ -48,7 +49,9 @@ const Player = () => {
     onLoop,
     onVolume,
     onRate,
-    onSeek
+    onSeek,
+    onForward,
+    onBackward
   } = useRehawk({
     src,
     preload: true,
@@ -56,7 +59,34 @@ const Player = () => {
     volume: 0.5,
     muted: false,
     loop: false,
-    rate: 1.0
+    rate: 1.0,
+    onLoading: () => {
+      console.log("loading loading loading!");
+    },
+    onReady: () => {
+      console.log("ready ready ready!");
+    },
+    onError: () => {
+      console.log("error error error!");
+    },
+    onPlaying: () => {
+      console.log("playing playing playing!");
+    },
+    onPaused: () => {
+      console.log("paused paused paused!");
+    },
+    onStopped: () => {
+      console.log("stopped stopped stopped!");
+    },
+    onMuted: () => {
+      console.log("muted muted muted!");
+    },
+    onLooped: () => {
+      console.log("looped looped looped!");
+    },
+    onEnded: () => {
+      console.log("ended ended ended!");
+    }
   });
 
   return (
@@ -65,11 +95,13 @@ const Player = () => {
         <RehawkTitle>Rehawk</RehawkTitle>
 
         <ButtonsContainer>
-        <Button type="button" onClick={() => load({ src })} disabled={!load}>Load</Button>
+          <Button type="button" onClick={() => load({ src })} disabled={!load}>Load</Button>
           <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
           <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
           <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>
           <Button type="button" onClick={onToggle} disabled={!ready}>Toggle</Button>
+          <Button type="button" onClick={() => onForward(15)} disabled={!ready}>+15</Button>
+          <Button type="button" onClick={() => onBackward(15)} disabled={!ready}>-15</Button>
         </ButtonsContainer>
 
         <InputsContainer>

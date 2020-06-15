@@ -17,6 +17,7 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
   const loading = current.matches('loading');
   const ready = current.matches('ready');
   const error = current.context.error;
+  const idle = current.matches('ready.idle');
   const playing = current.matches('ready.playing');
   const paused = current.matches('ready.paused');
   const stopped = current.matches('ready.stopped');
@@ -124,6 +125,7 @@ const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
     loading,
     ready,
     error,
+    idle,
     playing,
     paused,
     stopped,

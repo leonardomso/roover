@@ -13,6 +13,15 @@ const useRehawk = ({
   muted = false,
   loop = false,
   rate = 1.0,
+  onLoading = () => {},
+  onReady = () => {},
+  onError = () => {},
+  onPlaying = () => {},
+  onPaused = () => {},
+  onStopped = () => {},
+  onMuted = () => {},
+  onLooped = () => {},
+  onEnded = () => {},
 }: RehawkOptions) => {
   const context = useContext(RehawkContext);
 
@@ -26,6 +35,7 @@ const useRehawk = ({
     loading,
     ready,
     error,
+    idle,
     playing: hawkPlaying,
     paused: hawkPaused,
     stopped: hawkStopped,
@@ -34,6 +44,9 @@ const useRehawk = ({
     loop: hawkLoop,
     send,
   } = context;
+
+  const ended = audio?.ended;
+  if (ended) send('END');
 
   const [hawkVolume, setRehawkVolume] = useState<number>(volume);
   const [hawkRate, setRehawkRate] = useState<number>(rate);
@@ -64,6 +77,60 @@ const useRehawk = ({
       }
     };
   }, [audio, hawkPlaying, hawkStopped]);
+
+  useEffect(() => {
+    if (loading) {
+      onLoading();
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (ready) {
+      onReady();
+    }
+  }, [ready]);
+
+  useEffect(() => {
+    if (error) {
+      onError();
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (hawkPlaying) {
+      onPlaying();
+    }
+  }, [hawkPlaying]);
+
+  useEffect(() => {
+    if (hawkPaused) {
+      onPaused();
+    }
+  }, [hawkPaused]);
+
+  useEffect(() => {
+    if (hawkStopped) {
+      onStopped();
+    }
+  }, [hawkStopped]);
+
+  useEffect(() => {
+    if (hawkMuted) {
+      onMuted();
+    }
+  }, [hawkMuted]);
+
+  useEffect(() => {
+    if (hawkLoop) {
+      onLooped();
+    }
+  }, [hawkLoop]);
+
+  useEffect(() => {
+    if (ended) {
+      onEnded();
+    }
+  }, [ended]);
 
   const onToggle = () => {
     if (!audio) return;
@@ -122,12 +189,21 @@ const useRehawk = ({
     audio.currentTime = seek;
   };
 
-  if (audio?.ended) {
-    send('END');
-    send('RETRY');
-    setHawkSeek(0);
-    audio.currentTime = 0;
-  }
+  const onForward = (value: number = 15) => {
+    if (!audio) return;
+    if (ended) return;
+    const seek = hawkSeek + value;
+    setHawkSeek(seek);
+    audio.currentTime = seek;
+  };
+
+  const onBackward = (value: number = 15) => {
+    if (!audio) return;
+    if (idle) return;
+    const seek = hawkSeek - value;
+    setHawkSeek(seek);
+    audio.currentTime = seek;
+  };
 
   return {
     loading,
@@ -142,6 +218,7 @@ const useRehawk = ({
     muted: hawkMuted,
     rate: hawkRate,
     loop: hawkLoop,
+    ended,
     load,
     onToggle,
     onPlay,
@@ -152,6 +229,8 @@ const useRehawk = ({
     onVolume,
     onRate,
     onSeek,
+    onForward,
+    onBackward,
   };
 };
 
