@@ -2,9 +2,7 @@
 
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
-[![bundle size]](https://img.shields.io/bundlephobia/min/rehawk)
 [![npm version](https://badge.fury.io/js/rehawk.svg)](https://badge.fury.io/js/rehawk)
-[![dependencies](https://david-dm.org/leonardomso/rehawk.svg)](https://david-dm.org/leonardomso/rehawk)
 
 Work with audio in React it's painful sometimes, that's why this library was created. Especially in React, there are not too many good libraries out there to work with audio.
 
