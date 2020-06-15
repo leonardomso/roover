@@ -2,8 +2,8 @@
 
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
-[![Bundle size]](https://img.badgesize.io/https://www.unpkg.com/rehawk/dist/rehawk.esm.js.svg)
-[![npm](https://img.shields.io/npm/v/rehawk.svg)](https://npmjs.org/package/rehawk)
+[![bundle size]](https://img.shields.io/bundlephobia/min/rehawk)
+[![npm version](https://badge.fury.io/js/rehawk.svg)](https://badge.fury.io/js/rehawk)
 [![dependencies](https://david-dm.org/leonardomso/rehawk.svg)](https://david-dm.org/leonardomso/rehawk)
 
 Work with audio in React it's painful sometimes, that's why this library was created. Especially in React, there are not too many good libraries out there to work with audio.
@@ -37,7 +37,9 @@ const Player = () => {
     error,
     playing,
     paused,
-    stopped
+    stopped,
+    onPlay,
+    onPause
   } = useRehawk({
     src,
     autoplay: false
@@ -51,6 +53,9 @@ const Player = () => {
       <p>Playing: {playing ? "true" : "false"}</p>
       <p>Paused: {paused ? "true" : "false"}</p>
       <p>Stopped: {stopped ? "true" : "false"}</p>
+
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
     </div>
   );
 };
