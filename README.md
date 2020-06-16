@@ -117,47 +117,47 @@ const App = () => {
   <tr>
     <td><code>onLoading</code></td>
     <td><code>Callback function will run when 'loading' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
   <tr>
     <td><code>onReady</code></td>
     <td><code>Callback function will run when 'ready' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
   <tr>
     <td><code>onError</code></td>
     <td><code>Callback function will run when there's an error</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
   <tr>
     <td><code>onPlaying</code></td>
     <td><code>Callback function will run when 'playing' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
   <tr>
     <td><code>onPaused</code></td>
     <td><code>Callback function will run when 'paused' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
    <tr>
     <td><code>onStopped</code></td>
     <td><code>Callback function will run when 'stopped' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
    <tr>
     <td><code>onMuted</code></td>
     <td><code>Callback function will run when 'muted' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
    <tr>
     <td><code>onLooped</code></td>
     <td><code>Callback function will run when 'loop' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
    <tr>
     <td><code>onEnded</code></td>
     <td><code>Callback function will run when 'ended' is true</code></td>
-    <td><code>() => {}</code></td>
+    <td><code>false</code></td>
   </tr>
 </table>
 
