@@ -8,7 +8,7 @@ interface ButtonProps {
   onClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({type, name, onClick }) => (
+const Button = ({ type, name, onClick }: ButtonProps) => (
   <ButtonStyled type="button" onClick={onClick}>{name}</ButtonStyled>
 )
 

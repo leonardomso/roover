@@ -10,13 +10,13 @@ interface SliderProps {
   onChange: (event: any) => void;
 }
 
-const Slider: React.FC<SliderProps> = ({
+const Slider = ({
   min,
   max,
   value,
   step,
   onChange,
-}) => (
+}: SliderProps) => (
   <SliderContainer>
     <input
       type="range"

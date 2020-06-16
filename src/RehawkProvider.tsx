@@ -10,7 +10,7 @@ import {
   RehawkStateContext,
 } from './types';
 
-const RehawkProvider: React.FC<RehawkProviderProps> = ({ children }) => {
+const RehawkProvider = ({ children }: RehawkProviderProps) => {
   const [current, send] = useMachine(RehawkMachine, { devTools: true });
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
