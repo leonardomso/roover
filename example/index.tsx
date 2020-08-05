@@ -4,12 +4,12 @@ import * as ReactDOM from 'react-dom';
 
 import { useRehawk, RehawkProvider } from "../src"
 
-import { 
-  Container, 
-  InnerContainer, 
+import {
+  Container,
+  InnerContainer,
   RehawkTitle,
   ButtonsContainer,
-  Button, 
+  Button,
   InputsContainer,
   InputContainer,
   Text,
@@ -107,38 +107,31 @@ const Player = () => {
         <InputsContainer>
           <InputContainer>
             <Text>Seek</Text>
-            <input 
+            <input
               type="range"
               min={0}
               max={duration}
               value={seek}
               step={0.1}
-              onChange={onSeek} 
+              onChange={onSeek}
             />
           </InputContainer>
 
           <InputContainer>
             <Text>Volume</Text>
-            <input 
+            <input
               type="range"
               min={0}
               max={1}
               value={volume}
               step={0.1}
-              onChange={onVolume} 
+              onChange={onVolume}
             />
           </InputContainer>
 
           <InputContainer>
             <Text>Rate</Text>
-            <input 
-              type="range"
-              min={0.25}
-              max={5.0}
-              value={rate}
-              step={0.1}
-              onChange={onRate} 
-            />
+            <button onClick={() => onRate(0.5)}>Change to 0.5</button>
           </InputContainer>
 
           <InputContainer>

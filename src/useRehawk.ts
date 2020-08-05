@@ -175,9 +175,9 @@ const useRehawk = ({
     audio.volume = volume;
   };
 
-  const onRate = (e: ChangeEvent<HTMLInputElement>) => {
+  const onRate = (value: number) => {
     if (!audio) return;
-    const rate = parseFloat(e.target.value);
+    const rate = parseFloat(value);
     setRehawkRate(rate);
     audio.playbackRate = rate;
   };

@@ -23,10 +23,11 @@ All you need to do is import the `RehawkProvider` context and the `useRehawk` ho
 The following is a very basic usage example of Rehawk. If you want the most complete example of Rehawk working, click here.
 
 ```typescript
-import React from "react"
-import { RehawkProvider, useRehawk } from "rehawk"
+import React from 'react';
+import { RehawkProvider, useRehawk } from 'rehawk';
 
-const src = "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
 
 const Player = () => {
   const {
@@ -37,20 +38,20 @@ const Player = () => {
     paused,
     stopped,
     onPlay,
-    onPause
+    onPause,
   } = useRehawk({
     src,
-    autoplay: false
+    autoplay: false,
   });
-	
+
   return (
     <div>
-      <p>Ready: {ready ? "true" : "false"}</p>
-      <p>Loading: {loading ? "true" : "false"}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
       <p>Error: {error}</p>
-      <p>Playing: {playing ? "true" : "false"}</p>
-      <p>Paused: {paused ? "true" : "false"}</p>
-      <p>Stopped: {stopped ? "true" : "false"}</p>
+      <p>Playing: {playing ? 'true' : 'false'}</p>
+      <p>Paused: {paused ? 'true' : 'false'}</p>
+      <p>Stopped: {stopped ? 'true' : 'false'}</p>
 
       <button onClick={onPlay}>Play</button>
       <button onClick={onPause}>Pause</button>
@@ -63,8 +64,8 @@ const App = () => {
     <RehawkProvider>
       <Player />
     </RehawkProvider>
-  )
-}
+  );
+};
 ```
 
 ## API
@@ -345,9 +346,9 @@ const App = () => {
   </tr>
    <tr>
     <td><code>onRate</code></td>
-    <td><code>(e: React.ChangeEvent<HTMLInputElement>) => void</code></td>
+    <td><code>(value: number) => void</code></td>
     <td>
-    <code>Change rate to a specific value (recommended to be used in a input element).</code>
+    <code>Change rate to a specific value.</code>
     </td>
   </tr>
   <tr>
@@ -373,7 +374,6 @@ const App = () => {
   </tr>
 </table>
 
-
 ## Example
 
 To run the example do the following steps:
@@ -387,6 +387,6 @@ To run the example do the following steps:
 
 Your contributions are welcome! If you have any questions or want to start to contribute to this library in any form, please open an issue. Feel free to open PR.
 
-- - -
+---
 
-If there are any questions about this library or about any other topic, please contact me on Twitter  [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.
+If there are any questions about this library or about any other topic, please contact me on Twitter [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.
