@@ -2702,23 +2702,23 @@
     react-select "^3.0.8"
     regenerator-runtime "^0.13.3"
 
-"@storybook/addon-links@^6.0.26":
-  version "6.0.26"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-6.0.26.tgz#e23891550b608b8b996ec58378d3940738aff9e4"
-  integrity sha512-yHC6gSMW6qLqikf9yF62tXvykwCDLZy/7SRW9PEAsQcz27bilTh5swoV4HK24Gb6d+TAR+8sJK+BXuFlKFJE+Q==
+"@storybook/addon-links@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-6.1.1.tgz#aa49e37742c954cfd469aac47500294d34d15b60"
+  integrity sha512-3tzQc/g0QPB2NHMAztnYUiwRXMlNdMzgPUGtrkP/IldckHr63wfReijBRUP0IMsIEJ6bCE8M9uH6M8HTUmyhtA==
   dependencies:
-    "@storybook/addons" "6.0.26"
-    "@storybook/client-logger" "6.0.26"
-    "@storybook/core-events" "6.0.26"
+    "@storybook/addons" "6.1.1"
+    "@storybook/client-logger" "6.1.1"
+    "@storybook/core-events" "6.1.1"
     "@storybook/csf" "0.0.1"
-    "@storybook/router" "6.0.26"
+    "@storybook/router" "6.1.1"
     "@types/qs" "^6.9.0"
     core-js "^3.0.1"
     global "^4.3.2"
     prop-types "^15.7.2"
     qs "^6.6.0"
-    regenerator-runtime "^0.13.3"
-    ts-dedent "^1.1.1"
+    regenerator-runtime "^0.13.7"
+    ts-dedent "^2.0.0"
 
 "@storybook/addons@5.3.21":
   version "5.3.21"
@@ -2748,7 +2748,7 @@
     global "^4.3.2"
     regenerator-runtime "^0.13.3"
 
-"@storybook/addons@^6.1.1":
+"@storybook/addons@6.1.1", "@storybook/addons@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-6.1.1.tgz#71f130deba215bd86f1c946855a6d813844a18f5"
   integrity sha512-00wnzlltIUZF2kEqZeEbKXGXUV67+/693neMQwZ3wFqDGlADPh0dyayKnqOK90/HDhkmJPlSC0/kkU0TZwUCSQ==
@@ -13138,12 +13138,7 @@ trough@^1.0.0:
   resolved "https://registry.yarnpkg.com/trough/-/trough-1.0.5.tgz#b8b639cefad7d0bb2abd37d433ff8293efa5f406"
   integrity sha512-rvuRbTarPXmMb79SmzEp8aqXNKcK+y0XaB298IXueQ8I2PsrATcPBCSPyK/dDNa2iWOhKlfNnOjdAOTBU/nkFA==
 
-ts-dedent@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-1.1.1.tgz#68fad040d7dbd53a90f545b450702340e17d18f3"
-  integrity sha512-UGTRZu1evMw4uTPyYF66/KFd22XiU+jMaIuHrkIHQ2GivAXVlLV0v/vHrpOuTRf9BmpNHi/SO7Vd0rLu0y57jg==
-
-ts-dedent@^1.1.1:
+ts-dedent@^1.1.0, ts-dedent@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-1.2.0.tgz#6aa2229d837159bb6d635b6b233002423b91e0b0"
   integrity sha512-6zSJp23uQI+Txyz5LlXMXAHpUhY4Hi0oluXny0OgIR7g/Cromq4vDBnhtbBdyIV34g0pgwxUvnvg+jLJe4c1NA==
