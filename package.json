@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
-    "@storybook/addon-docs": "^6.1.18",
+    "@storybook/addon-docs": "^6.1.19",
     "@storybook/addon-actions": "^6.1.19",
     "@storybook/addon-info": "^5.3.21",
     "@storybook/addon-links": "^6.1.18",
