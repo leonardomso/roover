@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useMachine } from '@xstate/react';
 
-import RehawkMachine from './RehawkMachine';
-import RehawkContext from './RehawkContext';
+import RooverMachine from './RooverMachine';
+import RooverContext from './RooverContext';
 
 import {
-  RehawkProviderProps,
-  RehawkOptions,
-  RehawkStateContext,
+  RooverProviderProps,
+  RooverOptions,
+  RooverStateContext,
 } from './types';
 
-const RehawkProvider = ({ children }: RehawkProviderProps) => {
-  const [current, send] = useMachine(RehawkMachine, { devTools: true });
+const RooverProvider = ({ children }: RooverProviderProps) => {
+  const [current, send] = useMachine(RooverMachine, { devTools: true });
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
   const loading = current.matches('loading');
@@ -26,7 +26,7 @@ const RehawkProvider = ({ children }: RehawkProviderProps) => {
   const loop = current.context.loop;
 
   const rehawkRef = useRef<HTMLAudioElement | null>();
-  const previousRehawkRef = useRef<HTMLAudioElement | null>();
+  const previousRooverRef = useRef<HTMLAudioElement | null>();
 
   const newAudio = useCallback(
     ({
@@ -36,7 +36,7 @@ const RehawkProvider = ({ children }: RehawkProviderProps) => {
       muted = false,
       loop = false,
       rate = 1.0,
-    }: RehawkOptions): HTMLAudioElement => {
+    }: RooverOptions): HTMLAudioElement => {
       const audioElement = new Audio(src);
       audioElement.autoplay = autoplay;
       audioElement.volume = volume;
@@ -49,14 +49,14 @@ const RehawkProvider = ({ children }: RehawkProviderProps) => {
   );
 
   const load = useCallback(
-    ({ src, preload, autoplay, volume, muted, loop, rate }: RehawkOptions) => {
+    ({ src, preload, autoplay, volume, muted, loop, rate }: RooverOptions) => {
       if (rehawkRef.current) {
         if (rehawkRef.current.currentSrc === src) return;
 
         if (loading) {
-          previousRehawkRef.current = rehawkRef.current;
-          previousRehawkRef.current.addEventListener('loadeddata', () => {
-            previousRehawkRef.current = null;
+          previousRooverRef.current = rehawkRef.current;
+          previousRooverRef.current.addEventListener('loadeddata', () => {
+            previousRooverRef.current = null;
           });
         }
 
@@ -119,7 +119,7 @@ const RehawkProvider = ({ children }: RehawkProviderProps) => {
     };
   }, []);
 
-  const context: RehawkStateContext = {
+  const context: RooverStateContext = {
     audio,
     load,
     loading,
@@ -136,8 +136,8 @@ const RehawkProvider = ({ children }: RehawkProviderProps) => {
   };
 
   return (
-    <RehawkContext.Provider value={context}>{children}</RehawkContext.Provider>
+    <RooverContext.Provider value={context}>{children}</RooverContext.Provider>
   );
 };
 
-export default RehawkProvider;
+export default RooverProvider;

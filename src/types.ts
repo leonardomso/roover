@@ -1,4 +1,4 @@
-export type RehawkOptions = {
+export type RooverOptions = {
   src?: string;
   preload?: boolean;
   autoplay?: boolean;
@@ -17,9 +17,9 @@ export type RehawkOptions = {
   onEnded?: () => void;
 };
 
-export type RehawkStateContext = {
+export type RooverStateContext = {
   audio: HTMLAudioElement | null;
-  load: (args: RehawkOptions) => void;
+  load: (args: RooverOptions) => void;
   loading: boolean;
   ready: boolean;
   error: string | null;
@@ -33,7 +33,7 @@ export type RehawkStateContext = {
   send: any;
 };
 
-export type RehawkMachineContext = {
+export type RooverMachineContext = {
   audio: HTMLAudioElement | null;
   duration: number;
   muted: boolean;
@@ -41,7 +41,7 @@ export type RehawkMachineContext = {
   error: string | null;
 };
 
-export type RehawkMachineState = {
+export type RooverMachineState = {
   states: {
     loading: {};
     ready: {
@@ -58,71 +58,71 @@ export type RehawkMachineState = {
   };
 };
 
-export type RehawkLoadEvent = {
+export type RooverLoadEvent = {
   type: 'LOAD';
 };
 
-export type RehawkReadyEvent = {
+export type RooverReadyEvent = {
   type: 'READY';
 };
 
-export type RehawkPlayEvent = {
+export type RooverPlayEvent = {
   type: 'PLAY';
 };
 
-export type RehawkPauseEvent = {
+export type RooverPauseEvent = {
   type: 'PAUSE';
 };
 
-export type RehawkStopEvent = {
+export type RooverStopEvent = {
   type: 'STOP';
 };
 
-export type RehawkMuteEvent = {
+export type RooverMuteEvent = {
   type: 'MUTE';
 };
 
-export type RehawkLoopEvent = {
+export type RooverLoopEvent = {
   type: 'LOOP';
 };
 
-export type RehawkEndEvent = {
+export type RooverEndEvent = {
   type: 'END';
 };
 
-export type RehawkOnErrorEvent = {
+export type RooverOnErrorEvent = {
   type: 'ERROR';
   error: string;
 };
 
-export type RehawkOnReadyEvent = {
+export type RooverOnReadyEvent = {
   type: 'READY';
   duration: number;
   muted: boolean;
   loop: boolean;
 };
 
-export type RehawkRetryEvent = {
+export type RooverRetryEvent = {
   type: 'RETRY';
 };
 
-export type RehawkMachineEvents =
-  | RehawkLoadEvent
-  | RehawkReadyEvent
-  | RehawkPlayEvent
-  | RehawkPauseEvent
-  | RehawkStopEvent
-  | RehawkMuteEvent
-  | RehawkLoopEvent
-  | RehawkEndEvent
-  | RehawkOnErrorEvent
-  | RehawkOnReadyEvent
-  | RehawkRetryEvent;
+export type RooverMachineEvents =
+  | RooverLoadEvent
+  | RooverReadyEvent
+  | RooverPlayEvent
+  | RooverPauseEvent
+  | RooverStopEvent
+  | RooverMuteEvent
+  | RooverLoopEvent
+  | RooverEndEvent
+  | RooverOnErrorEvent
+  | RooverOnReadyEvent
+  | RooverRetryEvent;
 
-export interface RehawkProviderProps {
+export interface RooverProviderProps {
   children: React.ReactNode;
 }
 
-export interface RehawkState {
+export interface RooverState {
   playing: boolean;
 }

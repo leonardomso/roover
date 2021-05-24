@@ -1,11 +1,11 @@
 import { useContext, useState, useEffect, useRef, ChangeEvent } from 'react';
 import raf from 'raf';
 
-import RehawkContext from './RehawkContext';
+import RooverContext from './RooverContext';
 
-import { RehawkOptions } from './types';
+import { RooverOptions } from './types';
 
-const useRehawk = ({
+const useRoover = ({
   src,
   preload = true,
   autoplay = false,
@@ -22,11 +22,11 @@ const useRehawk = ({
   onMuted = () => {},
   onLooped = () => {},
   onEnded = () => {},
-}: RehawkOptions) => {
-  const context = useContext(RehawkContext);
+}: RooverOptions) => {
+  const context = useContext(RooverContext);
 
   if (context === undefined) {
-    throw new Error('useRehawk can only be used inside RehawkProvider');
+    throw new Error('useRoover can only be used inside RooverProvider');
   }
 
   const {
@@ -48,8 +48,8 @@ const useRehawk = ({
   const ended = audio?.ended;
   if (ended) send('END');
 
-  const [hawkVolume, setRehawkVolume] = useState<number>(volume);
-  const [hawkRate, setRehawkRate] = useState<number>(rate);
+  const [hawkVolume, setRooverVolume] = useState<number>(volume);
+  const [hawkRate, setRooverRate] = useState<number>(rate);
   const [hawkSeek, setHawkSeek] = useState<number>(0);
 
   const rehawkSeekRef = useRef<number>();
@@ -171,14 +171,14 @@ const useRehawk = ({
   const onVolume = (e: ChangeEvent<HTMLInputElement>) => {
     if (!audio) return;
     const volume = parseFloat(e.target.value);
-    setRehawkVolume(volume);
+    setRooverVolume(volume);
     audio.volume = volume;
   };
 
   const onRate = (value: any) => {
     if (!audio) return;
     const rate = parseFloat(value);
-    setRehawkRate(rate);
+    setRooverRate(rate);
     audio.playbackRate = rate;
   };
 
@@ -234,4 +234,4 @@ const useRehawk = ({
   };
 };
 
-export default useRehawk;
+export default useRoover;

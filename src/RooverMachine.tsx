@@ -1,20 +1,20 @@
 import { Machine, assign } from 'xstate';
 
 import {
-  RehawkMachineContext,
-  RehawkMachineState,
-  RehawkMachineEvents,
-  RehawkOnErrorEvent,
-  RehawkOnReadyEvent,
+  RooverMachineContext,
+  RooverMachineState,
+  RooverMachineEvents,
+  RooverOnErrorEvent,
+  RooverOnReadyEvent,
 } from './types';
 
-const Rehawk = Machine<
-  RehawkMachineContext,
-  RehawkMachineState,
-  RehawkMachineEvents
+const Roover = Machine<
+  RooverMachineContext,
+  RooverMachineState,
+  RooverMachineEvents
 >(
   {
-    id: 'RehawkMachine',
+    id: 'RooverMachine',
     initial: 'loading',
     context: {
       audio: null,
@@ -116,22 +116,22 @@ const Rehawk = Machine<
   },
   {
     actions: {
-      onError: assign<RehawkMachineContext, any>({
-        error: (_, event) => (event as RehawkOnErrorEvent).error,
+      onError: assign<RooverMachineContext, any>({
+        error: (_, event) => (event as RooverOnErrorEvent).error,
       }),
-      onMute: assign<RehawkMachineContext, RehawkMachineEvents>({
+      onMute: assign<RooverMachineContext, RooverMachineEvents>({
         muted: context => !context.muted,
       }),
-      onLoop: assign<RehawkMachineContext, RehawkMachineEvents>({
+      onLoop: assign<RooverMachineContext, RooverMachineEvents>({
         loop: context => !context.loop,
       }),
-      onReady: assign<RehawkMachineContext, any>({
-        duration: (_, event) => (event as RehawkOnReadyEvent).duration,
-        muted: (_, event) => (event as RehawkOnReadyEvent).muted,
-        loop: (_, event) => (event as RehawkOnReadyEvent).loop,
+      onReady: assign<RooverMachineContext, any>({
+        duration: (_, event) => (event as RooverOnReadyEvent).duration,
+        muted: (_, event) => (event as RooverOnReadyEvent).muted,
+        loop: (_, event) => (event as RooverOnReadyEvent).loop,
       }),
     },
   }
 );
 
-export default Rehawk;
+export default Roover;
