@@ -1,6 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
 import { useMachine } from '@xstate/react';
-import raf from 'raf';
 
 import RooverMachine from '../../machine/Machine';
 
@@ -13,12 +11,6 @@ import {
 
 const useAudio: UseAudio = () => {
   const [state, send] = useMachine<MachineContext, MachineEvent>(RooverMachine);
-
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-  const playerRef = useRef<HTMLAudioElement | null>(null);
-
-  const [seek, setSeek] = useState<number>(0);
-  const seekRef = useRef<number>(0);
 
   const playerIdle: boolean = state.matches('idle');
   const playerLoading: boolean = state.matches('loading');
@@ -33,24 +25,6 @@ const useAudio: UseAudio = () => {
   const playerMuted: boolean = state.context.muted;
   const playerLoop: boolean = state.context.loop;
   const playerError: string | null = state.context.error;
-
-  useEffect(() => {
-    const animate = () => {
-      const seek = audio?.currentTime;
-      setSeek(seek as number);
-      seekRef.current = raf(animate);
-    };
-
-    if (audio && playerPlaying) {
-      seekRef.current = raf(animate);
-    }
-
-    return () => {
-      if (seekRef.current) {
-        raf.cancel(seekRef.current);
-      }
-    };
-  }, [audio, playerPlaying]);
 
   const onCreateAudio = async ({
     src,
@@ -90,38 +64,36 @@ const useAudio: UseAudio = () => {
     return audioElement;
   };
 
-  const onLoad = async (args: CreateAudioArgs) => {
-    if (playerRef.current) {
-      await onLoadAnotherAudio(args);
-    } else {
-      const newAudio: HTMLAudioElement = await onCreateAudio(args);
-      setAudio(newAudio);
-      playerRef.current = newAudio;
-    }
-  };
-
-  const onLoadAnotherAudio = (args: CreateAudioArgs) => {
-    if (playerRef.current) {
-      const currentSrc: string = playerRef.current.currentSrc;
+  const onLoad = async (
+    audio: HTMLAudioElement | undefined,
+    args: CreateAudioArgs
+  ): Promise<HTMLAudioElement | undefined> => {
+    if (audio) {
+      const currentSrc: string = audio.currentSrc;
 
       if (currentSrc === args.src) {
         return;
       }
-
-      send('LOAD');
-      audio?.setAttribute('src', args.src);
-      audio?.load();
-      audio?.play();
+      return onLoad(undefined, args);
     } else {
+      const newAudio: HTMLAudioElement = await onCreateAudio(args);
+      return newAudio;
+    }
+  };
+
+  const onDestroy = (audio: HTMLAudioElement | undefined): void => {
+    if (!audio) {
       return;
+    } else {
+      audio.currentTime = 0;
+      audio.removeAttribute('src');
+      audio = undefined;
     }
   };
 
   return {
     state,
     send,
-    audio,
-    seek,
     idle: playerIdle,
     loading: playerLoading,
     ready: playerReady,
@@ -135,6 +107,7 @@ const useAudio: UseAudio = () => {
     loop: playerLoop,
     error: playerError,
     onLoad,
+    onDestroy,
   };
 };
 

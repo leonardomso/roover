@@ -12,8 +12,6 @@ export type UseAudio = () => {
     }
   >;
   send: any;
-  audio: HTMLAudioElement | null;
-  seek: number;
   idle: boolean;
   loading: boolean;
   ready: boolean;
@@ -26,7 +24,11 @@ export type UseAudio = () => {
   muted: boolean;
   loop: boolean;
   error: string | null;
-  onLoad: (args: CreateAudioArgs) => Promise<void>;
+  onLoad: (
+    audio: HTMLAudioElement | undefined,
+    args: CreateAudioArgs
+  ) => Promise<HTMLAudioElement | undefined>;
+  onDestroy: (audio: HTMLAudioElement | undefined) => void;
 };
 
 export type CreateAudioArgs = {
