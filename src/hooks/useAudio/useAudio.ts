@@ -4,7 +4,7 @@ import RooverMachine from '../../machine/Machine';
 
 import {
   UseAudio,
-  CreateAudioArgs,
+  CreateAudioElement,
   MachineContext,
   MachineEvent,
 } from '../../types';
@@ -12,20 +12,17 @@ import {
 const useAudio: UseAudio = () => {
   const [state, send] = useMachine<MachineContext, MachineEvent>(RooverMachine);
 
-  const playerIdle: boolean = state.matches('idle');
-  const playerLoading: boolean = state.matches('loading');
-  const playerReady: boolean = state.matches('ready');
-  const playerReadyIdle: boolean = state.matches('ready.idle');
-  const playerPlaying: boolean = state.matches('ready.playing');
-  const playerPaused: boolean = state.matches('ready.paused');
-
-  const playerVolume: number = state.context.volume;
-  const playerRate: number = state.context.rate;
-  const playerDuration: number = state.context.duration;
-  const playerMuted: boolean = state.context.muted;
-  const playerLoop: boolean = state.context.loop;
-  const playerError: string | null = state.context.error;
-
+  /**
+   * Create a new Audio element and returns it.
+   * @param src - The src of the audio to be loaded.
+   * @param preload - The preload property for the audio.
+   * @param autoplay - The autoplay property for the audio.
+   * @param volume - The volume property for the audio.
+   * @param rate - The rate property for the audio.
+   * @param muted - The muted property for the audio.
+   * @param loop - The loop property for the audio.
+   * @returns HTMLAudioElement
+   */
   const onCreateAudio = async ({
     src,
     preload,
@@ -34,18 +31,24 @@ const useAudio: UseAudio = () => {
     rate,
     muted,
     loop,
-  }: CreateAudioArgs): Promise<HTMLAudioElement> => {
+  }: CreateAudioElement): Promise<HTMLAudioElement> => {
     const audioElement: HTMLAudioElement = await new Audio(src);
 
-    audioElement.autoplay = autoplay ? autoplay : true;
+    audioElement.autoplay = autoplay === false ? autoplay : true;
     audioElement.volume = volume ? volume : 1.0;
     audioElement.muted = muted ? muted : false;
     audioElement.loop = loop ? loop : false;
     audioElement.playbackRate = rate ? rate : 1.0;
     audioElement.preload = preload ? preload : 'auto';
 
+    // When the audio has some problem, it will trigger a 'ERROR' event.
     audioElement.addEventListener('error', () => send('ERROR'));
+    // When the audio has started to load, it will trigger a 'LOAD' event.
     audioElement.addEventListener('loadstart', () => {
+      send('LOAD');
+    });
+    // When the audio has loaded successfully, it will triger a 'READY' event and change values in the context.
+    audioElement.addEventListener('loadeddata', () => {
       send('READY', {
         volume: audioElement.volume,
         rate: audioElement.playbackRate,
@@ -54,9 +57,27 @@ const useAudio: UseAudio = () => {
         loop: audioElement.loop,
       });
     });
-    audioElement.addEventListener('loadeddata', () => {
-      send('READY', {});
+    // When the volume has changed, will trigger a 'VOLUME' event and set the new value in the context.
+    audioElement.addEventListener('volumechange', () => {
+      send('VOLUME', {
+        volume: audioElement.volume,
+      });
     });
+    // When the audio plays, it will trigger a 'PLAY' event.
+    audioElement.addEventListener('play', () => {
+      send('PLAY');
+    });
+    // When the audio has paused, it will trigger a 'PAUSE' event.
+    audioElement.addEventListener('pause', () => {
+      send('PAUSE');
+    });
+    // When the rate has changed, it will trigger a 'RATE' event and set the new value in the context.
+    audioElement.addEventListener('ratechange', () => {
+      send('READY', {
+        rate: audioElement.playbackRate,
+      });
+    });
+    // When the audio has ended, it will trigger a 'END' event.
     audioElement.addEventListener('ended', () => {
       send('END');
     });
@@ -64,26 +85,27 @@ const useAudio: UseAudio = () => {
     return audioElement;
   };
 
-  const onLoad = async (
+  const onLoadAudio = async (
     audio: HTMLAudioElement | undefined,
-    args: CreateAudioArgs
+    args: CreateAudioElement
   ): Promise<HTMLAudioElement | undefined> => {
-    if (audio) {
+    if (audio !== undefined) {
       const currentSrc: string = audio.currentSrc;
 
       if (currentSrc === args.src) {
-        return;
+        return undefined;
       }
-      return onLoad(undefined, args);
+
+      return undefined;
     } else {
       const newAudio: HTMLAudioElement = await onCreateAudio(args);
       return newAudio;
     }
   };
 
-  const onDestroy = (audio: HTMLAudioElement | undefined): void => {
+  const onDestroyAudio = (audio: HTMLAudioElement | undefined): void => {
     if (!audio) {
-      return;
+      return undefined;
     } else {
       audio.currentTime = 0;
       audio.removeAttribute('src');
@@ -94,20 +116,9 @@ const useAudio: UseAudio = () => {
   return {
     state,
     send,
-    idle: playerIdle,
-    loading: playerLoading,
-    ready: playerReady,
-    readyIdle: playerReadyIdle,
-    playing: playerPlaying,
-    paused: playerPaused,
-    volume: playerVolume,
-    rate: playerRate,
-    duration: playerDuration,
-    muted: playerMuted,
-    loop: playerLoop,
-    error: playerError,
-    onLoad,
-    onDestroy,
+    onCreateAudio,
+    onLoadAudio,
+    onDestroyAudio,
   };
 };
 

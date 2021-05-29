@@ -14,8 +14,8 @@ export {
   MachineEndEvent,
   MachineErrorEvent,
   MachineRetryEvent,
-} from './Machine.types';
+} from '../machine/Machine.types';
 
-export { UseAudio, CreateAudioArgs } from './useAudio.types';
+export { UseAudio, CreateAudioElement } from '../hooks/useAudio/useAudio.types';
 
-export { Args } from './useRoover.types';
+export { Args } from '../hooks/useRoover/useRoover.types';
