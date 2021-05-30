@@ -1,217 +1,36 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
-import { useRehawk, RehawkProvider } from "../src"
-
 import {
-  Container,
-  InnerContainer,
-  RehawkTitle,
-  ButtonsContainer,
-  Button,
-  InputsContainer,
-  InputContainer,
-  Text,
-  StatesContainer,
-  StateTitle,
-  StatesLeftContainer,
-  StatesRightContainer,
-  StateContainer,
-  StateProperty,
-  StateValue
-} from "./styles";
+  ChakraProvider,
+  Box,
+  Heading,
+  Grid,
+  theme,
+} from "@chakra-ui/react"
 
-const src =
-  "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
+import Source from "./components/Source";
+import Details from "./components/Details";
+import Controls from "./components/Controls";
 
-const Player = () => {
-  const {
-    loading,
-    ready,
-    error,
-    playing,
-    paused,
-    stopped,
-    duration,
-    seek,
-    volume,
-    muted,
-    rate,
-    loop,
-    ended,
-    load,
-    onToggle,
-    onPlay,
-    onPause,
-    onStop,
-    onMute,
-    onLoop,
-    onVolume,
-    onRate,
-    onSeek,
-    onForward,
-    onBackward
-  } = useRehawk({
-    src,
-    preload: true,
-    autoplay: false,
-    volume: 0.5,
-    muted: false,
-    loop: false,
-    rate: 1.0,
-    onLoading: () => {
-      console.log("loading loading loading!");
-    },
-    onReady: () => {
-      console.log("ready ready ready!");
-    },
-    onError: () => {
-      console.log("error error error!");
-    },
-    onPlaying: () => {
-      console.log("playing playing playing!");
-    },
-    onPaused: () => {
-      console.log("paused paused paused!");
-    },
-    onStopped: () => {
-      console.log("stopped stopped stopped!");
-    },
-    onMuted: () => {
-      console.log("muted muted muted!");
-    },
-    onLooped: () => {
-      console.log("looped looped looped!");
-    },
-    onEnded: () => {
-      console.log("ended ended ended!");
-    }
-  });
+import { useRoover } from "../src";
 
-  return (
-    <Container>
-      <InnerContainer>
-        <RehawkTitle>Rehawk</RehawkTitle>
-
-        <ButtonsContainer>
-          <Button type="button" onClick={() => load({ src })} disabled={!load}>Load</Button>
-          <Button type="button" onClick={onPlay} disabled={!ready}>Play</Button>
-          <Button type="button" onClick={onPause} disabled={!ready}>Pause</Button>
-          <Button type="button" onClick={onStop} disabled={!ready}>Stop</Button>
-          <Button type="button" onClick={onToggle} disabled={!ready}>Toggle</Button>
-          <Button type="button" onClick={() => onForward(15)} disabled={!ready}>+15</Button>
-          <Button type="button" onClick={() => onBackward(15)} disabled={!ready}>-15</Button>
-        </ButtonsContainer>
-
-        <InputsContainer>
-          <InputContainer>
-            <Text>Seek</Text>
-            <input
-              type="range"
-              min={0}
-              max={duration}
-              value={seek}
-              step={0.1}
-              onChange={onSeek}
-            />
-          </InputContainer>
-
-          <InputContainer>
-            <Text>Volume</Text>
-            <input
-              type="range"
-              min={0}
-              max={1}
-              value={volume}
-              step={0.1}
-              onChange={onVolume}
-            />
-          </InputContainer>
-
-          <InputContainer>
-            <Text>Rate</Text>
-            <button onClick={() => onRate(0.5)}>Change to 0.5</button>
-          </InputContainer>
-
-          <InputContainer>
-            <Text>Mute</Text>
-            <input type="checkbox" checked={muted} onChange={onMute} />
-          </InputContainer>
-
-          <InputContainer>
-            <Text>Loop</Text>
-            <input type="checkbox" checked={loop} onChange={onLoop} />
-          </InputContainer>
-        </InputsContainer>
-
-        <StatesContainer>
-          <StateTitle>State</StateTitle>
-
-          <StatesLeftContainer>
-            <StateContainer>
-              <StateProperty>Loading: </StateProperty>
-              <StateValue>{loading ? "TRUE" : "FALSE"}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Ready: </StateProperty>
-              <StateValue>{ready ? "TRUE" : "FALSE"}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Playing: </StateProperty>
-              <StateValue>{playing ? "TRUE" : "FALSE"}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Paused: </StateProperty>
-              <StateValue>{paused ? "TRUE" : "FALSE"}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Stopped: </StateProperty>
-              <StateValue>{stopped ? "TRUE" : "FALSE"}</StateValue>
-            </StateContainer>
-          </StatesLeftContainer>
-
-          <StatesRightContainer>
-            <StateContainer>
-              <StateProperty>Duration: </StateProperty>
-              <StateValue>{duration}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Volume: </StateProperty>
-              <StateValue>{volume}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Seek: </StateProperty>
-              <StateValue>{seek}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Rate: </StateProperty>
-              <StateValue>{rate}</StateValue>
-            </StateContainer>
-
-            <StateContainer>
-              <StateProperty>Error: </StateProperty>
-              <StateValue>{error}</StateValue>
-            </StateContainer>
-          </StatesRightContainer>
-        </StatesContainer>
-      </InnerContainer>
-    </Container>
-  )
-}
+const src: string = "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
 const App = () => {
+  const { onToggle } = useRoover({ src });
+
   return (
-    <RehawkProvider>
-      <Player />
-    </RehawkProvider>
+    <ChakraProvider theme={theme}>
+      <Box w="100%" h="100vh" display="flex" alignItems="center" justifyContent="center">
+        <Grid templateRows="repeat(5, max-content)" templateColumns="repeat(2, 1fr)" gap={5} alignItems="center" justifyContent="center">
+          <Heading as="h1" letterSpacing="-0.03em">Audio using XState</Heading>
+          <Source gridRow="2 / 3" />
+          <Controls />
+          <Details />
+        </Grid>
+      </Box>
+    </ChakraProvider>
   );
 };
 
