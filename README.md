@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 # Rehawk
+=======
+# Roover
+>>>>>>> Stashed changes
 
 [![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
@@ -6,7 +10,11 @@
 
 Work with audio in React it's painful sometimes, that's why this library was created. Especially in React, there are not too many good libraries out there to work with audio.
 
+<<<<<<< Updated upstream
 Rehawk is a powerful and lightweight library that aims to make things easier for you to start to work with audio. Using the Audio API, a custom React Hook powered by an XState finite state machine, it brings a lot of functionalities and methods for you to start faster your development, without having to waste time implementing anything.
+=======
+Roover is a powerful and lightweight library that aims to make things easier for you to start to work with audio. Using the Audio API, a custom React Hook powered by an XState finite state machine, it brings a lot of functionalities and methods for you to start faster your development, without having to waste time implementing anything.
+>>>>>>> Stashed changes
 
 Feel free to submit a PR.
 
@@ -20,7 +28,11 @@ yarn add rehawk
 
 All you need to do is import the `RehawkProvider` context and the `useRehawk` hook. Context was the best choice here because sometimes we might want to use different properties of our custom hook in different components in our React tree.
 
+<<<<<<< Updated upstream
 The following is a very basic usage example of Rehawk. If you want the most complete example of Rehawk working, click here.
+=======
+The following is a very basic usage example of Roover. If you want the most complete example of Roover working, click here.
+>>>>>>> Stashed changes
 
 ```typescript
 import React from 'react';

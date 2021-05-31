@@ -7,7 +7,7 @@ import {
   Heading,
   Grid,
   theme,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 
 import Source from "./components/Source";
 import Details from "./components/Details";

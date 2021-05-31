@@ -18,4 +18,4 @@ export {
 
 export { UseAudio, CreateAudioElement } from '../hooks/useAudio/useAudio.types';
 
-export { Args, UseRoover } from '../hooks/useRoover/useRoover.types';
+export { Args } from '../hooks/useRoover/useRoover.types';
