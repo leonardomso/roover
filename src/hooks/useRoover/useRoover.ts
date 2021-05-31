@@ -8,7 +8,7 @@ import { Args } from './useRoover.types';
 const useRoover = ({
   src = '',
   preload = 'auto',
-  autoplay = true,
+  autoplay = false,
   volume = 1.0,
   rate = 1.0,
   muted = false,

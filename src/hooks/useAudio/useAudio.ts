@@ -26,7 +26,7 @@ const useAudio: UseAudio = () => {
   const onCreateAudio = ({
     src = '',
     preload = 'auto',
-    autoplay = true,
+    autoplay = false,
     volume = 1.0,
     rate = 1.0,
     muted = false,
@@ -34,6 +34,8 @@ const useAudio: UseAudio = () => {
   }: CreateAudioElement): HTMLAudioElement => {
     const audioElement: HTMLAudioElement = new Audio(src);
 
+    // Autoplay should be 'false' by default.
+    // Read more here: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/autoplay
     audioElement.autoplay = autoplay ? autoplay : false;
     audioElement.volume = volume ? volume : 1.0;
     audioElement.muted = muted ? muted : false;
@@ -41,8 +43,6 @@ const useAudio: UseAudio = () => {
     audioElement.playbackRate = rate ? rate : 1.0;
     audioElement.preload = preload ? preload : 'auto';
 
-    // When the audio has some problem, it will trigger a 'ERROR' event.
-    audioElement.addEventListener('error', () => send('ERROR'));
     // When the audio has started to load, it will trigger a 'LOAD' event.
     audioElement.addEventListener('loadstart', () => {
       send('LOAD');
@@ -55,6 +55,12 @@ const useAudio: UseAudio = () => {
         duration: audioElement.duration,
         muted: audioElement.muted,
         loop: audioElement.loop,
+      });
+    });
+    // When the audio has a loading error, it will trigger a 'ERROR' event.
+    audioElement.addEventListener('error', () => {
+      send('ERROR', {
+        error: `Error while loading: ${src}`,
       });
     });
     // When the audio plays, it will trigger a 'PLAY' event.
@@ -104,7 +110,6 @@ const useAudio: UseAudio = () => {
     state,
     send,
     onCreateAudio,
-    // onLoadAudio,
     onDestroyAudio,
   };
 };

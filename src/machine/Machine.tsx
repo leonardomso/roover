@@ -23,6 +23,7 @@ const Machine = createMachine<MachineContext, MachineEvent>(
     },
     states: {
       idle: {
+        id: 'idle',
         on: {
           LOAD: 'loading',
           ERROR: 'error',
@@ -30,11 +31,18 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       },
       loading: {
         on: {
-          READY: 'ready',
-          ERROR: 'error',
+          READY: {
+            target: 'ready',
+            actions: 'onReady',
+          },
+          ERROR: {
+            target: 'error',
+            actions: 'onError',
+          },
         },
       },
       ready: {
+        id: 'ready',
         initial: 'idle',
         states: {
           idle: {
@@ -56,7 +64,7 @@ const Machine = createMachine<MachineContext, MachineEvent>(
         },
         on: {
           LOAD: 'loading',
-          END: 'ended',
+          END: 'end',
           ERROR: 'error',
           VOLUME: {
             target: '',
@@ -76,13 +84,15 @@ const Machine = createMachine<MachineContext, MachineEvent>(
           },
         },
       },
-      ended: {
+      end: {
+        id: 'end',
         on: {
           LOAD: 'loading',
           PLAY: 'ready',
         },
       },
       error: {
+        id: 'error',
         on: {
           RETRY: 'loading',
         },
@@ -90,6 +100,11 @@ const Machine = createMachine<MachineContext, MachineEvent>(
     },
   },
   {
+    services: {
+      onLoadAudio: () => () => {
+        console.log('load audio!!');
+      },
+    },
     actions: {
       onReady: assign<MachineContext, MachineEvent>({
         volume: (_, event) => (event as MachineReadyEvent).volume,
