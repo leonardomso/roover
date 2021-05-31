@@ -25,7 +25,7 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
+        // For some reason, when calling toBeInTheDocument() does not work.
         // When using .toBeInTheDocuments tests pass but ESLint complains about it.
         // So, there is why the next line is disabled.
         // Should be fixed in a next version though.
@@ -59,10 +59,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -93,10 +89,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -127,10 +119,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -161,10 +149,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -195,10 +179,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -229,10 +209,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -263,10 +239,6 @@ describe('useAudio', () => {
         | undefined = await result.current.onCreateAudio(args);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
@@ -276,82 +248,6 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('playbackRate', 1);
         expect(audio).toHaveProperty('muted', false);
         expect(audio).toHaveProperty('loop', true);
-      });
-    });
-  });
-
-  describe('onLoadAudio', () => {
-    test('should create audio if there are none created', async () => {
-      const { result } = renderHook(() => useAudio());
-
-      const args: CreateAudioElement = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
-        preload: 'auto',
-        autoplay: true,
-        volume: 1.0,
-        rate: 1.0,
-        muted: false,
-        loop: true,
-      };
-
-      const audio:
-        | HTMLAudioElement
-        | undefined = await result.current.onLoadAudio(undefined, args);
-
-      await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', true);
-      });
-    });
-
-    test('should not create new audio when there is one already', async () => {
-      const { result } = renderHook(() => useAudio());
-
-      const args: CreateAudioElement = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
-        preload: 'auto',
-        autoplay: true,
-        volume: 1.0,
-        rate: 1.0,
-        muted: false,
-        loop: true,
-      };
-
-      const audio:
-        | HTMLAudioElement
-        | undefined = await result.current.onLoadAudio(undefined, args);
-
-      const newAudio:
-        | HTMLAudioElement
-        | undefined = await result.current.onLoadAudio(audio, args);
-
-      await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', true);
-
-        expect(newAudio).toBeUndefined();
       });
     });
   });
@@ -370,17 +266,11 @@ describe('useAudio', () => {
         loop: true,
       };
 
-      const audio:
-        | HTMLAudioElement
-        | undefined = await result.current.onLoadAudio(undefined, args);
+      const audio: HTMLAudioElement = await result.current.onCreateAudio(args);
 
       await result.current.onDestroyAudio(audio);
 
       await waitFor(() => {
-        // For some reason, when calling .toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
         // eslint-disable-next-line
         expect(audio).not.toBeInTheDocument;
       });

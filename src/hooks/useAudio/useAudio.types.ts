@@ -12,15 +12,11 @@ export type UseAudio = () => {
     }
   >;
   send: any;
-  onCreateAudio: (args: CreateAudioElement) => Promise<HTMLAudioElement>;
-  onLoadAudio: (
-    audio: HTMLAudioElement | undefined,
-    args: CreateAudioElement
-  ) => Promise<HTMLAudioElement | undefined>;
+  onCreateAudio: (args: CreateAudioElement) => HTMLAudioElement;
   onDestroyAudio: (audio: HTMLAudioElement | undefined) => void;
 };
 
-export type CreateAudioElement = {
+export interface CreateAudioElement {
   src: string;
   preload?: 'auto' | 'metadata' | 'none';
   autoplay?: boolean;
@@ -28,4 +24,4 @@ export type CreateAudioElement = {
   rate?: number;
   muted?: boolean;
   loop?: boolean;
-};
+}

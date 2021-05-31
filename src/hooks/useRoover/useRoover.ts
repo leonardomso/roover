@@ -6,15 +6,15 @@ import useAudio from '../useAudio/useAudio';
 import { Args } from './useRoover.types';
 
 const useRoover = ({
-  src,
-  preload,
-  autoplay,
-  volume,
-  rate,
-  muted,
-  loop,
+  src = '',
+  preload = 'auto',
+  autoplay = true,
+  volume = 1.0,
+  rate = 1.0,
+  muted = false,
+  loop = false,
 }: Args) => {
-  const { state, send, onLoadAudio } = useAudio();
+  const { state, send, onCreateAudio } = useAudio();
 
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>(undefined);
   const playerRef = useRef<HTMLAudioElement | undefined>(undefined);
@@ -53,9 +53,14 @@ const useRoover = ({
     };
   }, [audio, playing]);
 
-  const onToggle = async () => {
+  /**
+   * Should create new audio element and play it.
+   * In case audio exists, it will play or pause based on the current state.
+   * @returns void
+   */
+  const onToggle = () => {
     if (!audio) {
-      const audio: HTMLAudioElement | undefined = await onLoadAudio(undefined, {
+      const audio: HTMLAudioElement = onCreateAudio({
         src,
         preload,
         autoplay,
@@ -64,50 +69,26 @@ const useRoover = ({
         muted,
         loop,
       });
-      setAudio(audio as HTMLAudioElement);
-      playerRef.current = audio as HTMLAudioElement;
+      setAudio(audio);
+      playerRef.current = audio;
+
+      if (autoplay) {
+        audio.play();
+        send('PLAY');
+      }
     } else {
-      const newAudio: HTMLAudioElement | undefined = await onLoadAudio(audio, {
-        src,
-        preload,
-        autoplay,
-        volume,
-        rate,
-        muted,
-        loop,
-      });
-      setAudio(newAudio as HTMLAudioElement);
-      playerRef.current = newAudio as HTMLAudioElement;
+      if (ready || paused) {
+        audio.play();
+        send('PLAY');
+      }
+      if (playing) {
+        audio.pause();
+        send('PAUSE');
+      }
     }
   };
 
-  const onPlay = async () => {
-    if (!audio) {
-      const audio: HTMLAudioElement | undefined = await onLoadAudio(undefined, {
-        src,
-        preload,
-        autoplay,
-        volume,
-        rate,
-        muted,
-        loop,
-      });
-      setAudio(audio as HTMLAudioElement);
-      playerRef.current = audio as HTMLAudioElement;
-    } else {
-      const newAudio: HTMLAudioElement | undefined = await onLoadAudio(audio, {
-        src,
-        preload,
-        autoplay,
-        volume,
-        rate,
-        muted,
-        loop,
-      });
-      setAudio(newAudio as HTMLAudioElement);
-      playerRef.current = newAudio as HTMLAudioElement;
-    }
-  };
+  const onPlay = async () => {};
 
   const onPause = () => {
     if (!audio) return;

@@ -1,4 +1,4 @@
-export type Args = {
+export interface Args {
   src: string;
   preload?: 'auto' | 'metadata' | 'none';
   autoplay?: boolean;
@@ -16,7 +16,7 @@ export type Args = {
   onLoop?: () => void;
   onEnd?: () => void;
   onError?: () => void;
-};
+}
 
 export type ReturnArgs = {
   idle: boolean;

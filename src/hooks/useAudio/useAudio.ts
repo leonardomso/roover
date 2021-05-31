@@ -23,18 +23,18 @@ const useAudio: UseAudio = () => {
    * @param loop - The loop property for the audio.
    * @returns HTMLAudioElement
    */
-  const onCreateAudio = async ({
-    src,
-    preload,
-    autoplay,
-    volume,
-    rate,
-    muted,
-    loop,
-  }: CreateAudioElement): Promise<HTMLAudioElement> => {
-    const audioElement: HTMLAudioElement = await new Audio(src);
+  const onCreateAudio = ({
+    src = '',
+    preload = 'auto',
+    autoplay = true,
+    volume = 1.0,
+    rate = 1.0,
+    muted = false,
+    loop = false,
+  }: CreateAudioElement): HTMLAudioElement => {
+    const audioElement: HTMLAudioElement = new Audio(src);
 
-    audioElement.autoplay = autoplay === false ? autoplay : true;
+    audioElement.autoplay = autoplay ? autoplay : false;
     audioElement.volume = volume ? volume : 1.0;
     audioElement.muted = muted ? muted : false;
     audioElement.loop = loop ? loop : false;
@@ -57,12 +57,6 @@ const useAudio: UseAudio = () => {
         loop: audioElement.loop,
       });
     });
-    // When the volume has changed, will trigger a 'VOLUME' event and set the new value in the context.
-    audioElement.addEventListener('volumechange', () => {
-      send('VOLUME', {
-        volume: audioElement.volume,
-      });
-    });
     // When the audio plays, it will trigger a 'PLAY' event.
     audioElement.addEventListener('play', () => {
       send('PLAY');
@@ -71,9 +65,15 @@ const useAudio: UseAudio = () => {
     audioElement.addEventListener('pause', () => {
       send('PAUSE');
     });
+    // When the volume has changed, will trigger a 'VOLUME' event and set the new value in the context.
+    audioElement.addEventListener('volumechange', () => {
+      send('VOLUME', {
+        volume: audioElement.volume,
+      });
+    });
     // When the rate has changed, it will trigger a 'RATE' event and set the new value in the context.
     audioElement.addEventListener('ratechange', () => {
-      send('READY', {
+      send('RATE', {
         rate: audioElement.playbackRate,
       });
     });
@@ -85,24 +85,11 @@ const useAudio: UseAudio = () => {
     return audioElement;
   };
 
-  const onLoadAudio = async (
-    audio: HTMLAudioElement | undefined,
-    args: CreateAudioElement
-  ): Promise<HTMLAudioElement | undefined> => {
-    if (audio !== undefined) {
-      const currentSrc: string = audio.currentSrc;
-
-      if (currentSrc === args.src) {
-        return undefined;
-      }
-
-      return undefined;
-    } else {
-      const newAudio: HTMLAudioElement = await onCreateAudio(args);
-      return newAudio;
-    }
-  };
-
+  /**
+   * Destroy audio element.
+   * @param audio - The audio element to be checked.
+   * @returns undefined
+   */
   const onDestroyAudio = (audio: HTMLAudioElement | undefined): void => {
     if (!audio) {
       return undefined;
@@ -117,7 +104,7 @@ const useAudio: UseAudio = () => {
     state,
     send,
     onCreateAudio,
-    onLoadAudio,
+    // onLoadAudio,
     onDestroyAudio,
   };
 };
