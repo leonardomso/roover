@@ -308,7 +308,7 @@ describe('useAudio', () => {
       };
 
       act(() => {
-        let audio: HTMLAudioElement | undefined = result.current.onLoadAudio(
+        const audio: HTMLAudioElement = result.current.onLoadAudio(
           undefined,
           firstArgs
         );
@@ -323,7 +323,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('muted', firstArgs.muted);
         expect(audio).toHaveProperty('loop', firstArgs.loop);
 
-        audio = result.current.onLoadAudio(audio, secondArgs);
+        result.current.onLoadAudio(audio, secondArgs);
 
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;

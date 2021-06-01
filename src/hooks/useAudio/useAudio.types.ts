@@ -17,7 +17,7 @@ export type UseAudio = () => {
   onLoadAudio: (
     audio: HTMLAudioElement | undefined,
     args: CreateAudioArgs
-  ) => HTMLAudioElement | undefined;
+  ) => HTMLAudioElement;
   onDestroyAudio: (audio: HTMLAudioElement | undefined) => void;
 };
 
