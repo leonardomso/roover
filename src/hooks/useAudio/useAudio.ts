@@ -4,7 +4,7 @@ import RooverMachine from '../../machine/Machine';
 
 import {
   UseAudio,
-  CreateAudioElement,
+  CreateAudioArgs,
   MachineContext,
   MachineEvent,
 } from '../../types';
@@ -31,7 +31,7 @@ const useAudio: UseAudio = () => {
     rate = 1.0,
     muted = false,
     loop = false,
-  }: CreateAudioElement): HTMLAudioElement => {
+  }: CreateAudioArgs): HTMLAudioElement => {
     const audioElement: HTMLAudioElement = new Audio(src);
 
     // Autoplay should be 'false' by default.
@@ -91,6 +91,27 @@ const useAudio: UseAudio = () => {
     return audioElement;
   };
 
+  const onLoadAudio = (
+    audio: HTMLAudioElement | undefined,
+    args: CreateAudioArgs
+  ): HTMLAudioElement | undefined => {
+    if (audio instanceof HTMLAudioElement) {
+      const currentSrc: string = audio.currentSrc;
+
+      if (currentSrc === args.src) {
+        return undefined;
+      }
+
+      send('LOAD');
+      audio.setAttribute('src', audio.src);
+      audio.load();
+      return audio;
+    } else {
+      const newAudio: HTMLAudioElement = onCreateAudio(args);
+      return newAudio;
+    }
+  };
+
   /**
    * Destroy audio element.
    * @param audio - The audio element to be checked.
@@ -110,6 +131,7 @@ const useAudio: UseAudio = () => {
     state,
     send,
     onCreateAudio,
+    onLoadAudio,
     onDestroyAudio,
   };
 };

@@ -58,7 +58,7 @@ const useRoover = ({
    * In case audio exists, it will play or pause based on the current state.
    * @returns void
    */
-  const onToggle = () => {
+  const handleToggle = () => {
     if (!audio) {
       const audio: HTMLAudioElement = onCreateAudio({
         src,
@@ -71,11 +71,6 @@ const useRoover = ({
       });
       setAudio(audio);
       playerRef.current = audio;
-
-      if (autoplay) {
-        audio.play();
-        send('PLAY');
-      }
     } else {
       if (ready || paused) {
         audio.play();
@@ -88,53 +83,57 @@ const useRoover = ({
     }
   };
 
-  const onPlay = async () => {};
+  const handlePlay = () => {
+    if (!audio) return;
+    send('PLAY');
+    audio.play();
+  };
 
-  const onPause = () => {
+  const handlePause = () => {
     if (!audio) return;
     send('PAUSE');
     audio.pause();
   };
 
-  const onMute = () => {
+  const handleMute = () => {
     if (!audio) return;
     send('MUTE');
     audio.muted = !muted;
   };
 
-  const onLoop = () => {
+  const handleLoop = () => {
     if (!audio) return;
     send('LOOP');
     audio.loop = !loop;
   };
 
-  const onVolume = (value: number) => {
+  const handleVolume = (value: number) => {
     if (!audio) return;
     send({ type: 'VOLUME', volume: value });
     audio.volume = value;
   };
 
-  const onRate = (value: string) => {
+  const handleRate = (value: string) => {
     if (!audio) return;
     const rate: number = parseFloat(value);
     audio.playbackRate = rate;
     send({ type: 'RATE', rate });
   };
 
-  const onSeek = (value: number) => {
+  const handleSeek = (value: number) => {
     if (!audio) return;
     setSeek(value);
     audio.currentTime = value;
   };
 
-  const onForward = (value: number) => {
+  const handleForward = (value: number) => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek + value;
     setSeek(newSeek);
     audio.currentTime = newSeek;
   };
 
-  const onBackward = (value: number) => {
+  const handleBackward = (value: number) => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek - value;
     setSeek(newSeek);
@@ -154,16 +153,16 @@ const useRoover = ({
     muted: playerMuted,
     loop: playerLoop,
     error: playerError,
-    onToggle,
-    onPlay,
-    onPause,
-    onVolume,
-    onRate,
-    onMute,
-    onLoop,
-    onSeek,
-    onForward,
-    onBackward,
+    handleToggle,
+    handlePlay,
+    handlePause,
+    handleVolume,
+    handleRate,
+    handleMute,
+    handleLoop,
+    handleSeek,
+    handleForward,
+    handleBackward,
   };
 };
 

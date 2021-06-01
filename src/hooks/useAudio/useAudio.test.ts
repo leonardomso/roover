@@ -1,16 +1,16 @@
-import { waitFor } from '@testing-library/react';
+import { waitFor, act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 
 import useAudio from './useAudio';
 
-import { CreateAudioElement } from './useAudio.types';
+import { CreateAudioArgs } from './useAudio.types';
 
 describe('useAudio', () => {
   describe('onCreateAudio', () => {
     test('should create audio element', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: true,
@@ -32,19 +32,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with preload equal "metadata"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'none',
         autoplay: true,
@@ -62,19 +62,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'none');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with preload equal "none"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'none',
         autoplay: true,
@@ -92,19 +92,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'none');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with autoplay equal "false"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: false,
@@ -122,19 +122,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', false);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with volume equal "0.5"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: true,
@@ -152,19 +152,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 0.5);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with rate equal "0.5"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: true,
@@ -182,19 +182,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 0.5);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with muted equal "true"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: true,
@@ -212,19 +212,19 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', true);
-        expect(audio).toHaveProperty('loop', false);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
       });
     });
 
     test('should create audio element with loop equal "true"', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: true,
@@ -242,12 +242,98 @@ describe('useAudio', () => {
         // eslint-disable-next-line
         expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', 'auto');
-        expect(audio).toHaveProperty('autoplay', true);
-        expect(audio).toHaveProperty('volume', 1);
-        expect(audio).toHaveProperty('playbackRate', 1);
-        expect(audio).toHaveProperty('muted', false);
-        expect(audio).toHaveProperty('loop', true);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
+      });
+    });
+  });
+
+  describe('onLoadAudio', () => {
+    test('should create audio and load it', async () => {
+      const { result } = renderHook(() => useAudio());
+
+      const args: CreateAudioArgs = {
+        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        preload: 'auto',
+        autoplay: true,
+        volume: 1.0,
+        rate: 1.0,
+        muted: false,
+        loop: true,
+      };
+
+      const audio:
+        | HTMLAudioElement
+        | undefined = await result.current.onLoadAudio(undefined, args);
+
+      await waitFor(() => {
+        // eslint-disable-next-line
+        expect(audio).toBeInTheDocument;
+        expect(audio).toBeInstanceOf(HTMLAudioElement);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
+      });
+    });
+
+    test('should change audio src', async () => {
+      const { result } = renderHook(() => useAudio());
+
+      const firstArgs: CreateAudioArgs = {
+        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        preload: 'auto',
+        autoplay: true,
+        volume: 1.0,
+        rate: 1.0,
+        muted: false,
+        loop: true,
+      };
+
+      const secondArgs: CreateAudioArgs = {
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
+        preload: 'auto',
+        autoplay: true,
+        volume: 1.0,
+        rate: 1.0,
+        muted: false,
+        loop: true,
+      };
+
+      act(() => {
+        let audio: HTMLAudioElement | undefined = result.current.onLoadAudio(
+          undefined,
+          firstArgs
+        );
+
+        // eslint-disable-next-line
+        expect(audio).toBeInTheDocument;
+        expect(audio).toBeInstanceOf(HTMLAudioElement);
+        expect(audio).toHaveProperty('preload', firstArgs.preload);
+        expect(audio).toHaveProperty('autoplay', firstArgs.autoplay);
+        expect(audio).toHaveProperty('volume', firstArgs.volume);
+        expect(audio).toHaveProperty('playbackRate', firstArgs.rate);
+        expect(audio).toHaveProperty('muted', firstArgs.muted);
+        expect(audio).toHaveProperty('loop', firstArgs.loop);
+
+        audio = result.current.onLoadAudio(audio, secondArgs);
+
+        // eslint-disable-next-line
+        expect(audio).toBeInTheDocument;
+        expect(audio).toBeInstanceOf(HTMLAudioElement);
+        expect(audio).toHaveProperty('preload', secondArgs.preload);
+        expect(audio).toHaveProperty('autoplay', secondArgs.autoplay);
+        expect(audio).toHaveProperty('volume', secondArgs.volume);
+        expect(audio).toHaveProperty('playbackRate', secondArgs.rate);
+        expect(audio).toHaveProperty('muted', secondArgs.muted);
+        expect(audio).toHaveProperty('loop', secondArgs.loop);
       });
     });
   });
@@ -256,7 +342,7 @@ describe('useAudio', () => {
     test('should destroy audio', async () => {
       const { result } = renderHook(() => useAudio());
 
-      const args: CreateAudioElement = {
+      const args: CreateAudioArgs = {
         src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
         preload: 'auto',
         autoplay: true,
@@ -267,6 +353,18 @@ describe('useAudio', () => {
       };
 
       const audio: HTMLAudioElement = await result.current.onCreateAudio(args);
+
+      await waitFor(() => {
+        // eslint-disable-next-line
+        expect(audio).toBeInTheDocument;
+        expect(audio).toBeInstanceOf(HTMLAudioElement);
+        expect(audio).toHaveProperty('preload', args.preload);
+        expect(audio).toHaveProperty('autoplay', args.autoplay);
+        expect(audio).toHaveProperty('volume', args.volume);
+        expect(audio).toHaveProperty('playbackRate', args.rate);
+        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('loop', args.loop);
+      });
 
       await result.current.onDestroyAudio(audio);
 

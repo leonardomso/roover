@@ -1,4 +1,5 @@
 import { State } from 'xstate';
+
 import { MachineContext, MachineEvent } from '../../types/index';
 
 export type UseAudio = () => {
@@ -12,11 +13,15 @@ export type UseAudio = () => {
     }
   >;
   send: any;
-  onCreateAudio: (args: CreateAudioElement) => HTMLAudioElement;
+  onCreateAudio: (args: CreateAudioArgs) => HTMLAudioElement;
+  onLoadAudio: (
+    audio: HTMLAudioElement | undefined,
+    args: CreateAudioArgs
+  ) => HTMLAudioElement | undefined;
   onDestroyAudio: (audio: HTMLAudioElement | undefined) => void;
 };
 
-export interface CreateAudioElement {
+export interface CreateAudioArgs {
   src: string;
   preload?: 'auto' | 'metadata' | 'none';
   autoplay?: boolean;
