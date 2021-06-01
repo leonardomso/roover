@@ -25,6 +25,7 @@ export type ReturnArgs = {
   playing: boolean;
   paused: boolean;
   ended: boolean;
+  seek: number;
   volume: number;
   rate: number;
   duration: number;

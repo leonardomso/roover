@@ -14,7 +14,7 @@ const useRoover = ({
   muted = false,
   loop = false,
 }: Args) => {
-  const { state, send, onCreateAudio } = useAudio();
+  const { state, send, onLoadAudio } = useAudio();
 
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>(undefined);
   const playerRef = useRef<HTMLAudioElement | undefined>(undefined);
@@ -22,18 +22,7 @@ const useRoover = ({
   const [seek, setSeek] = useState<number>(0);
   const playerSeekRef = useRef<number>(0);
 
-  const idle: boolean = state.matches('idle');
-  const loading: boolean = state.matches('loading');
-  const ready: boolean = state.matches('ready');
-  const playing: boolean = state.matches('ready.playing');
-  const paused: boolean = state.matches('ready.paused');
-
-  const playerVolume: number = state.context.volume;
-  const playerRate: number = state.context.rate;
-  const playerDuration: number = state.context.duration;
-  const playerMuted: boolean = state.context.muted;
-  const playerLoop: boolean = state.context.loop;
-  const playerError: string | null = state.context.error;
+  const playing: boolean = state.matches('playing');
 
   useEffect(() => {
     const animate = () => {
@@ -42,7 +31,7 @@ const useRoover = ({
       playerSeekRef.current = raf(animate);
     };
 
-    if (audio && playing) {
+    if (audio && state.matches('playing')) {
       playerSeekRef.current = raf(animate);
     }
 
@@ -51,16 +40,16 @@ const useRoover = ({
         raf.cancel(playerSeekRef.current);
       }
     };
-  }, [audio, playing]);
+  }, [audio, state, playing]);
 
   /**
    * Should create new audio element and play it.
    * In case audio exists, it will play or pause based on the current state.
    * @returns void
    */
-  const handleToggle = () => {
+  const onToggle = () => {
     if (!audio) {
-      const audio: HTMLAudioElement = onCreateAudio({
+      const newAudio = onLoadAudio(audio, {
         src,
         preload,
         autoplay,
@@ -69,71 +58,116 @@ const useRoover = ({
         muted,
         loop,
       });
-      setAudio(audio);
-      playerRef.current = audio;
+      setAudio(newAudio);
+      playerRef.current = newAudio;
     } else {
-      if (ready || paused) {
+      if (state.matches('ready') || state.matches('paused')) {
         audio.play();
         send('PLAY');
       }
-      if (playing) {
+      if (state.matches('playing')) {
         audio.pause();
         send('PAUSE');
       }
     }
   };
 
-  const handlePlay = () => {
+  /**
+   * Play the audio.
+   * In case there's no audio, it does nothing.
+   * @returns void
+   */
+  const onPlay = () => {
     if (!audio) return;
     send('PLAY');
     audio.play();
   };
 
-  const handlePause = () => {
+  /**
+   * Pause the audio.
+   * In case there's no audio, it does nothing.
+   * @returns void
+   */
+  const onPause = () => {
     if (!audio) return;
     send('PAUSE');
     audio.pause();
   };
 
-  const handleMute = () => {
+  /**
+   * Set 'muted' to true or false depending of the current value.
+   * In case there's no audio, it does nothing.
+   * @returns void
+   */
+  const onMute = () => {
     if (!audio) return;
     send('MUTE');
     audio.muted = !muted;
   };
 
-  const handleLoop = () => {
+  /**
+   * Set 'loop' to true or false depending of the current value.
+   * In case there's no audio, it does nothing.
+   * @returns void
+   */
+  const onLoop = () => {
     if (!audio) return;
     send('LOOP');
     audio.loop = !loop;
   };
 
-  const handleVolume = (value: number) => {
+  /**
+   * Changes the volume of the audio.
+   * @param {number} value - The value of the volume.
+   * @returns HTMLAudioElement
+   */
+  const onVolume = (value: number) => {
     if (!audio) return;
     send({ type: 'VOLUME', volume: value });
     audio.volume = value;
   };
 
-  const handleRate = (value: string) => {
+  /**
+   * Changes the playback rate of the audio.
+   * @param {string} value - The value of the volume.
+   * @returns HTMLAudioElement
+   */
+  const onRate = (value: string) => {
     if (!audio) return;
     const rate: number = parseFloat(value);
     audio.playbackRate = rate;
     send({ type: 'RATE', rate });
   };
 
-  const handleSeek = (value: number) => {
+  /**
+   * Changes the seek of the audio.
+   * @param {number} value - The value of the volume.
+   * @returns HTMLAudioElement
+   */
+  const onSeek = (value: number) => {
     if (!audio) return;
     setSeek(value);
     audio.currentTime = value;
   };
 
-  const handleForward = (value: number) => {
+  /**
+   * Forward the seek value of the audio.
+   * @param {number} value - The value of the volume.
+   * @returns HTMLAudioElement
+   */
+  const onForward = (value: number) => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek + value;
     setSeek(newSeek);
     audio.currentTime = newSeek;
   };
 
-  const handleBackward = (value: number) => {
+  /**
+   * Backward the seek value of the audio.
+   * @param {number} value - The value of the volume.
+   * @returns HTMLAudioElement
+   */
+  const onBackward = (value: number) => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek - value;
     setSeek(newSeek);
@@ -141,28 +175,29 @@ const useRoover = ({
   };
 
   return {
-    idle,
-    loading,
-    ready,
-    playing,
-    paused,
-    ended: audio?.ended,
-    volume: playerVolume,
-    rate: playerRate,
-    duration: playerDuration,
-    muted: playerMuted,
-    loop: playerLoop,
-    error: playerError,
-    handleToggle,
-    handlePlay,
-    handlePause,
-    handleVolume,
-    handleRate,
-    handleMute,
-    handleLoop,
-    handleSeek,
-    handleForward,
-    handleBackward,
+    idle: state.matches('idle'),
+    loading: state.matches('loading'),
+    ready: state.matches('ready'),
+    playing: state.matches('playing'),
+    paused: state.matches('paused'),
+    ended: state.matches('end'),
+    seek,
+    volume: state.context.volume,
+    rate: state.context.rate,
+    duration: state.context.duration,
+    muted: state.context.muted,
+    loop: state.context.loop,
+    error: state.context.error,
+    onToggle,
+    onPlay,
+    onPause,
+    onVolume,
+    onRate,
+    onMute,
+    onLoop,
+    onSeek,
+    onForward,
+    onBackward,
   };
 };
 

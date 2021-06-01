@@ -24,7 +24,7 @@ describe('useRoover', () => {
     expect(result.current.ready).toBe(false);
     expect(result.current.playing).toBe(false);
     expect(result.current.paused).toBe(false);
-    expect(result.current.ended).toBe(undefined);
+    expect(result.current.ended).toBe(false);
   });
 
   // describe('onToggle', () => {

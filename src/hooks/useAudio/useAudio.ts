@@ -10,17 +10,20 @@ import {
 } from '../../types';
 
 const useAudio: UseAudio = () => {
-  const [state, send] = useMachine<MachineContext, MachineEvent>(RooverMachine);
+  const [state, send] = useMachine<MachineContext, MachineEvent>(
+    RooverMachine,
+    { devTools: process.env.NODE_ENV === 'development' }
+  );
 
   /**
    * Create a new Audio element and returns it.
-   * @param src - The src of the audio to be loaded.
-   * @param preload - The preload property for the audio.
-   * @param autoplay - The autoplay property for the audio.
-   * @param volume - The volume property for the audio.
-   * @param rate - The rate property for the audio.
-   * @param muted - The muted property for the audio.
-   * @param loop - The loop property for the audio.
+   * @param {string} src - The src of the audio to be loaded.
+   * @param {string} preload - The preload property for the audio.
+   * @param {boolean} autoplay - The autoplay property for the audio.
+   * @param {number} volume - The volume property for the audio.
+   * @param {number} rate - The rate property for the audio.
+   * @param {boolean} muted - The muted property for the audio.
+   * @param {boolean} loop - The loop property for the audio.
    * @returns HTMLAudioElement
    */
   const onCreateAudio = ({
@@ -91,15 +94,24 @@ const useAudio: UseAudio = () => {
     return audioElement;
   };
 
+  /**
+   * Check if there are any audio available.
+   * If there's no audio available, it creates a new one and returns it.
+   * If there's a current audio available, checks if the src of the current audio is equal to the new audio that's trying to be loaded.
+   *  In case the src is the same, it returns the audio. Otherwise, it replaces the src of the current audio with the new src.
+   * @param {HTMLAudioElement | undefined} audio - The audio element.
+   * @param {CreateAudioArgs} args - Object to pass to Audio element.
+   * @returns HTMLAudioElement | undefined
+   */
   const onLoadAudio = (
     audio: HTMLAudioElement | undefined,
     args: CreateAudioArgs
-  ): HTMLAudioElement | undefined => {
+  ): HTMLAudioElement => {
     if (audio instanceof HTMLAudioElement) {
       const currentSrc: string = audio.currentSrc;
 
       if (currentSrc === args.src) {
-        return undefined;
+        return audio;
       }
 
       send('LOAD');

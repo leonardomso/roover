@@ -94,17 +94,12 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       error: {
         id: 'error',
         on: {
-          RETRY: 'loading',
+          LOAD: 'loading',
         },
       },
     },
   },
   {
-    services: {
-      onLoadAudio: () => () => {
-        console.log('load audio!!');
-      },
-    },
     actions: {
       onReady: assign<MachineContext, MachineEvent>({
         volume: (_, event) => (event as MachineReadyEvent).volume,
