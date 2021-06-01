@@ -11,7 +11,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 1.0,
@@ -45,7 +46,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'none',
         autoplay: true,
         volume: 1.0,
@@ -75,7 +77,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'none',
         autoplay: true,
         volume: 1.0,
@@ -105,7 +108,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: false,
         volume: 1.0,
@@ -135,7 +139,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 0.5,
@@ -165,7 +170,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 1.0,
@@ -195,7 +201,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 1.0,
@@ -225,7 +232,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 1.0,
@@ -257,7 +265,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 1.0,
@@ -343,7 +352,8 @@ describe('useAudio', () => {
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
-        src: 'https://www.theincomparable.com/podcast/batmanuniversity302.mp3',
+        src:
+          'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
         preload: 'auto',
         autoplay: true,
         volume: 1.0,

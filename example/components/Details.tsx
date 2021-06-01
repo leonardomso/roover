@@ -6,12 +6,13 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
-  idle: boolean;
+  initial: boolean;
   loading: boolean;
   ready: boolean;
+  idle: boolean;
   playing: boolean;
   paused: boolean;
-  ended: boolean;
+  end: boolean;
   seek: number;
   volume: number;
   rate: number;
@@ -21,15 +22,15 @@ interface Props {
   error: string | null;
 }
 
-const Details = ({ idle, loading, ready, playing, paused, seek, volume, rate, muted, loop }: Props) => {
+const Details = ({ initial, loading, ready, playing, paused, seek, volume, rate, muted, loop }: Props) => {
   return (
     <Grid width="fit-content" height="auto" templateColumns="1fr 1fr" templateRows="repeat(3, max-content)" gridRow="5 / 6" gridColumn="2 / 3" gap={3} alignItems="center" justifyContent="center">
       <Heading as="h2" fontSize="18px" letterSpacing="-0.03em">State</Heading>
 
       <Grid width="fit-content" height="auto" templateRows="repeat(5, max-content)" gridRow="2 / 3" gridColumn="1 / 2" gap={2} alignItems="center" justifyContent="center">
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">
-          <Text>Idle: </Text>
-          <Text fontWeight="bold">{`${idle}`}</Text>
+          <Text>Initial: </Text>
+          <Text fontWeight="bold">{`${initial}`}</Text>
         </Grid>
 
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">
@@ -76,7 +77,7 @@ const Details = ({ idle, loading, ready, playing, paused, seek, volume, rate, mu
 
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">
           <Text>Seek: </Text>
-          <Text fontWeight="bold">{`${seek}`}</Text>
+          <Text fontWeight="bold">{seek}</Text>
         </Grid>
       </Grid>
     </Grid>

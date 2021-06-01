@@ -12,7 +12,7 @@ import {
 const Machine = createMachine<MachineContext, MachineEvent>(
   {
     id: 'roover',
-    initial: 'idle',
+    initial: 'initial',
     context: {
       volume: 1.0,
       rate: 1.0,
@@ -22,8 +22,8 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       error: null,
     },
     states: {
-      idle: {
-        id: 'idle',
+      initial: {
+        id: 'initial',
         on: {
           LOAD: 'loading',
           ERROR: 'error',

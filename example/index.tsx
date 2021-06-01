@@ -18,12 +18,13 @@ const src: string = "https://storage.googleapis.com/media-session/elephants-drea
 
 const App = () => {
   const {
-    idle,
+    initial,
     loading,
     ready,
+    idle,
     playing,
     paused,
-    ended,
+    end,
     seek,
     volume,
     rate,
@@ -34,9 +35,14 @@ const App = () => {
     onToggle,
     onPlay,
     onPause,
+    onVolume,
+    onRate,
+    onMute,
+    onLoop,
+    onSeek,
     onForward,
     onBackward,
-  } = useRoover({ src });
+  } = useRoover({ src, autoplay: false });
 
   return (
     <ChakraProvider theme={theme}>
@@ -45,23 +51,41 @@ const App = () => {
           <Heading as="h1" letterSpacing="-0.03em">Roover</Heading>
           <Source
             gridRow="2 / 3"
-            idle={idle}
+            initial={initial}
             loading={loading}
             ready={ready}
+            idle={idle}
+            playing={playing}
+            paused={paused}
             onPlay={onPlay}
             onPause={onPause}
             onToggle={onToggle}
             onForward={onForward}
             onBackward={onBackward}
           />
-          <Controls />
+
+          <Controls
+            seek={seek}
+            volume={volume}
+            rate={rate}
+            duration={duration}
+            muted={muted}
+            loop={loop}
+            onVolume={onVolume}
+            onRate={onRate}
+            onMute={onMute}
+            onLoop={onLoop}
+            onSeek={onSeek}
+          />
+
           <Details
-            idle={idle}
+            initial={initial}
             loading={loading}
             ready={ready}
+            idle={idle}
             playing={playing}
             paused={paused}
-            ended={ended}
+            end={end}
             seek={seek}
             volume={volume}
             rate={rate}

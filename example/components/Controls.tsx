@@ -9,7 +9,21 @@ import {
   Grid,
 } from "@chakra-ui/react";
 
-const Controls = () => {
+interface Props {
+  seek: number;
+  volume: number;
+  rate: number;
+  duration: number;
+  muted: boolean;
+  loop: boolean;
+  onVolume: (value: number) => void;
+  onRate: (value: string) => void;
+  onMute: () => void;
+  onLoop: () => void;
+  onSeek: (value: number) => void;
+}
+
+const Controls = ({ seek, volume, rate, duration, muted, loop, onVolume, onRate, onMute, onLoop, onSeek }: Props) => {
   return (
     <Grid width="fit-content" height="auto" templateRows="repeat(auto-fill, max-content)" gridRow="5 / 6" gridColumn="1 / 2" gap={3}>
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
@@ -17,12 +31,11 @@ const Controls = () => {
         <Slider
           aria-label="slider-ex-1"
           width="200px"
-          defaultValue={0}
           colorScheme="blue"
-          value={0}
-          onChange={() => { }}
+          value={seek}
+          onChange={onSeek}
           min={0}
-          max={100}
+          max={duration}
           step={0.1}>
           <SliderTrack>
             <SliderFilledTrack />
@@ -37,8 +50,8 @@ const Controls = () => {
           aria-label="slider-ex-1"
           width="200px"
           colorScheme="blue"
-          value={0}
-          onChange={() => { }}
+          value={volume}
+          onChange={onVolume}
           min={0}
           max={1}
           step={0.1}>
@@ -51,17 +64,17 @@ const Controls = () => {
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
         <Text>Rate</Text>
-        <Button type="button" onClick={() => { }}>Change to 0.5</Button>
+        <Button type="button" onClick={() => onRate("0.5")}>Change to 0.5</Button>
       </Grid>
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
         <Text>Mute</Text>
-        <Button type="button" onClick={() => { }}>Mute</Button>
+        <Button type="button" onClick={onMute}>Mute</Button>
       </Grid>
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
         <Text>Loop</Text>
-        <Button type="button" onClick={() => { }}>Loop</Button>
+        <Button type="button" onClick={onLoop}>Loop</Button>
       </Grid>
     </Grid>
   )

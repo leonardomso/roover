@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, MutableRefObject } from 'react';
 import raf from 'raf';
 
 import useAudio from '../useAudio/useAudio';
@@ -17,37 +17,52 @@ const useRoover = ({
   const { state, send, onLoadAudio } = useAudio();
 
   const [audio, setAudio] = useState<HTMLAudioElement | undefined>(undefined);
-  const playerRef = useRef<HTMLAudioElement | undefined>(undefined);
+  const playerRef: MutableRefObject<HTMLAudioElement | undefined> = useRef<
+    HTMLAudioElement | undefined
+  >(undefined);
 
   const [seek, setSeek] = useState<number>(0);
-  const playerSeekRef = useRef<number>(0);
+  const seekRef: MutableRefObject<number> = useRef<number>(0);
 
-  const playing: boolean = state.matches('playing');
+  const initial: boolean = state.matches('initial');
+  const loading: boolean = state.matches('loading');
+  const ready: boolean = state.matches('ready');
+  const idle: boolean = state.matches('ready.idle');
+  const playing: boolean = state.matches('ready.playing');
+  const paused: boolean = state.matches('ready.paused');
+  const end: boolean = state.matches('end');
+
+  const playerVolume: number = state.context.volume;
+  const playerRate: number = state.context.rate;
+  const playerDuration: number = state.context.duration;
+  const playerMuted: boolean = state.context.muted;
+  const playerLoop: boolean = state.context.loop;
+  const playerError: string | null = state.context.error;
 
   useEffect(() => {
     const animate = () => {
       const seek = audio?.currentTime;
       setSeek(seek as number);
-      playerSeekRef.current = raf(animate);
+      seekRef.current = raf(animate);
     };
 
-    if (audio && state.matches('playing')) {
-      playerSeekRef.current = raf(animate);
+    if (audio && playing) {
+      seekRef.current = raf(animate);
     }
 
     return () => {
-      if (playerSeekRef.current) {
-        raf.cancel(playerSeekRef.current);
+      if (seekRef.current) {
+        raf.cancel(seekRef.current);
       }
     };
-  }, [audio, state, playing]);
+  }, [audio, playing]);
 
   /**
    * Should create new audio element and play it.
    * In case audio exists, it will play or pause based on the current state.
    * @returns void
    */
-  const onToggle = () => {
+  const onToggle = (): void => {
     if (!audio) {
       const newAudio = onLoadAudio(audio, {
         src,
@@ -61,11 +76,11 @@ const useRoover = ({
       setAudio(newAudio);
       playerRef.current = newAudio;
     } else {
-      if (state.matches('ready') || state.matches('paused')) {
+      if (ready || paused) {
         audio.play();
         send('PLAY');
       }
-      if (state.matches('playing')) {
+      if (playing) {
         audio.pause();
         send('PAUSE');
       }
@@ -77,7 +92,7 @@ const useRoover = ({
    * In case there's no audio, it does nothing.
    * @returns void
    */
-  const onPlay = () => {
+  const onPlay = (): void => {
     if (!audio) return;
     send('PLAY');
     audio.play();
@@ -88,7 +103,7 @@ const useRoover = ({
    * In case there's no audio, it does nothing.
    * @returns void
    */
-  const onPause = () => {
+  const onPause = (): void => {
     if (!audio) return;
     send('PAUSE');
     audio.pause();
@@ -99,7 +114,7 @@ const useRoover = ({
    * In case there's no audio, it does nothing.
    * @returns void
    */
-  const onMute = () => {
+  const onMute = (): void => {
     if (!audio) return;
     send('MUTE');
     audio.muted = !muted;
@@ -110,7 +125,7 @@ const useRoover = ({
    * In case there's no audio, it does nothing.
    * @returns void
    */
-  const onLoop = () => {
+  const onLoop = (): void => {
     if (!audio) return;
     send('LOOP');
     audio.loop = !loop;
@@ -119,9 +134,9 @@ const useRoover = ({
   /**
    * Changes the volume of the audio.
    * @param {number} value - The value of the volume.
-   * @returns HTMLAudioElement
+   * @returns void
    */
-  const onVolume = (value: number) => {
+  const onVolume = (value: number): void => {
     if (!audio) return;
     send({ type: 'VOLUME', volume: value });
     audio.volume = value;
@@ -130,9 +145,9 @@ const useRoover = ({
   /**
    * Changes the playback rate of the audio.
    * @param {string} value - The value of the volume.
-   * @returns HTMLAudioElement
+   * @returns void
    */
-  const onRate = (value: string) => {
+  const onRate = (value: string): void => {
     if (!audio) return;
     const rate: number = parseFloat(value);
     audio.playbackRate = rate;
@@ -142,9 +157,9 @@ const useRoover = ({
   /**
    * Changes the seek of the audio.
    * @param {number} value - The value of the volume.
-   * @returns HTMLAudioElement
+   * @returns void
    */
-  const onSeek = (value: number) => {
+  const onSeek = (value: number): void => {
     if (!audio) return;
     setSeek(value);
     audio.currentTime = value;
@@ -153,9 +168,9 @@ const useRoover = ({
   /**
    * Forward the seek value of the audio.
    * @param {number} value - The value of the volume.
-   * @returns HTMLAudioElement
+   * @returns void
    */
-  const onForward = (value: number) => {
+  const onForward = (value: number): void => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek + value;
     setSeek(newSeek);
@@ -165,9 +180,9 @@ const useRoover = ({
   /**
    * Backward the seek value of the audio.
    * @param {number} value - The value of the volume.
-   * @returns HTMLAudioElement
+   * @returns void
    */
-  const onBackward = (value: number) => {
+  const onBackward = (value: number): void => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek - value;
     setSeek(newSeek);
@@ -175,19 +190,20 @@ const useRoover = ({
   };
 
   return {
-    idle: state.matches('idle'),
-    loading: state.matches('loading'),
-    ready: state.matches('ready'),
-    playing: state.matches('playing'),
-    paused: state.matches('paused'),
-    ended: state.matches('end'),
+    initial,
+    loading,
+    ready,
+    idle,
+    playing,
+    paused,
+    end,
     seek,
-    volume: state.context.volume,
-    rate: state.context.rate,
-    duration: state.context.duration,
-    muted: state.context.muted,
-    loop: state.context.loop,
-    error: state.context.error,
+    volume: playerVolume,
+    rate: playerRate,
+    duration: playerDuration,
+    muted: playerMuted,
+    loop: playerLoop,
+    error: playerError,
     onToggle,
     onPlay,
     onPause,

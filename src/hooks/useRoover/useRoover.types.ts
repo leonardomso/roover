@@ -19,9 +19,10 @@ export interface Args {
 }
 
 export type ReturnArgs = {
-  idle: boolean;
+  initial: boolean;
   loading: boolean;
   ready: boolean;
+  idle: boolean;
   playing: boolean;
   paused: boolean;
   ended: boolean;
