@@ -1,0 +1,256 @@
+"use strict";
+exports.__esModule = true;
+exports.useEditable = useEditable;
+var _hooks = require("@chakra-ui/hooks");
+var _reactUtils = require("@chakra-ui/react-utils");
+var _utils = require("@chakra-ui/utils");
+var _react = require("react");
+function _extends() {
+    _extends = Object.assign || function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {
+    };
+    var target = {
+    };
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
+/**
+ * React hook for managing the inline renaming of some text.
+ *
+ * @see Docs https://chakra-ui.com/docs/editable
+ */ function useEditable(props) {
+    if (props === void 0) props = {
+    };
+    var _props = props, onChangeProp = _props.onChange, onCancelProp = _props.onCancel, onSubmitProp = _props.onSubmit, valueProp = _props.value, isDisabled = _props.isDisabled, defaultValue = _props.defaultValue, startWithEditView = _props.startWithEditView, _props$isPreviewFocus = _props.isPreviewFocusable, isPreviewFocusable = _props$isPreviewFocus === void 0 ? true : _props$isPreviewFocus, _props$submitOnBlur = _props.submitOnBlur, submitOnBlur = _props$submitOnBlur === void 0 ? true : _props$submitOnBlur, _props$selectAllOnFoc = _props.selectAllOnFocus, selectAllOnFocus = _props$selectAllOnFoc === void 0 ? true : _props$selectAllOnFoc, placeholder = _props.placeholder, onEditProp = _props.onEdit, htmlProps = _objectWithoutPropertiesLoose(_props, [
+        "onChange",
+        "onCancel",
+        "onSubmit",
+        "value",
+        "isDisabled",
+        "defaultValue",
+        "startWithEditView",
+        "isPreviewFocusable",
+        "submitOnBlur",
+        "selectAllOnFocus",
+        "placeholder",
+        "onEdit"
+    ]);
+    var defaultIsEditing = Boolean(startWithEditView && !isDisabled);
+    var _useState = _react.useState(defaultIsEditing), isEditing = _useState[0], setIsEditing = _useState[1];
+    var _useControllableState = _hooks.useControllableState({
+        defaultValue: defaultValue || "",
+        value: valueProp,
+        onChange: onChangeProp
+    }), value = _useControllableState[0], setValue = _useControllableState[1];
+    /**
+   * Keep track of the previous value, so if users
+   * presses `cancel`, we can revert to it.
+   */ var _useState2 = _react.useState(value), prevValue = _useState2[0], setPrevValue = _useState2[1];
+    /**
+   * Ref to help focus the input in edit mode
+   */ var inputRef = _react.useRef(null);
+    var previewRef = _react.useRef(null);
+    var editButtonRef = _react.useRef(null);
+    var cancelButtonRef = _react.useRef(null);
+    var submitButtonRef = _react.useRef(null);
+    _hooks.useFocusOnPointerDown({
+        ref: inputRef,
+        enabled: isEditing,
+        elements: [
+            cancelButtonRef,
+            submitButtonRef
+        ]
+    });
+    var isInteractive = !isEditing || !isDisabled;
+    _hooks.useUpdateEffect(function() {
+        if (!isEditing) {
+            _utils.focus(editButtonRef.current);
+            return;
+        }
+        _utils.focus(inputRef.current, {
+            selectTextIfInput: selectAllOnFocus
+        });
+        onEditProp == null || onEditProp();
+    }, [
+        isEditing,
+        onEditProp,
+        selectAllOnFocus
+    ]);
+    var onEdit = _react.useCallback(function() {
+        if (isInteractive) setIsEditing(true);
+    }, [
+        isInteractive
+    ]);
+    var onCancel = _react.useCallback(function() {
+        setIsEditing(false);
+        setValue(prevValue);
+        onCancelProp == null || onCancelProp(prevValue);
+    }, [
+        onCancelProp,
+        setValue,
+        prevValue
+    ]);
+    var onSubmit = _react.useCallback(function() {
+        setIsEditing(false);
+        setPrevValue(value);
+        onSubmitProp == null || onSubmitProp(value);
+    }, [
+        value,
+        onSubmitProp
+    ]);
+    var onChange = _react.useCallback(function(event) {
+        setValue(event.target.value);
+    }, [
+        setValue
+    ]);
+    var onKeyDown = _react.useCallback(function(event) {
+        var eventKey = _utils.normalizeEventKey(event);
+        var keyMap = {
+            Escape: onCancel,
+            Enter: function Enter(event1) {
+                if (!event1.shiftKey && !event1.metaKey) onSubmit();
+            }
+        };
+        var action = keyMap[eventKey];
+        if (action) {
+            event.preventDefault();
+            action(event);
+        }
+    }, [
+        onCancel,
+        onSubmit
+    ]);
+    var isValueEmpty = _utils.isEmpty(value);
+    var onBlur = _react.useCallback(function(event) {
+        var relatedTarget = _utils.getRelatedTarget(event);
+        var targetIsCancel = _utils.contains(cancelButtonRef.current, relatedTarget);
+        var targetIsSubmit = _utils.contains(submitButtonRef.current, relatedTarget);
+        var isValidBlur = !targetIsCancel && !targetIsSubmit;
+        if (isValidBlur && submitOnBlur) onSubmit();
+    }, [
+        submitOnBlur,
+        onSubmit
+    ]);
+    var getPreviewProps = _react.useCallback(function(props1, ref) {
+        if (props1 === void 0) props1 = {
+        };
+        if (ref === void 0) ref = null;
+        var tabIndex = isInteractive && isPreviewFocusable ? 0 : undefined;
+        return _extends({
+        }, props1, {
+            ref: _reactUtils.mergeRefs(ref, previewRef),
+            children: isValueEmpty ? placeholder : value,
+            hidden: isEditing,
+            "aria-disabled": _utils.ariaAttr(isDisabled),
+            tabIndex: tabIndex,
+            onFocus: _utils.callAllHandlers(props1.onFocus, onEdit)
+        });
+    }, [
+        isDisabled,
+        isEditing,
+        isInteractive,
+        isPreviewFocusable,
+        isValueEmpty,
+        onEdit,
+        placeholder,
+        value
+    ]);
+    var getInputProps = _react.useCallback(function(props1, ref) {
+        if (props1 === void 0) props1 = {
+        };
+        if (ref === void 0) ref = null;
+        return _extends({
+        }, props1, {
+            hidden: !isEditing,
+            placeholder: placeholder,
+            ref: _reactUtils.mergeRefs(ref, inputRef),
+            disabled: isDisabled,
+            "aria-disabled": _utils.ariaAttr(isDisabled),
+            value: value,
+            onBlur: _utils.callAllHandlers(props1.onBlur, onBlur),
+            onChange: _utils.callAllHandlers(props1.onChange, onChange),
+            onKeyDown: _utils.callAllHandlers(props1.onKeyDown, onKeyDown)
+        });
+    }, [
+        isDisabled,
+        isEditing,
+        onBlur,
+        onChange,
+        onKeyDown,
+        placeholder,
+        value
+    ]);
+    var getEditButtonProps = _react.useCallback(function(props1, ref) {
+        if (props1 === void 0) props1 = {
+        };
+        if (ref === void 0) ref = null;
+        return _extends({
+            "aria-label": "Edit"
+        }, props1, {
+            type: "button",
+            onClick: _utils.callAllHandlers(props1.onClick, onEdit),
+            ref: _reactUtils.mergeRefs(ref, editButtonRef)
+        });
+    }, [
+        onEdit
+    ]);
+    var getSubmitButtonProps = _react.useCallback(function(props1, ref) {
+        if (props1 === void 0) props1 = {
+        };
+        if (ref === void 0) ref = null;
+        return _extends({
+        }, props1, {
+            "aria-label": "Submit",
+            ref: _reactUtils.mergeRefs(submitButtonRef, ref),
+            type: "button",
+            onClick: _utils.callAllHandlers(props1.onClick, onSubmit)
+        });
+    }, [
+        onSubmit
+    ]);
+    var getCancelButtonProps = _react.useCallback(function(props1, ref) {
+        if (props1 === void 0) props1 = {
+        };
+        if (ref === void 0) ref = null;
+        return _extends({
+            "aria-label": "Cancel",
+            id: "cancel"
+        }, props1, {
+            ref: _reactUtils.mergeRefs(cancelButtonRef, ref),
+            type: "button",
+            onClick: _utils.callAllHandlers(props1.onClick, onCancel)
+        });
+    }, [
+        onCancel
+    ]);
+    return {
+        isEditing: isEditing,
+        isDisabled: isDisabled,
+        isValueEmpty: isValueEmpty,
+        value: value,
+        onEdit: onEdit,
+        onCancel: onCancel,
+        onSubmit: onSubmit,
+        getPreviewProps: getPreviewProps,
+        getInputProps: getInputProps,
+        getEditButtonProps: getEditButtonProps,
+        getSubmitButtonProps: getSubmitButtonProps,
+        getCancelButtonProps: getCancelButtonProps,
+        htmlProps: htmlProps
+    };
+}

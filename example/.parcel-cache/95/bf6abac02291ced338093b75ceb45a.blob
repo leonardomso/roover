@@ -1,0 +1,589 @@
+(function(e, r) {
+    typeof exports === "object" && typeof module !== "undefined" ? r(exports) : typeof define === "function" && define.amd ? define([
+        "exports"
+    ], r) : (e = e || self, r(e.stylis = {
+    }));
+})(this, function(e) {
+    "use strict";
+    var r = "-ms-";
+    var a = "-moz-";
+    var c = "-webkit-";
+    var t = "comm";
+    var n = "rule";
+    var s = "decl";
+    var i = "@page";
+    var u = "@media";
+    var o = "@import";
+    var f = "@charset";
+    var l = "@viewport";
+    var h = "@supports";
+    var p = "@document";
+    var v = "@namespace";
+    var b = "@keyframes";
+    var m = "@font-face";
+    var w = "@counter-style";
+    var d = "@font-feature-values";
+    var $ = Math.abs;
+    var k = String.fromCharCode;
+    function g(e1, r1) {
+        return (((r1 << 2 ^ A(e1, 0)) << 2 ^ A(e1, 1)) << 2 ^ A(e1, 2)) << 2 ^ A(e1, 3);
+    }
+    function x(e1) {
+        return e1.trim();
+    }
+    function E(e1, r1) {
+        return (e1 = r1.exec(e1)) ? e1[0] : e1;
+    }
+    function y(e1, r1, a1) {
+        return e1.replace(r1, a1);
+    }
+    function T(e1, r1) {
+        return e1.indexOf(r1);
+    }
+    function A(e1, r1) {
+        return e1.charCodeAt(r1) | 0;
+    }
+    function O(e1, r1, a1) {
+        return e1.slice(r1, a1);
+    }
+    function M(e1) {
+        return e1.length;
+    }
+    function C(e1) {
+        return e1.length;
+    }
+    function S(e1, r1) {
+        return r1.push(e1), e1;
+    }
+    function R(e1, r1) {
+        return e1.map(r1).join("");
+    }
+    e.line = 1;
+    e.column = 1;
+    e.length = 0;
+    e.position = 0;
+    e.character = 0;
+    e.characters = "";
+    function z(r1, a1, c1, t1, n1, s1, i1) {
+        return {
+            value: r1,
+            root: a1,
+            parent: c1,
+            type: t1,
+            props: n1,
+            children: s1,
+            line: e.line,
+            column: e.column,
+            length: i1,
+            return: ""
+        };
+    }
+    function N(e1, r1, a1) {
+        return z(e1, r1.root, r1.parent, a1, r1.props, r1.children, 0);
+    }
+    function P() {
+        return e.character;
+    }
+    function U() {
+        e.character = e.position > 0 ? A(e.characters, --e.position) : 0;
+        if (e.column--, e.character === 10) e.column = 1, e.line--;
+        return e.character;
+    }
+    function _() {
+        e.character = e.position < e.length ? A(e.characters, e.position++) : 0;
+        if (e.column++, e.character === 10) e.column = 1, e.line++;
+        return e.character;
+    }
+    function j() {
+        return A(e.characters, e.position);
+    }
+    function F() {
+        return e.position;
+    }
+    function I(r1, a1) {
+        return O(e.characters, r1, a1);
+    }
+    function L(e1) {
+        switch(e1){
+            case 0:
+            case 9:
+            case 10:
+            case 13:
+            case 32:
+                return 5;
+            case 33:
+            case 43:
+            case 44:
+            case 47:
+            case 62:
+            case 64:
+            case 126:
+            case 59:
+            case 123:
+            case 125:
+                return 4;
+            case 58:
+                return 3;
+            case 34:
+            case 39:
+            case 40:
+            case 91:
+                return 2;
+            case 41:
+            case 93:
+                return 1;
+        }
+        return 0;
+    }
+    function D(r1) {
+        return e.line = e.column = 1, e.length = M(e.characters = r1), e.position = 0, [];
+    }
+    function K(r1) {
+        return e.characters = "", r1;
+    }
+    function V(r1) {
+        return x(I(e.position - 1, H(r1 === 91 ? r1 + 2 : r1 === 40 ? r1 + 1 : r1)));
+    }
+    function W(e1) {
+        return K(B(D(e1)));
+    }
+    function Y(r1) {
+        while(e.character = j())if (e.character < 33) _();
+        else break;
+        return L(r1) > 2 || L(e.character) > 3 ? "" : " ";
+    }
+    function B(r1) {
+        while(_())switch(L(e.character)){
+            case 0:
+                S(q(e.position - 1), r1);
+                break;
+            case 2:
+                S(V(e.character), r1);
+                break;
+            default:
+                S(k(e.character), r1);
+        }
+        return r1;
+    }
+    function G(r1, a1) {
+        while((--a1) && _())if (e.character < 48 || e.character > 102 || e.character > 57 && e.character < 65 || e.character > 70 && e.character < 97) break;
+        return I(r1, F() + (a1 < 6 && j() == 32 && _() == 32));
+    }
+    function H(r1) {
+        while(_())switch(e.character){
+            case r1:
+                return e.position;
+            case 34:
+            case 39:
+                return H(r1 === 34 || r1 === 39 ? r1 : e.character);
+            case 40:
+                if (r1 === 41) H(r1);
+                break;
+            case 92:
+                _();
+                break;
+        }
+        return e.position;
+    }
+    function Z(r1, a1) {
+        while(_())if (r1 + e.character === 57) break;
+        else if (r1 + e.character === 84 && j() === 47) break;
+        return "/*" + I(a1, e.position - 1) + "*" + k(r1 === 47 ? r1 : _());
+    }
+    function q(r1) {
+        while(!L(j()))_();
+        return I(r1, e.position);
+    }
+    function J(e1) {
+        return K(Q("", null, null, null, [
+            ""
+        ], e1 = D(e1), 0, [
+            0
+        ], e1));
+    }
+    function Q(e1, r1, a1, c1, t1, n1, s1, i1, u1) {
+        var o1 = 0;
+        var f1 = 0;
+        var l1 = s1;
+        var h1 = 0;
+        var p1 = 0;
+        var v1 = 0;
+        var b1 = 1;
+        var m1 = 1;
+        var w1 = 1;
+        var d1 = 0;
+        var $1 = "";
+        var g1 = t1;
+        var x1 = n1;
+        var E1 = c1;
+        var T1 = $1;
+        while(m1)switch(v1 = d1, d1 = _()){
+            case 34:
+            case 39:
+            case 91:
+            case 40:
+                T1 += V(d1);
+                break;
+            case 9:
+            case 10:
+            case 13:
+            case 32:
+                T1 += Y(v1);
+                break;
+            case 92:
+                T1 += G(F() - 1, 7);
+                continue;
+            case 47:
+                switch(j()){
+                    case 42:
+                    case 47:
+                        S(ee(Z(_(), F()), r1, a1), u1);
+                        break;
+                    default:
+                        T1 += "/";
+                }
+                break;
+            case 123 * b1:
+                i1[o1++] = M(T1) * w1;
+            case 125 * b1:
+            case 59:
+            case 0:
+                switch(d1){
+                    case 0:
+                    case 125:
+                        m1 = 0;
+                    case 59 + f1:
+                        if (p1 > 0 && M(T1) - l1) S(p1 > 32 ? re(T1 + ";", c1, a1, l1 - 1) : re(y(T1, " ", "") + ";", c1, a1, l1 - 2), u1);
+                        break;
+                    case 59:
+                        T1 += ";";
+                    default:
+                        S(E1 = X(T1, r1, a1, o1, f1, t1, i1, $1, g1 = [], x1 = [], l1), n1);
+                        if (d1 === 123) {
+                            if (f1 === 0) Q(T1, r1, E1, E1, g1, n1, l1, i1, x1);
+                            else switch(h1){
+                                case 100:
+                                case 109:
+                                case 115:
+                                    Q(e1, E1, E1, c1 && S(X(e1, E1, E1, 0, 0, t1, i1, $1, t1, g1 = [], l1), x1), t1, x1, l1, i1, c1 ? g1 : x1);
+                                    break;
+                                default:
+                                    Q(T1, E1, E1, E1, [
+                                        ""
+                                    ], x1, l1, i1, x1);
+                            }
+                        }
+                }
+                o1 = f1 = p1 = 0, b1 = w1 = 1, $1 = T1 = "", l1 = s1;
+                break;
+            case 58:
+                l1 = 1 + M(T1), p1 = v1;
+            default:
+                if (b1 < 1) {
+                    if (d1 == 123) --b1;
+                    else if (d1 == 125 && (b1++) == 0 && U() == 125) continue;
+                }
+                switch(T1 += k(d1), d1 * b1){
+                    case 38:
+                        w1 = f1 > 0 ? 1 : (T1 += "\f", -1);
+                        break;
+                    case 44:
+                        i1[o1++] = (M(T1) - 1) * w1, w1 = 1;
+                        break;
+                    case 64:
+                        if (j() === 45) T1 += V(_());
+                        h1 = j(), f1 = M($1 = T1 += q(F())), d1++;
+                        break;
+                    case 45:
+                        if (v1 === 45 && M(T1) == 2) b1 = 0;
+                }
+        }
+        return n1;
+    }
+    function X(e1, r1, a1, c1, t1, s1, i1, u1, o1, f1, l1) {
+        var h1 = t1 - 1;
+        var p1 = t1 === 0 ? s1 : [
+            ""
+        ];
+        var v1 = C(p1);
+        for(var b1 = 0, m1 = 0, w1 = 0; b1 < c1; ++b1)for(var d1 = 0, k1 = O(e1, h1 + 1, h1 = $(m1 = i1[b1])), g1 = e1; d1 < v1; ++d1)if (g1 = x(m1 > 0 ? p1[d1] + " " + k1 : y(k1, /&\f/g, p1[d1]))) o1[w1++] = g1;
+        return z(e1, r1, a1, t1 === 0 ? n : u1, o1, f1, l1);
+    }
+    function ee(e1, r1, a1) {
+        return z(e1, r1, a1, t, k(P()), O(e1, 2, -2), 0);
+    }
+    function re(e1, r1, a1, c1) {
+        return z(e1, r1, a1, s, O(e1, 0, c1), O(e1, c1 + 1, -1), c1);
+    }
+    function ae(e1, t1) {
+        switch(g(e1, t1)){
+            case 5103:
+                return c + "print-" + e1 + e1;
+            case 5737:
+            case 4201:
+            case 3177:
+            case 3433:
+            case 1641:
+            case 4457:
+            case 2921:
+            case 5572:
+            case 6356:
+            case 5844:
+            case 3191:
+            case 6645:
+            case 3005:
+            case 6391:
+            case 5879:
+            case 5623:
+            case 6135:
+            case 4599:
+            case 4855:
+            case 4215:
+            case 6389:
+            case 5109:
+            case 5365:
+            case 5621:
+            case 3829:
+                return c + e1 + e1;
+            case 5349:
+            case 4246:
+            case 4810:
+            case 6968:
+            case 2756:
+                return c + e1 + a + e1 + r + e1 + e1;
+            case 6828:
+            case 4268:
+                return c + e1 + r + e1 + e1;
+            case 6165:
+                return c + e1 + r + "flex-" + e1 + e1;
+            case 5187:
+                return c + e1 + y(e1, /(\w+).+(:[^]+)/, c + "box-$1$2" + r + "flex-$1$2") + e1;
+            case 5443:
+                return c + e1 + r + "flex-item-" + y(e1, /flex-|-self/, "") + e1;
+            case 4675:
+                return c + e1 + r + "flex-line-pack" + y(e1, /align-content|flex-|-self/, "") + e1;
+            case 5548:
+                return c + e1 + r + y(e1, "shrink", "negative") + e1;
+            case 5292:
+                return c + e1 + r + y(e1, "basis", "preferred-size") + e1;
+            case 6060:
+                return c + "box-" + y(e1, "-grow", "") + c + e1 + r + y(e1, "grow", "positive") + e1;
+            case 4554:
+                return c + y(e1, /([^-])(transform)/g, "$1" + c + "$2") + e1;
+            case 6187:
+                return y(y(y(e1, /(zoom-|grab)/, c + "$1"), /(image-set)/, c + "$1"), e1, "") + e1;
+            case 5495:
+            case 3959:
+                return y(e1, /(image-set\([^]*)/, c + "$1" + "$`$1");
+            case 4968:
+                return y(y(e1, /(.+:)(flex-)?(.*)/, c + "box-pack:$3" + r + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + c + e1 + e1;
+            case 4095:
+            case 3583:
+            case 4068:
+            case 2532:
+                return y(e1, /(.+)-inline(.+)/, c + "$1$2") + e1;
+            case 8116:
+            case 7059:
+            case 5753:
+            case 5535:
+            case 5445:
+            case 5701:
+            case 4933:
+            case 4677:
+            case 5533:
+            case 5789:
+            case 5021:
+            case 4765:
+                if (M(e1) - 1 - t1 > 6) switch(A(e1, t1 + 1)){
+                    case 109:
+                        if (A(e1, t1 + 4) !== 45) break;
+                    case 102:
+                        return y(e1, /(.+:)(.+)-([^]+)/, "$1" + c + "$2-$3" + "$1" + a + (A(e1, t1 + 3) == 108 ? "$3" : "$2-$3")) + e1;
+                    case 115:
+                        return ~T(e1, "stretch") ? ae(y(e1, "stretch", "fill-available"), t1) + e1 : e1;
+                }
+                break;
+            case 4949:
+                if (A(e1, t1 + 1) !== 115) break;
+            case 6444:
+                switch(A(e1, M(e1) - 3 - (~T(e1, "!important") && 10))){
+                    case 107:
+                        return y(e1, ":", ":" + c) + e1;
+                    case 101:
+                        return y(e1, /(.+:)([^;!]+)(;|!.+)?/, "$1" + c + (A(e1, 14) === 45 ? "inline-" : "") + "box$3" + "$1" + c + "$2$3" + "$1" + r + "$2box$3") + e1;
+                }
+                break;
+            case 5936:
+                switch(A(e1, t1 + 11)){
+                    case 114:
+                        return c + e1 + r + y(e1, /[svh]\w+-[tblr]{2}/, "tb") + e1;
+                    case 108:
+                        return c + e1 + r + y(e1, /[svh]\w+-[tblr]{2}/, "tb-rl") + e1;
+                    case 45:
+                        return c + e1 + r + y(e1, /[svh]\w+-[tblr]{2}/, "lr") + e1;
+                }
+                return c + e1 + r + e1 + e1;
+        }
+        return e1;
+    }
+    function ce(e1, r1) {
+        var a1 = "";
+        var c1 = C(e1);
+        for(var t1 = 0; t1 < c1; t1++)a1 += r1(e1[t1], t1, e1, r1) || "";
+        return a1;
+    }
+    function te(e1, r1, a1, c1) {
+        switch(e1.type){
+            case o:
+            case s:
+                return e1.return = e1.return || e1.value;
+            case t:
+                return "";
+            case n:
+                e1.value = e1.props.join(",");
+        }
+        return M(a1 = ce(e1.children, c1)) ? e1.return = e1.value + "{" + a1 + "}" : "";
+    }
+    function ne(e1) {
+        var r1 = C(e1);
+        return function(a1, c1, t1, n1) {
+            var s1 = "";
+            for(var i1 = 0; i1 < r1; i1++)s1 += e1[i1](a1, c1, t1, n1) || "";
+            return s1;
+        };
+    }
+    function se(e1) {
+        return function(r1) {
+            if (!r1.root) {
+                if (r1 = r1.return) e1(r1);
+            }
+        };
+    }
+    function ie(e1, t1, i1, u1) {
+        if (!e1.return) switch(e1.type){
+            case s:
+                e1.return = ae(e1.value, e1.length);
+                break;
+            case b:
+                return ce([
+                    N(y(e1.value, "@", "@" + c), e1, "")
+                ], u1);
+            case n:
+                if (e1.length) return R(e1.props, function(t2) {
+                    switch(E(t2, /(::plac\w+|:read-\w+)/)){
+                        case ":read-only":
+                        case ":read-write":
+                            return ce([
+                                N(y(t2, /:(read-\w+)/, ":" + a + "$1"), e1, "")
+                            ], u1);
+                        case "::placeholder":
+                            return ce([
+                                N(y(t2, /:(plac\w+)/, ":" + c + "input-$1"), e1, ""),
+                                N(y(t2, /:(plac\w+)/, ":" + a + "$1"), e1, ""),
+                                N(y(t2, /:(plac\w+)/, r + "input-$1"), e1, "")
+                            ], u1);
+                    }
+                    return "";
+                });
+        }
+    }
+    function ue(e1) {
+        switch(e1.type){
+            case n:
+                e1.props = e1.props.map(function(r1) {
+                    return R(W(r1), function(r2, a1, c1) {
+                        switch(A(r2, 0)){
+                            case 12:
+                                return O(r2, 1, M(r2));
+                            case 0:
+                            case 40:
+                            case 43:
+                            case 62:
+                            case 126:
+                                return r2;
+                            case 58:
+                                if (c1[++a1] === "global") c1[a1] = "", c1[++a1] = "\f" + O(c1[a1], a1 = 1, -1);
+                            case 32:
+                                return a1 === 1 ? "" : r2;
+                            default:
+                                switch(a1){
+                                    case 0:
+                                        e1 = r2;
+                                        return C(c1) > 1 ? "" : r2;
+                                    case a1 = C(c1) - 1:
+                                    case 2:
+                                        return a1 === 2 ? r2 + e1 + e1 : r2 + e1;
+                                    default:
+                                        return r2;
+                                }
+                        }
+                    });
+                });
+        }
+    }
+    e.CHARSET = f;
+    e.COMMENT = t;
+    e.COUNTER_STYLE = w;
+    e.DECLARATION = s;
+    e.DOCUMENT = p;
+    e.FONT_FACE = m;
+    e.FONT_FEATURE_VALUES = d;
+    e.IMPORT = o;
+    e.KEYFRAMES = b;
+    e.MEDIA = u;
+    e.MOZ = a;
+    e.MS = r;
+    e.NAMESPACE = v;
+    e.PAGE = i;
+    e.RULESET = n;
+    e.SUPPORTS = h;
+    e.VIEWPORT = l;
+    e.WEBKIT = c;
+    e.abs = $;
+    e.alloc = D;
+    e.append = S;
+    e.caret = F;
+    e.char = P;
+    e.charat = A;
+    e.combine = R;
+    e.comment = ee;
+    e.commenter = Z;
+    e.compile = J;
+    e.copy = N;
+    e.dealloc = K;
+    e.declaration = re;
+    e.delimit = V;
+    e.delimiter = H;
+    e.escaping = G;
+    e.from = k;
+    e.hash = g;
+    e.identifier = q;
+    e.indexof = T;
+    e.match = E;
+    e.middleware = ne;
+    e.namespace = ue;
+    e.next = _;
+    e.node = z;
+    e.parse = Q;
+    e.peek = j;
+    e.prefix = ae;
+    e.prefixer = ie;
+    e.prev = U;
+    e.replace = y;
+    e.ruleset = X;
+    e.rulesheet = se;
+    e.serialize = ce;
+    e.sizeof = C;
+    e.slice = I;
+    e.stringify = te;
+    e.strlen = M;
+    e.substr = O;
+    e.token = L;
+    e.tokenize = W;
+    e.tokenizer = B;
+    e.trim = x;
+    e.whitespace = Y;
+    Object.defineProperty(e, "__esModule", {
+        value: true
+    });
+});

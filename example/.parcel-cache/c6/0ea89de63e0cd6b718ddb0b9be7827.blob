@@ -1,0 +1,31 @@
+"use strict";
+exports.__esModule = true;
+exports.withDefaultProps = withDefaultProps;
+var _utils = require("@chakra-ui/utils");
+var _extendTheme = require("../extend-theme");
+var _withDefaultColorScheme = require("./with-default-color-scheme");
+var _withDefaultVariant = require("./with-default-variant");
+var _withDefaultSize = require("./with-default-size");
+function withDefaultProps(_ref) {
+    var _ref$defaultProps = _ref.defaultProps, colorScheme = _ref$defaultProps.colorScheme, variant = _ref$defaultProps.variant, size = _ref$defaultProps.size, components = _ref.components;
+    var identity = function identity1(t) {
+        return t;
+    };
+    var fns = [
+        colorScheme ? _withDefaultColorScheme.withDefaultColorScheme({
+            colorScheme: colorScheme,
+            components: components
+        }) : identity,
+        size ? _withDefaultSize.withDefaultSize({
+            size: size,
+            components: components
+        }) : identity,
+        variant ? _withDefaultVariant.withDefaultVariant({
+            variant: variant,
+            components: components
+        }) : identity
+    ];
+    return function(theme) {
+        return _extendTheme.mergeThemeOverride(_utils.pipe.apply(void 0, fns)(theme));
+    };
+}

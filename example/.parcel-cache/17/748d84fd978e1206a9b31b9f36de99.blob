@@ -1,0 +1,109 @@
+var helpers = require("../node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _react = require("react");
+var _react1 = require("@chakra-ui/react");
+const Source = ({ gridRow  })=>{
+    return(/*#__PURE__*/ _react.createElement(_react1.Grid, {
+        width: "auto",
+        height: "fit-content",
+        templateColumns: "repeat(8, 1fr)",
+        gridRow: gridRow,
+        gridColumn: "1 / 3",
+        gap: 3,
+        alignItems: "center",
+        justifyContent: "center",
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 14
+        },
+        __self: undefined
+    }, /*#__PURE__*/ _react.createElement(_react1.Heading, {
+        as: "h2",
+        fontSize: "18px",
+        letterSpacing: "-0.03em",
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 15
+        },
+        __self: undefined
+    }, "Source:"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 16
+        },
+        __self: undefined
+    }, "Load"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 17
+        },
+        __self: undefined
+    }, "Play"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 18
+        },
+        __self: undefined
+    }, "Pause"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 19
+        },
+        __self: undefined
+    }, "Stop"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 20
+        },
+        __self: undefined
+    }, "Toggle"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 21
+        },
+        __self: undefined
+    }, "+15"), /*#__PURE__*/ _react.createElement(_react1.Button, {
+        type: "button",
+        onClick: ()=>{
+        },
+        __source: {
+            fileName: "/Users/user/Desktop/Leonardo/Projects/React/roover/example/components/Source.tsx",
+            lineNumber: 22
+        },
+        __self: undefined
+    }, "-15")));
+};
+_c = Source;
+exports.default = Source;
+var _c;
+$RefreshReg$(_c, "Source");
+
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
