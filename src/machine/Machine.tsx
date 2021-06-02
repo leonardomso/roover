@@ -3,6 +3,7 @@ import { createMachine, assign } from 'xstate';
 import {
   MachineContext,
   MachineEvent,
+  MachineLoadEvent,
   MachineReadyEvent,
   MachineErrorEvent,
   MachineRateEvent,
@@ -25,16 +26,16 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       initial: {
         id: 'initial',
         on: {
-          LOAD: 'loading',
+          LOAD: {
+            target: 'loading',
+            actions: 'onLoad',
+          },
           ERROR: 'error',
         },
       },
       loading: {
         on: {
-          READY: {
-            target: 'ready',
-            actions: 'onReady',
-          },
+          READY: 'ready',
           ERROR: {
             target: 'error',
             actions: 'onError',
@@ -101,12 +102,14 @@ const Machine = createMachine<MachineContext, MachineEvent>(
   },
   {
     actions: {
+      onLoad: assign<MachineContext, MachineEvent>({
+        volume: (_, event) => (event as MachineLoadEvent).volume,
+        rate: (_, event) => (event as MachineLoadEvent).rate,
+        mute: (_, event) => (event as MachineLoadEvent).mute,
+        loop: (_, event) => (event as MachineLoadEvent).loop,
+      }),
       onReady: assign<MachineContext, MachineEvent>({
-        volume: (_, event) => (event as MachineReadyEvent).volume,
-        rate: (_, event) => (event as MachineReadyEvent).rate,
         duration: (_, event) => (event as MachineReadyEvent).duration,
-        mute: (_, event) => (event as MachineReadyEvent).mute,
-        loop: (_, event) => (event as MachineReadyEvent).loop,
       }),
       onVolume: assign<MachineContext, MachineEvent>({
         volume: (_, event) => (event as MachineVolumeEvent).volume,
