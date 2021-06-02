@@ -32,7 +32,7 @@ const useAudio: UseAudio = () => {
     autoplay = false,
     volume = 1.0,
     rate = 1.0,
-    muted = false,
+    mute = false,
     loop = false,
   }: CreateAudioArgs): HTMLAudioElement => {
     const audioElement: HTMLAudioElement = new Audio(src);
@@ -41,7 +41,7 @@ const useAudio: UseAudio = () => {
     // Read more here: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/autoplay
     audioElement.autoplay = autoplay ? autoplay : false;
     audioElement.volume = volume ? volume : 1.0;
-    audioElement.muted = muted ? muted : false;
+    audioElement.muted = mute ? mute : false;
     audioElement.loop = loop ? loop : false;
     audioElement.playbackRate = rate ? rate : 1.0;
     audioElement.preload = preload ? preload : 'auto';

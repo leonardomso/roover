@@ -14,7 +14,7 @@ describe('useRoover', () => {
       autoplay: false,
       volume: 1.0,
       rate: 1.0,
-      muted: false,
+      mute: false,
       loop: false,
     };
 
@@ -38,7 +38,7 @@ describe('useRoover', () => {
   //       autoplay: false,
   //       volume: 1.0,
   //       rate: 1.0,
-  //       muted: false,
+  //       mute: false,
   //       loop: false,
   //     };
   //     const { result } = renderHook(() => useRoover(args));

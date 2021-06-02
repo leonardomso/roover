@@ -27,6 +27,6 @@ export interface CreateAudioArgs {
   autoplay?: boolean;
   volume?: number;
   rate?: number;
-  muted?: boolean;
+  mute?: boolean;
   loop?: boolean;
 }

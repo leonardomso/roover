@@ -14,7 +14,7 @@ interface Props {
   volume: number;
   rate: number;
   duration: number;
-  muted: boolean;
+  mute: boolean;
   loop: boolean;
   onVolume: (value: number) => void;
   onRate: (value: string) => void;
@@ -23,7 +23,7 @@ interface Props {
   onSeek: (value: number) => void;
 }
 
-const Controls = ({ seek, volume, rate, duration, muted, loop, onVolume, onRate, onMute, onLoop, onSeek }: Props) => {
+const Controls = ({ seek, volume, rate, duration, mute, loop, onVolume, onRate, onMute, onLoop, onSeek }: Props) => {
   return (
     <Grid width="fit-content" height="auto" templateRows="repeat(auto-fill, max-content)" gridRow="5 / 6" gridColumn="1 / 2" gap={3}>
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
@@ -69,7 +69,7 @@ const Controls = ({ seek, volume, rate, duration, muted, loop, onVolume, onRate,
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
         <Text>Mute</Text>
-        <Button type="button" onClick={onMute}>Mute</Button>
+        <Button type="button" onClick={onMute}>{mute ? "Unmute" : "Mute"}</Button>
       </Grid>
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">

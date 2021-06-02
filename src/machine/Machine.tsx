@@ -17,7 +17,7 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       volume: 1.0,
       rate: 1.0,
       duration: 0,
-      muted: false,
+      mute: false,
       loop: false,
       error: null,
     },
@@ -88,7 +88,7 @@ const Machine = createMachine<MachineContext, MachineEvent>(
         id: 'end',
         on: {
           LOAD: 'loading',
-          PLAY: 'ready',
+          PLAY: 'ready.playing',
         },
       },
       error: {
@@ -105,7 +105,7 @@ const Machine = createMachine<MachineContext, MachineEvent>(
         volume: (_, event) => (event as MachineReadyEvent).volume,
         rate: (_, event) => (event as MachineReadyEvent).rate,
         duration: (_, event) => (event as MachineReadyEvent).duration,
-        muted: (_, event) => (event as MachineReadyEvent).muted,
+        mute: (_, event) => (event as MachineReadyEvent).mute,
         loop: (_, event) => (event as MachineReadyEvent).loop,
       }),
       onVolume: assign<MachineContext, MachineEvent>({
@@ -115,7 +115,7 @@ const Machine = createMachine<MachineContext, MachineEvent>(
         rate: (_, event) => (event as MachineRateEvent).rate,
       }),
       onMute: assign<MachineContext, MachineEvent>({
-        muted: (context, _) => !context.muted,
+        mute: (context, _) => !context.mute,
       }),
       onLoop: assign<MachineContext, MachineEvent>({
         loop: (context, _) => !context.loop,

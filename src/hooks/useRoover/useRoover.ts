@@ -11,7 +11,7 @@ const useRoover = ({
   autoplay = false,
   volume = 1.0,
   rate = 1.0,
-  muted = false,
+  mute = false,
   loop = false,
 }: Args) => {
   const { state, send, onLoadAudio } = useAudio();
@@ -35,7 +35,7 @@ const useRoover = ({
   const playerVolume: number = state.context.volume;
   const playerRate: number = state.context.rate;
   const playerDuration: number = state.context.duration;
-  const playerMuted: boolean = state.context.muted;
+  const playerMuted: boolean = state.context.mute;
   const playerLoop: boolean = state.context.loop;
   const playerError: string | null = state.context.error;
 
@@ -70,7 +70,7 @@ const useRoover = ({
         autoplay,
         volume,
         rate,
-        muted,
+        mute,
         loop,
       });
       setAudio(newAudio);
@@ -89,7 +89,6 @@ const useRoover = ({
 
   /**
    * Play the audio.
-   * In case there's no audio, it does nothing.
    * @returns void
    */
   const onPlay = (): void => {
@@ -100,7 +99,6 @@ const useRoover = ({
 
   /**
    * Pause the audio.
-   * In case there's no audio, it does nothing.
    * @returns void
    */
   const onPause = (): void => {
@@ -110,25 +108,23 @@ const useRoover = ({
   };
 
   /**
-   * Set 'muted' to true or false depending of the current value.
-   * In case there's no audio, it does nothing.
+   * Set 'mute' to true or false depending of the current value.
    * @returns void
    */
   const onMute = (): void => {
     if (!audio) return;
     send('MUTE');
-    audio.muted = !muted;
+    audio.muted = mute;
   };
 
   /**
    * Set 'loop' to true or false depending of the current value.
-   * In case there's no audio, it does nothing.
    * @returns void
    */
   const onLoop = (): void => {
     if (!audio) return;
     send('LOOP');
-    audio.loop = !loop;
+    audio.loop = loop;
   };
 
   /**
@@ -201,7 +197,7 @@ const useRoover = ({
     volume: playerVolume,
     rate: playerRate,
     duration: playerDuration,
-    muted: playerMuted,
+    mute: playerMuted,
     loop: playerLoop,
     error: playerError,
     onToggle,

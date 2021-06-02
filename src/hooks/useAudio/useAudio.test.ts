@@ -17,7 +17,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: false,
       };
 
@@ -37,7 +37,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -52,7 +52,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: false,
       };
 
@@ -68,7 +68,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -83,7 +83,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: false,
       };
 
@@ -99,7 +99,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -114,7 +114,7 @@ describe('useAudio', () => {
         autoplay: false,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: false,
       };
 
@@ -130,7 +130,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -145,7 +145,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 0.5,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: false,
       };
 
@@ -161,7 +161,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -176,7 +176,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 0.5,
-        muted: false,
+        mute: false,
         loop: false,
       };
 
@@ -192,7 +192,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -207,7 +207,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: true,
+        mute: true,
         loop: false,
       };
 
@@ -223,7 +223,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -238,7 +238,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: true,
       };
 
@@ -254,7 +254,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -271,7 +271,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: true,
       };
 
@@ -287,7 +287,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
     });
@@ -301,7 +301,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: true,
       };
 
@@ -312,7 +312,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: true,
       };
 
@@ -329,7 +329,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', firstArgs.autoplay);
         expect(audio).toHaveProperty('volume', firstArgs.volume);
         expect(audio).toHaveProperty('playbackRate', firstArgs.rate);
-        expect(audio).toHaveProperty('muted', firstArgs.muted);
+        expect(audio).toHaveProperty('muted', firstArgs.mute);
         expect(audio).toHaveProperty('loop', firstArgs.loop);
 
         result.current.onLoadAudio(audio, secondArgs);
@@ -341,7 +341,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', secondArgs.autoplay);
         expect(audio).toHaveProperty('volume', secondArgs.volume);
         expect(audio).toHaveProperty('playbackRate', secondArgs.rate);
-        expect(audio).toHaveProperty('muted', secondArgs.muted);
+        expect(audio).toHaveProperty('muted', secondArgs.mute);
         expect(audio).toHaveProperty('loop', secondArgs.loop);
       });
     });
@@ -358,7 +358,7 @@ describe('useAudio', () => {
         autoplay: true,
         volume: 1.0,
         rate: 1.0,
-        muted: false,
+        mute: false,
         loop: true,
       };
 
@@ -372,7 +372,7 @@ describe('useAudio', () => {
         expect(audio).toHaveProperty('autoplay', args.autoplay);
         expect(audio).toHaveProperty('volume', args.volume);
         expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.muted);
+        expect(audio).toHaveProperty('muted', args.mute);
         expect(audio).toHaveProperty('loop', args.loop);
       });
 

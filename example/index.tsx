@@ -29,7 +29,7 @@ const App = () => {
     volume,
     rate,
     duration,
-    muted,
+    mute,
     loop,
     error,
     onToggle,
@@ -69,7 +69,7 @@ const App = () => {
             volume={volume}
             rate={rate}
             duration={duration}
-            muted={muted}
+            mute={mute}
             loop={loop}
             onVolume={onVolume}
             onRate={onRate}
@@ -90,7 +90,7 @@ const App = () => {
             volume={volume}
             rate={rate}
             duration={duration}
-            muted={muted}
+            mute={mute}
             loop={loop}
             error={error}
           />

@@ -2,7 +2,7 @@ export type MachineContext = {
   volume: number;
   rate: number;
   duration: number;
-  muted: boolean;
+  mute: boolean;
   loop: boolean;
   error: string | null;
 };
@@ -46,7 +46,7 @@ export type MachineReadyEvent = {
   volume: number;
   rate: number;
   duration: number;
-  muted: boolean;
+  mute: boolean;
   loop: boolean;
 };
 

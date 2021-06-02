@@ -17,12 +17,12 @@ interface Props {
   volume: number;
   rate: number;
   duration: number;
-  muted: boolean;
+  mute: boolean;
   loop: boolean;
   error: string | null;
 }
 
-const Details = ({ initial, loading, ready, idle, playing, paused, end, seek, volume, rate, duration, muted, loop, error }: Props) => {
+const Details = ({ initial, loading, ready, idle, playing, paused, end, seek, volume, rate, duration, mute, loop, error }: Props) => {
   return (
     <Grid width="fit-content" height="auto" templateColumns="1fr 1fr" templateRows="repeat(3, max-content)" gridRow="5 / 6" gridColumn="2 / 3" gap={6} alignItems="center" justifyContent="center">
       <Heading as="h2" fontSize="18px" letterSpacing="-0.03em">State</Heading>
@@ -86,8 +86,8 @@ const Details = ({ initial, loading, ready, idle, playing, paused, end, seek, vo
         </Grid>
 
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">
-          <Text>Muted: </Text>
-          <Text fontWeight="bold">{`${muted}`}</Text>
+          <Text>Mute: </Text>
+          <Text fontWeight="bold">{`${mute}`}</Text>
         </Grid>
 
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">

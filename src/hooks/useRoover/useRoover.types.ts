@@ -4,7 +4,7 @@ export interface Args {
   autoplay?: boolean;
   volume?: number;
   rate?: number;
-  muted?: boolean;
+  mute?: boolean;
   loop?: boolean;
   onLoading?: () => void;
   onReady?: () => void;
@@ -30,7 +30,7 @@ export type ReturnArgs = {
   volume: number;
   rate: number;
   duration: number;
-  muted: boolean;
+  mute: boolean;
   loop: boolean;
   error: string | null;
   onToggle: () => void;
