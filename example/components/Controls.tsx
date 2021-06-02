@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Button,
   Text,
+  Select,
   Slider,
   SliderTrack,
   SliderFilledTrack,
@@ -24,8 +25,6 @@ interface Props {
 }
 
 const Controls = ({ seek, volume, rate, duration, mute, loop, onVolume, onRate, onMute, onLoop, onSeek }: Props) => {
-  console.log('muteeeeee: ', mute);
-
   return (
     <Grid width="fit-content" height="auto" templateRows="repeat(auto-fill, max-content)" gridRow="5 / 6" gridColumn="1 / 2" gap={3}>
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
@@ -66,7 +65,12 @@ const Controls = ({ seek, volume, rate, duration, mute, loop, onVolume, onRate, 
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
         <Text>Rate</Text>
-        <Button type="button" onClick={() => onRate("0.5")}>Change to 0.5</Button>
+        <Select placeholder="Select rate" value={rate} onChange={(e: any) => onRate(e.target.value)}>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+          <option value="0.5">0.5</option>
+        </Select>
       </Grid>
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">

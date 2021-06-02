@@ -53,11 +53,11 @@ const useAudio: UseAudio = () => {
     // When the audio has loaded successfully, it will triger a 'READY' event and change values in the context.
     audioElement.addEventListener('loadeddata', () => {
       send('READY', {
-        volume: audioElement.volume,
-        rate: audioElement.playbackRate,
+        volume: volume,
+        rate: rate,
         duration: audioElement.duration,
-        mute: audioElement.muted,
-        loop: audioElement.loop,
+        mute: mute,
+        loop: loop,
       });
     });
     // When the audio has a loading error, it will trigger a 'ERROR' event.

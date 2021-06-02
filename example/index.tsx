@@ -12,7 +12,7 @@ import Source from "./components/Source";
 import Details from "./components/Details";
 import Controls from "./components/Controls";
 
-import { useRoover } from "../src/";
+import useRoover from "../src/hooks/useRoover/useRoover";
 
 const src: string = "https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3";
 
@@ -42,9 +42,10 @@ const App = () => {
     onSeek,
     onForward,
     onBackward,
-  } = useRoover({ src, autoplay: false });
-
-  console.log(onMute)
+  } = useRoover({
+    src,
+    autoplay: false
+  });
 
   return (
     <ChakraProvider theme={theme}>
