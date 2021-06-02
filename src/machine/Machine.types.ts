@@ -9,7 +9,7 @@ export type MachineContext = {
 
 export type MachineState = {
   states: {
-    idle: {};
+    initial: {};
     loading: {};
     ready: {
       states: {
