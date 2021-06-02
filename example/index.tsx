@@ -44,6 +44,8 @@ const App = () => {
     onBackward,
   } = useRoover({ src, autoplay: false });
 
+  console.log(onMute)
+
   return (
     <ChakraProvider theme={theme}>
       <Box w="100%" h="100vh" display="flex" alignItems="center" justifyContent="center">

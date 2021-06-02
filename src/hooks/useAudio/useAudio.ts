@@ -22,7 +22,7 @@ const useAudio: UseAudio = () => {
    * @param {boolean} autoplay - The autoplay property for the audio.
    * @param {number} volume - The volume property for the audio.
    * @param {number} rate - The rate property for the audio.
-   * @param {boolean} muted - The muted property for the audio.
+   * @param {boolean} mute - The mute property for the audio.
    * @param {boolean} loop - The loop property for the audio.
    * @returns HTMLAudioElement
    */
@@ -39,12 +39,12 @@ const useAudio: UseAudio = () => {
 
     // Autoplay should be 'false' by default.
     // Read more here: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/autoplay
-    audioElement.autoplay = autoplay ? autoplay : false;
-    audioElement.volume = volume ? volume : 1.0;
-    audioElement.muted = mute ? mute : false;
-    audioElement.loop = loop ? loop : false;
-    audioElement.playbackRate = rate ? rate : 1.0;
-    audioElement.preload = preload ? preload : 'auto';
+    audioElement.autoplay = autoplay;
+    audioElement.volume = volume;
+    audioElement.muted = mute;
+    audioElement.loop = loop;
+    audioElement.playbackRate = rate;
+    audioElement.preload = preload;
 
     // When the audio has started to load, it will trigger a 'LOAD' event.
     audioElement.addEventListener('loadstart', () => {
@@ -56,7 +56,7 @@ const useAudio: UseAudio = () => {
         volume: audioElement.volume,
         rate: audioElement.playbackRate,
         duration: audioElement.duration,
-        muted: audioElement.muted,
+        mute: audioElement.muted,
         loop: audioElement.loop,
       });
     });

@@ -35,7 +35,7 @@ const useRoover = ({
   const playerVolume: number = state.context.volume;
   const playerRate: number = state.context.rate;
   const playerDuration: number = state.context.duration;
-  const playerMuted: boolean = state.context.mute;
+  const playerMute: boolean = state.context.mute;
   const playerLoop: boolean = state.context.loop;
   const playerError: string | null = state.context.error;
 
@@ -114,7 +114,7 @@ const useRoover = ({
   const onMute = (): void => {
     if (!audio) return;
     send('MUTE');
-    audio.muted = mute;
+    audio.muted = !playerMute;
   };
 
   /**
@@ -124,7 +124,7 @@ const useRoover = ({
   const onLoop = (): void => {
     if (!audio) return;
     send('LOOP');
-    audio.loop = loop;
+    audio.loop = !playerLoop;
   };
 
   /**
@@ -197,7 +197,7 @@ const useRoover = ({
     volume: playerVolume,
     rate: playerRate,
     duration: playerDuration,
-    mute: playerMuted,
+    mute: playerMute,
     loop: playerLoop,
     error: playerError,
     onToggle,
