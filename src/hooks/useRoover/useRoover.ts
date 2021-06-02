@@ -69,6 +69,28 @@ const useRoover = ({
     };
   }, [audio, playing]);
 
+  useEffect(() => {
+    if (initial === true) onInitial();
+    if (loading === true) onLoading();
+    if (ready === true) onReady();
+    if (idle === true) onIdle();
+    if (playing === true) onPlaying();
+    if (paused === true) onPause();
+  }, [
+    initial,
+    loading,
+    ready,
+    idle,
+    playing,
+    paused,
+    onIdle,
+    onInitial,
+    onLoading,
+    onPause,
+    onPlaying,
+    onReady,
+  ]);
+
   /**
    * Should create new audio element and play it.
    * In case audio exists, it will play or pause based on the current state.
@@ -198,52 +220,28 @@ const useRoover = ({
   };
 
   useEffect(() => {
-    if (initial === true) onInitial();
-  }, [initial]);
-
-  useEffect(() => {
-    if (loading === true) onLoading();
-  }, [loading]);
-
-  useEffect(() => {
-    if (ready === true) onReady();
-  }, [ready]);
-
-  useEffect(() => {
-    if (idle === true) onIdle();
-  }, [idle]);
-
-  useEffect(() => {
-    if (playing === true) onPlaying();
-  }, [playing]);
-
-  useEffect(() => {
-    if (paused === true) onPause();
-  }, [paused]);
-
-  useEffect(() => {
     onVolume();
-  }, [playerContextVolume]);
+  }, [playerContextVolume, onVolume]);
 
   useEffect(() => {
     onRate();
-  }, [playerContextRate]);
+  }, [playerContextRate, onRate]);
 
   useEffect(() => {
     onMute();
-  }, [playerContextMute]);
+  }, [playerContextMute, onMute]);
 
   useEffect(() => {
     onLoop();
-  }, [playerContextLoop]);
+  }, [playerContextLoop, onLoop]);
 
   useEffect(() => {
     onEnd();
-  }, [end]);
+  }, [end, onEnd]);
 
   useEffect(() => {
     onError();
-  }, [playerContextError]);
+  }, [playerContextError, onError]);
 
   return {
     initial,

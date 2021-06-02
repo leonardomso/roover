@@ -52,11 +52,11 @@ const App = () => {
     onPlaying: () => console.log('playing'),
     onPause: () => console.log('pause'),
     onVolume: () => console.log('volume'),
-    onRate: () => console.log('rate'),
-    onMute: () => console.log('mute'),
-    onLoop: () => console.log('loop'),
-    onEnd: () => console.log('end'),
-    onError: () => console.log('error')
+    // onRate: () => console.log('rate'),
+    // onMute: () => console.log('mute'),
+    // onLoop: () => console.log('loop'),
+    // onEnd: () => console.log('end'),
+    // onError: () => console.log('error')
   });
 
   return (
