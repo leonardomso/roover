@@ -6,8 +6,10 @@ export interface Args {
   rate?: number;
   mute?: boolean;
   loop?: boolean;
+  onInitial?: () => void;
   onLoading?: () => void;
   onReady?: () => void;
+  onIdle?: () => void;
   onPlaying?: () => void;
   onPause?: () => void;
   onVolume?: () => void;

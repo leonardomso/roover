@@ -13,6 +13,18 @@ const useRoover = ({
   rate = 1.0,
   mute = false,
   loop = false,
+  onInitial = () => {},
+  onLoading = () => {},
+  onReady = () => {},
+  onIdle = () => {},
+  onPlaying = () => {},
+  onPause = () => {},
+  onVolume = () => {},
+  onRate = () => {},
+  onMute = () => {},
+  onLoop = () => {},
+  onEnd = () => {},
+  onError = () => {},
 }: Args) => {
   const { state, send, onLoadAudio } = useAudio();
 
@@ -32,12 +44,12 @@ const useRoover = ({
   const paused: boolean = state.matches('ready.paused');
   const end: boolean = state.matches('end');
 
-  const playerVolume: number = state.context.volume;
-  const playerRate: number = state.context.rate;
-  const playerDuration: number = state.context.duration;
-  const playerMute: boolean = state.context.mute;
-  const playerLoop: boolean = state.context.loop;
-  const playerError: string | null = state.context.error;
+  const playerContextVolume: number = state.context.volume;
+  const playerContextRate: number = state.context.rate;
+  const playerContextDuration: number = state.context.duration;
+  const playerContextMute: boolean = state.context.mute;
+  const playerContextLoop: boolean = state.context.loop;
+  const playerContextError: string | null = state.context.error;
 
   useEffect(() => {
     const animate = () => {
@@ -62,7 +74,7 @@ const useRoover = ({
    * In case audio exists, it will play or pause based on the current state.
    * @returns void
    */
-  const onToggle = (): void => {
+  const handleToggle = (): void => {
     if (!audio) {
       const newAudio = onLoadAudio(audio, {
         src,
@@ -91,7 +103,7 @@ const useRoover = ({
    * Play the audio.
    * @returns void
    */
-  const onPlay = (): void => {
+  const handlePlay = (): void => {
     if (!audio) return;
     send('PLAY');
     audio.play();
@@ -101,7 +113,7 @@ const useRoover = ({
    * Pause the audio.
    * @returns void
    */
-  const onPause = (): void => {
+  const handlePause = (): void => {
     if (!audio) return;
     send('PAUSE');
     audio.pause();
@@ -111,20 +123,20 @@ const useRoover = ({
    * Set 'mute' to true or false depending of the current value.
    * @returns void
    */
-  const onMute = (): void => {
+  const handleMute = (): void => {
     if (!audio) return;
     send('MUTE');
-    audio.muted = !playerMute;
+    audio.muted = !playerContextMute;
   };
 
   /**
    * Set 'loop' to true or false depending of the current value.
    * @returns void
    */
-  const onLoop = (): void => {
+  const handleLoop = (): void => {
     if (!audio) return;
     send('LOOP');
-    audio.loop = !playerLoop;
+    audio.loop = !playerContextLoop;
   };
 
   /**
@@ -132,7 +144,7 @@ const useRoover = ({
    * @param {number} value - The value of the volume.
    * @returns void
    */
-  const onVolume = (value: number): void => {
+  const handleVolume = (value: number): void => {
     if (!audio) return;
     send({ type: 'VOLUME', volume: value });
     audio.volume = value;
@@ -143,7 +155,7 @@ const useRoover = ({
    * @param {string} value - The value of the volume.
    * @returns void
    */
-  const onRate = (value: string): void => {
+  const handleRate = (value: string): void => {
     if (!audio) return;
     const rate: number = parseFloat(value);
     audio.playbackRate = rate;
@@ -155,7 +167,7 @@ const useRoover = ({
    * @param {number} value - The value of the volume.
    * @returns void
    */
-  const onSeek = (value: number): void => {
+  const handleSeek = (value: number): void => {
     if (!audio) return;
     setSeek(value);
     audio.currentTime = value;
@@ -166,7 +178,7 @@ const useRoover = ({
    * @param {number} value - The value of the volume.
    * @returns void
    */
-  const onForward = (value: number): void => {
+  const handleForward = (value: number): void => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek + value;
     setSeek(newSeek);
@@ -178,12 +190,60 @@ const useRoover = ({
    * @param {number} value - The value of the volume.
    * @returns void
    */
-  const onBackward = (value: number): void => {
+  const handleBackward = (value: number): void => {
     if (!audio || audio.ended) return;
     const newSeek: number = seek - value;
     setSeek(newSeek);
     audio.currentTime = newSeek;
   };
+
+  useEffect(() => {
+    if (initial === true) onInitial();
+  }, [initial]);
+
+  useEffect(() => {
+    if (loading === true) onLoading();
+  }, [loading]);
+
+  useEffect(() => {
+    if (ready === true) onReady();
+  }, [ready]);
+
+  useEffect(() => {
+    if (idle === true) onIdle();
+  }, [idle]);
+
+  useEffect(() => {
+    if (playing === true) onPlaying();
+  }, [playing]);
+
+  useEffect(() => {
+    if (paused === true) onPause();
+  }, [paused]);
+
+  useEffect(() => {
+    onVolume();
+  }, [playerContextVolume]);
+
+  useEffect(() => {
+    onRate();
+  }, [playerContextRate]);
+
+  useEffect(() => {
+    onMute();
+  }, [playerContextMute]);
+
+  useEffect(() => {
+    onLoop();
+  }, [playerContextLoop]);
+
+  useEffect(() => {
+    onEnd();
+  }, [end]);
+
+  useEffect(() => {
+    onError();
+  }, [playerContextError]);
 
   return {
     initial,
@@ -194,22 +254,22 @@ const useRoover = ({
     paused,
     end,
     seek,
-    volume: playerVolume,
-    rate: playerRate,
-    duration: playerDuration,
-    mute: playerMute,
-    loop: playerLoop,
-    error: playerError,
-    onToggle,
-    onPlay,
-    onPause,
-    onVolume,
-    onRate,
-    onMute,
-    onLoop,
-    onSeek,
-    onForward,
-    onBackward,
+    volume: playerContextVolume,
+    rate: playerContextRate,
+    duration: playerContextDuration,
+    mute: playerContextMute,
+    loop: playerContextLoop,
+    error: playerContextError,
+    onToggle: handleToggle,
+    onPlay: handlePlay,
+    onPause: handlePause,
+    onVolume: handleVolume,
+    onRate: handleRate,
+    onMute: handleMute,
+    onLoop: handleLoop,
+    onSeek: handleSeek,
+    onForward: handleForward,
+    onBackward: handleBackward,
   };
 };
 

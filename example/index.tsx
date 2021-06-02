@@ -44,7 +44,19 @@ const App = () => {
     onBackward,
   } = useRoover({
     src,
-    autoplay: false
+    autoplay: false,
+    onInitial: () => console.log('initial'),
+    onLoading: () => console.log('loading'),
+    onReady: () => console.log('ready'),
+    onIdle: () => console.log('idle'),
+    onPlaying: () => console.log('playing'),
+    onPause: () => console.log('pause'),
+    onVolume: () => console.log('volume'),
+    onRate: () => console.log('rate'),
+    onMute: () => console.log('mute'),
+    onLoop: () => console.log('loop'),
+    onEnd: () => console.log('end'),
+    onError: () => console.log('error')
   });
 
   return (
