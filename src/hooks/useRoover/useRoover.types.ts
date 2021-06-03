@@ -15,7 +15,7 @@ export type ReturnArgs = {
   idle: boolean;
   playing: boolean;
   paused: boolean;
-  ended: boolean;
+  end: boolean;
   seek: number;
   volume: number;
   rate: number;
@@ -26,11 +26,11 @@ export type ReturnArgs = {
   onToggle: () => void;
   onPlay: () => void;
   onPause: () => void;
-  onVolume: () => void;
+  onVolume: (value: number) => void;
   onRate: (value: string) => void;
   onMute: () => void;
   onLoop: () => void;
-  onSeek: () => void;
+  onSeek: (value: number) => void;
   onForward: (value: number) => void;
   onBackward: (value: number) => void;
 };
