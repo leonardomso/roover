@@ -4,7 +4,6 @@ import {
   MachineContext,
   MachineEvent,
   MachineLoadEvent,
-  MachineReadyEvent,
   MachineErrorEvent,
   MachineRateEvent,
   MachineVolumeEvent,
@@ -64,7 +63,10 @@ const Machine = createMachine<MachineContext, MachineEvent>(
           },
         },
         on: {
-          LOAD: 'loading',
+          LOAD: {
+            target: 'loading',
+            actions: 'onLoad',
+          },
           END: 'end',
           ERROR: 'error',
           VOLUME: {
@@ -88,14 +90,20 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       end: {
         id: 'end',
         on: {
-          LOAD: 'loading',
+          LOAD: {
+            target: 'loading',
+            actions: 'onLoad',
+          },
           PLAY: 'ready.playing',
         },
       },
       error: {
         id: 'error',
         on: {
-          LOAD: 'loading',
+          LOAD: {
+            target: 'loading',
+            actions: 'onLoad',
+          },
         },
       },
     },
@@ -105,11 +113,9 @@ const Machine = createMachine<MachineContext, MachineEvent>(
       onLoad: assign<MachineContext, MachineEvent>({
         volume: (_, event) => (event as MachineLoadEvent).volume,
         rate: (_, event) => (event as MachineLoadEvent).rate,
+        duration: (_, event) => (event as MachineLoadEvent).duration,
         mute: (_, event) => (event as MachineLoadEvent).mute,
         loop: (_, event) => (event as MachineLoadEvent).loop,
-      }),
-      onReady: assign<MachineContext, MachineEvent>({
-        duration: (_, event) => (event as MachineReadyEvent).duration,
       }),
       onVolume: assign<MachineContext, MachineEvent>({
         volume: (_, event) => (event as MachineVolumeEvent).volume,

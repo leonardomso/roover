@@ -5,6 +5,8 @@ import {
   Grid,
 } from "@chakra-ui/react";
 
+import formatTime from "../utils/formatTime";
+
 interface Props {
   initial: boolean;
   loading: boolean;
@@ -67,7 +69,7 @@ const Details = ({ initial, loading, ready, idle, playing, paused, end, seek, vo
       <Grid width="fit-content" height="auto" templateRows="repeat(7, max-content)" gridRow="2 / 3" gridColumn="2 / 3" gap={2} alignItems="center" justifyContent="center">
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">
           <Text>Seek: </Text>
-          <Text fontWeight="bold">{seek}</Text>
+          <Text fontWeight="bold">{formatTime(seek)}</Text>
         </Grid>
 
         <Grid width="fit-content" height="auto" templateColumns="70px max-content" gap={2} alignItems="center" justifyContent="center">

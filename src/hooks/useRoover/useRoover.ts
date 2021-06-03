@@ -146,8 +146,8 @@ const useRoover = ({
   const onRate = (value: string): void => {
     if (!audio) return;
     const rate: number = parseFloat(value);
-    audio.playbackRate = rate;
     send({ type: 'RATE', rate });
+    audio.playbackRate = rate;
   };
 
   /**

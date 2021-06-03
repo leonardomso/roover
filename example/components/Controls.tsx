@@ -25,6 +25,9 @@ interface Props {
 }
 
 const Controls = ({ seek, volume, rate, duration, mute, loop, onVolume, onRate, onMute, onLoop, onSeek }: Props) => {
+  console.log('duration: ', duration);
+  console.log('seek: ', seek);
+
   return (
     <Grid width="fit-content" height="auto" templateRows="repeat(auto-fill, max-content)" gridRow="5 / 6" gridColumn="1 / 2" gap={3}>
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
@@ -80,7 +83,7 @@ const Controls = ({ seek, volume, rate, duration, mute, loop, onVolume, onRate, 
 
       <Grid width="fit-content" height="auto" templateColumns="60px max-content" gap={2} alignItems="center" justifyContent="center">
         <Text>Loop</Text>
-        <Button type="button" onClick={onLoop}>Loop</Button>
+        <Button type="button" onClick={onLoop}>{loop ? "Unloop" : "Loop"}</Button>
       </Grid>
     </Grid>
   )
