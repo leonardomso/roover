@@ -1,385 +1,75 @@
-# Rehawk
+<br>
+<p align="center">
+<a href="https://github.com/leonardomso/roover">
+<img src="https://i.imgur.com/sHCo4D0.png" alt="Roover" height="250" width="250"/>
+</a>
+</p>
 
-[![Actions Status](https://github.com/leonardomso/rehawk/workflows/CI/badge.svg)](https://github.com/leonardomso/rehawk/actions)
-[![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/leonardomso/rehawk)
-[![npm version](https://badge.fury.io/js/rehawk.svg)](https://badge.fury.io/js/rehawk)
+<p align="center">
+<b>Manage audio in React with ease</b>
+</p>
 
-Work with audio in React it's painful sometimes, that's why this library was created. Especially in React, there are not too many good libraries out there to work with audio.
+[![Build Status](https://img.shields.io/github/workflow/status/leonardomso/roover/CI?style=flat&colorA=000000&colorB=000000)](https://github.com/leonardomso/roover/actions?query=workflow%3ALint)
+[![Build Size](https://img.shields.io/bundlephobia/min/roover?label=bundle%20size&style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=roover)
+[![Version](https://img.shields.io/npm/v/roover?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/roover)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat&colorA=000000&colorB=000000)](https://opensource.org/licenses/MIT)
 
-Rehawk is a powerful and lightweight library that aims to make things easier for you to start to work with audio. Using the Audio API, a custom React Hook powered by an XState finite state machine, it brings a lot of functionalities and methods for you to start faster your development, without having to waste time implementing anything.
+## Motivation
 
-Feel free to submit a PR.
+Modern applications are using audio all the time. Audio can turn a boring application into an interesting one, adding emotion to the content. Most of the modern applications that we use daily are using audio for at least in some part.
 
-## Install
+Work with audio in React applications is painful. There are not too many good libraries to manage audio and most of the time we need to create our solutions. Manage audio in a modern application is important and should be made by using the best tools and libraries.
+
+The idea to create this library was to provide a powerful and lightweight audio library for React apps. A custom React Hook that is easy to integrate with and has a ton of features to help speed up development without having to worry about anything.
+
+## Installation
 
 ```bash
-yarn add rehawk
+yarn add roover
 ```
 
 ## Usage
 
-All you need to do is import the `RehawkProvider` context and the `useRehawk` hook. Context was the best choice here because sometimes we might want to use different properties of our custom hook in different components in our React tree.
-
-The following is a very basic usage example of Rehawk. If you want the most complete example of Rehawk working, click here.
+All you need to do is import the `useRoover` hook and use it on your React component.
 
 ```typescript
 import React from 'react';
-import { RehawkProvider, useRehawk } from 'rehawk';
+import { useRoover } from 'roover';
 
 const src =
   'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
 
-const Player = () => {
+const App = () => {
   const {
-    ready,
+    initial,
     loading,
-    error,
+    ready,
     playing,
     paused,
-    stopped,
     onPlay,
     onPause,
   } = useRehawk({
     src,
-    autoplay: false,
+    autoplay: true,
   });
 
   return (
     <div>
-      <p>Ready: {ready ? 'true' : 'false'}</p>
       <p>Loading: {loading ? 'true' : 'false'}</p>
-      <p>Error: {error}</p>
-      <p>Playing: {playing ? 'true' : 'false'}</p>
-      <p>Paused: {paused ? 'true' : 'false'}</p>
-      <p>Stopped: {stopped ? 'true' : 'false'}</p>
-
+      <p>Ready: {ready ? 'true' : 'false'}</p>
       <button onClick={onPlay}>Play</button>
       <button onClick={onPause}>Pause</button>
     </div>
   );
 };
-
-const App = () => {
-  return (
-    <RehawkProvider>
-      <Player />
-    </RehawkProvider>
-  );
-};
 ```
-
-## API
-
-### Props
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Required</th>
-  </tr>
-  <tr>
-    <td><code>src</code></td>
-    <td><code>string | string[]</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>preload</code></td>
-    <td><code>boolean</code></td>
-    <td><code>false</code></td>
-  </tr>
-    <tr>
-    <td><code>autoplay</code></td>
-    <td><code>boolean</code></td>
-    <td><code>false</code></td>
-  </tr>
-   <tr>
-    <td><code>volume</code></td>
-    <td><code>number (0.0 to 1.0)</code></td>
-    <td><code>false</code></td>
-  </tr>
-  </tr>
-    <tr>
-    <td><code>muted</code></td>
-    <td><code>boolean</code></td>
-    <td><code>false</code></td>
-  </tr>
-  </tr>
-    <tr>
-    <td><code>loop</code></td>
-    <td><code>boolean</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>rate</code></td>
-    <td><code>number (0.25 to 5.0, with 1.0 being normal speed)</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>onLoading</code></td>
-    <td><code>Callback function will run when 'loading' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>onReady</code></td>
-    <td><code>Callback function will run when 'ready' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>onError</code></td>
-    <td><code>Callback function will run when there's an error</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>onPlaying</code></td>
-    <td><code>Callback function will run when 'playing' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td><code>onPaused</code></td>
-    <td><code>Callback function will run when 'paused' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-   <tr>
-    <td><code>onStopped</code></td>
-    <td><code>Callback function will run when 'stopped' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-   <tr>
-    <td><code>onMuted</code></td>
-    <td><code>Callback function will run when 'muted' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-   <tr>
-    <td><code>onLooped</code></td>
-    <td><code>Callback function will run when 'loop' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-   <tr>
-    <td><code>onEnded</code></td>
-    <td><code>Callback function will run when 'ended' is true</code></td>
-    <td><code>false</code></td>
-  </tr>
-</table>
-
-### Returned values
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><code>loading</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if the audio is been loaded.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>ready</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if the audio is ready to be played.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>error</code></td>
-    <td><code>string | null</code></td>
-    <td>
-    <code>Return a string if any error occurs, otherwise returns null.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>playing</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if audio is been played.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>paused</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if audio is paused.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>stopped</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if audio is stopped.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>duration</code></td>
-    <td><code>number</code></td>
-    <td>
-    <code>Return the duration of the actual audio, in case there's no audio it returns 0.</code>
-    </td>
-  </tr>
-    <tr>
-    <td><code>seek</code></td>
-    <td><code>number</code></td>
-    <td>
-    <code>Return the seek of the actual audio, in case there's no audio it returns 0.</code>
-    </td>
-  </tr>
-    <tr>
-    <td><code>volume</code></td>
-    <td><code>number</code></td>
-    <td>
-    <code>Return the volume of the actual audio, in case there's no audio it returns 0.</code>
-    </td>
-  </tr>
-   <tr>
-    <td><code>muted</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if the audio is muted.</code>
-    </td>
-  </tr>
-    <tr>
-    <td><code>rate</code></td>
-    <td><code>number</code></td>
-    <td>
-    <code>Return the rate of the audio, in case there's no audio it returns 0.</code>
-    </td>
-  </tr>
-   <tr>
-    <td><code>loop</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if the audio is set to loop forever.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>ended</code></td>
-    <td><code>boolean</code></td>
-    <td>
-    <code>Return true if the audio is ended.</code>
-    </td>
-  </tr>
-</table>
-
-### Returned methods
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><code>load</code></td>
-    <td><code>({ 
-      src?: string; 
-      preload?: boolean; 
-      autoplay?: boolean; 
-      volume?: number; 
-      muted?: boolean; 
-      loop?: boolean; 
-      rate?: number; 
-      onLoading = () => {};
-      onReady = () => {};
-      onError = () => {};
-      onPlaying = () => {};
-      onPaused = () => {};
-      onStopped = () => {};
-      onMuted = () => {};
-      onLooped = () => {};
-      onEnded = () => {}; 
-      }) => void</code></td>
-    <td>
-    <code>Method to load the audio in case you want it.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onToggle</code></td>
-    <td><code>() => void</code></td>
-    <td>
-    <code>Switch between playing and paused.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onPlay</code></td>
-    <td><code>() => void</code></td>
-    <td>
-    <code>Set playing to true.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onPause</code></td>
-    <td><code>() => void</code></td>
-    <td>
-    <code>Set paused to true.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onStop</code></td>
-    <td><code>() => void</code></td>
-    <td>
-    <code>Set stopped to true.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onMute</code></td>
-    <td><code>() => void</code></td>
-    <td>
-    <code>Set muted to the opposite actual value.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onLoop</code></td>
-    <td><code>() => void</code></td>
-    <td>
-    <code>Set loop to the opposite actual value.</code>
-    </td>
-  </tr>
-    <tr>
-    <td><code>onVolume</code></td>
-    <td><code>(e: React.ChangeEvent<HTMLInputElement>) => void</code></td>
-    <td>
-    <code>Change volume to a specific value (recommended to be used in a input element).</code>
-    </td>
-  </tr>
-   <tr>
-    <td><code>onRate</code></td>
-    <td><code>(value: number) => void</code></td>
-    <td>
-    <code>Change rate to a specific value.</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>onSeek</code></td>
-    <td><code>(e: React.ChangeEvent<HTMLInputElement>) => void</code></td>
-    <td>
-    <code>Change seek to a specific value (recommended to be used in a input element).</code>
-    </td>
-  </tr>
-   <tr>
-    <td><code>onForward</code></td>
-    <td><code>(number) => void</code></td>
-    <td>
-    <code>Forward the audio for the specified number.</code>
-    </td>
-  </tr>
-   <tr>
-    <td><code>onBackward</code></td>
-    <td><code>(number) => void</code></td>
-    <td>
-    <code>Backward the audio for the specified number.</code>
-    </td>
-  </tr>
-</table>
 
 ## Example
 
 To run the example do the following steps:
 
 1. `git clone` the repository
-2. `cd rehawk/example`
+2. `cd roover/example`
 3. `yarn install`
 4. `yarn start`
 
@@ -387,6 +77,8 @@ To run the example do the following steps:
 
 Your contributions are welcome! If you have any questions or want to start to contribute to this library in any form, please open an issue. Feel free to open PR.
 
----
-
 If there are any questions about this library or about any other topic, please contact me on Twitter [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.
+
+## License
+
+MIT License © 2021 [Leonardo Maldonado](https://github.com/leonardomso)

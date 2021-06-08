@@ -1,0 +1,12 @@
+{
+  "basic": "Basic",
+  "toggle": "Toggle",
+  "play-pause": "Play / Pause",
+  "mute": "Mute",
+  "loop": "Loop",
+  "volume": "Volume",
+  "rate": "Rate",
+  "seek": "Seek",
+  "forward-backward": "Forward / Backward",
+  "custom-options": "Custom options"
+}

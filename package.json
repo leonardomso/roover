@@ -1,11 +1,9 @@
 {
-  "name": "rehawk",
-  "version": "0.2.6",
+  "name": "roover",
+  "version": "0.3.0",
   "private": false,
-  "author": "Leonardo Maldonado <leonardomso11@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/rehawk.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -14,6 +12,18 @@
   "engines": {
     "node": ">=10"
   },
+  "author": "leonardomso",
+  "module": "dist/roover.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/roover.cjs.production.min.js",
+      "limit": "20 KB"
+    },
+    {
+      "path": "dist/roover.esm.js",
+      "limit": "20 KB"
+    }
+  ],
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -23,36 +33,39 @@
     "lint": "tsdx lint",
     "lint:fix": "tsdx lint --fix",
     "prepare": "tsdx build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "example:start": "cd ./example/ && yarn start",
+    "docs:dev": "cd ./docs/ && yarn dev",
+    "docs:start": "cd ./docs/ && yarn start",
+    "docs:build": "cd ./docs/ && yarn build"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.2",
-    "@storybook/addon-actions": "^6.2.9",
-    "@storybook/addon-docs": "^6.2.9",
-    "@storybook/addon-info": "^5.3.21",
-    "@storybook/addon-knobs": "^6.2.9",
-    "@storybook/addon-links": "^6.2.9",
-    "@storybook/addons": "^6.2.9",
-    "@storybook/react": "^6.2.9",
+    "@babel/core": "^7.14.3",
+    "@size-limit/preset-small-lib": "^4.11.0",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/react-hooks": "^7.0.0",
+    "@testing-library/user-event": "^13.1.9",
+    "@types/jest": "^26.0.23",
     "@types/raf": "^3.4.0",
-    "@types/react": "^17.0.5",
-    "@types/react-dom": "^17.0.5",
-    "@xstate/react": "^1.3.3",
-    "@xstate/test": "^0.4.2",
-    "babel-jest": "^26.6.3",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "@xstate/react": "^1.3.4",
+    "babel-jest": "^27.0.2",
     "babel-loader": "^8.2.2",
     "husky": "^6.0.0",
     "raf": "^3.4.1",
     "react": "^17.0.2",
-    "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
-    "ts-loader": "^9.1.2",
+    "react-tracked": "^1.7.2",
+    "size-limit": "^4.11.0",
+    "ts-loader": "^9.2.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.4",
-    "xstate": "^4.19.1"
+    "typescript": "^4.3.2",
+    "xstate": "^4.20.0"
   },
   "peerDependencies": {
     "react": ">=16"

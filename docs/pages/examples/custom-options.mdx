@@ -1,0 +1,40 @@
+# Custom options
+
+This is an example using the `useRoover` with custom options. Here is the argumenst that the `useRoover` can accept and its default values:
+
+```jsx
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    playing,
+    paused,
+    onPlay,
+    onPause,
+  } = useRehawk({
+    src,
+    autoplay: false,
+    preload: "auto",
+    volume: 0.5,
+    rate: 0,5,
+    mute: false,
+    loop: true
+  });
+
+  return (
+    <div>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+    </div>
+  );
+};
+```

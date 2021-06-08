@@ -1,0 +1,37 @@
+# Usage
+
+All you need to do is import the `useRoover` hook and use it on your React component.
+
+```jsx
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    error,
+    playing,
+    paused,
+    stopped,
+    onPlay,
+    onPause,
+  } = useRehawk({
+    src,
+    autoplay: true,
+  });
+
+  return (
+    <div>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+    </div>
+  );
+};
+```
