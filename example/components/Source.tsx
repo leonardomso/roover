@@ -20,7 +20,7 @@ interface Props {
   onBackward: (value: number) => void;
 }
 
-const Source = ({ gridRow, loading, ready, playing, paused, onPlay, onPause, onToggle, onForward, onBackward }: Props) => {
+const Source = ({ gridRow, onPlay, onPause, onToggle, onForward, onBackward }: Props) => {
   return (
     <Grid width="auto" height="fit-content" templateColumns="repeat(8, 1fr)" gridRow={gridRow} gridColumn="1 / 3" gap={3} alignItems="center" justifyContent="center">
       <Heading as="h2" fontSize="18px" letterSpacing="-0.03em">Source 1:</Heading>
