@@ -115,7 +115,6 @@ const useAudio: UseAudio = () => {
       service.send('LOAD', {
         volume: args.volume,
         rate: args.rate,
-        duration: audio.duration,
         mute: args.mute,
         loop: args.loop,
       });

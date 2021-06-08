@@ -28,6 +28,59 @@ The idea to create this library was to provide a powerful and lightweight audio 
 yarn add roover
 ```
 
+## Usage
+
+All you need to do is import the `useRoover` hook and use it on your React component.
+
+```typescript
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    error,
+    playing,
+    paused,
+    stopped,
+    onPlay,
+    onPause,
+  } = useRehawk({
+    src,
+    autoplay: true,
+  });
+
+  return (
+    <div>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+    </div>
+  );
+};
+```
+
+## Example
+
+To run the example do the following steps:
+
+1. `git clone` the repository
+2. `cd roover/example`
+3. `yarn install`
+4. `yarn start`
+
+## Contributing
+
+Your contributions are welcome! If you have any questions or want to start to contribute to this library in any form, please open an issue. Feel free to open PR.
+
+If there are any questions about this library or about any other topic, please contact me on Twitter [@leonardomso](https://twitter.com/leonardomso) and I'll gladly answer it.
+
 ## License
 
 MIT License © 2021 [Leonardo Maldonado](https://github.com/leonardomso)
