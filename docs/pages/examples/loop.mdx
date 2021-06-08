@@ -1,0 +1,37 @@
+# Loop
+
+This is an example using the `onLoop`. It will set the `loop` property to `true` or `false` depending on the current value.
+
+```jsx
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    playing,
+    paused,
+    onPlay,
+    onPause,
+    onLoop,
+  } = useRehawk({
+    src,
+    autoplay: true,
+  });
+
+  return (
+    <div>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+      <button onClick={onLoop}>Loop</button>
+    </div>
+  );
+};
+```

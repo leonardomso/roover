@@ -12,6 +12,7 @@
 [![Build Status](https://img.shields.io/github/workflow/status/leonardomso/roover/CI?style=flat&colorA=000000&colorB=000000)](https://github.com/leonardomso/roover/actions?query=workflow%3ALint)
 [![Build Size](https://img.shields.io/bundlephobia/min/roover?label=bundle%20size&style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=roover)
 [![Version](https://img.shields.io/npm/v/roover?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/roover)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat&colorA=000000&colorB=000000)](https://opensource.org/licenses/MIT)
 
 ## Motivation
 
@@ -43,10 +44,8 @@ const App = () => {
     initial,
     loading,
     ready,
-    error,
     playing,
     paused,
-    stopped,
     onPlay,
     onPause,
   } = useRehawk({
@@ -56,8 +55,8 @@ const App = () => {
 
   return (
     <div>
-      <p>Ready: {ready ? 'true' : 'false'}</p>
       <p>Loading: {loading ? 'true' : 'false'}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
       <button onClick={onPlay}>Play</button>
       <button onClick={onPause}>Pause</button>
     </div>

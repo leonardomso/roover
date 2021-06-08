@@ -1,6 +1,6 @@
 {
   "name": "roover",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "private": false,
   "license": "MIT",
   "main": "dist/index.js",
@@ -34,7 +34,11 @@
     "lint:fix": "tsdx lint --fix",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "example:start": "cd ./example/ && yarn start",
+    "docs:dev": "cd ./docs/ && yarn dev",
+    "docs:start": "cd ./docs/ && yarn start",
+    "docs:build": "cd ./docs/ && yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

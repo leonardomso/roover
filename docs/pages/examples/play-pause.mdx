@@ -1,0 +1,35 @@
+# Play / Pause
+
+This is an example using the `onPlay` and `onPause`. The `onPlay` plays the audio. The `onPause` pauses the audio.
+
+```jsx
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    playing,
+    paused,
+    onPlay,
+    onPause,
+  } = useRehawk({
+    src,
+    autoplay: true,
+  });
+
+  return (
+    <div>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+    </div>
+  );
+};
+```

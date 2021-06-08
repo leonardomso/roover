@@ -1,0 +1,39 @@
+# Forward / Backward
+
+This is an example using the `onForward` and `onBackward`. Both functions receives a `number` as an argument. The `onForward` forwards the audio based on the received value. The `onBackward` backwards the audio based on the received value.
+
+```jsx
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    playing,
+    paused,
+    onPlay,
+    onPause,
+    onForward,
+    onBackward,
+  } = useRehawk({
+    src,
+    autoplay: true,
+  });
+
+  return (
+    <div>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+      <button onClick={() => onForward(15)}>+15</button>
+      <button onClick={() => onBackward(15)}>-15</button>
+    </div>
+  );
+};
+```

@@ -1,0 +1,44 @@
+# Seek
+
+This is an example using the `onSeek`. It receives a `number` as an argument and sets it as the new `seek` value.
+
+```jsx
+import React from 'react';
+import { useRoover } from 'roover';
+
+const src =
+  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
+
+const App = () => {
+  const {
+    initial,
+    loading,
+    ready,
+    playing,
+    paused,
+    seek,
+    duration,
+    onPlay,
+    onPause,
+    onSeek,
+  } = useRehawk({
+    src,
+    autoplay: true,
+  });
+
+  return (
+    <div>
+      <p>Loading: {loading ? 'true' : 'false'}</p>
+      <p>Ready: {ready ? 'true' : 'false'}</p>
+      <button onClick={onPlay}>Play</button>
+      <button onClick={onPause}>Pause</button>
+      {/*
+        The onSeek function receives a number as argument.
+        Be careful when using with an element that returns a string,
+        such as this following one.
+      */}
+      <input type="range" value={seek} onChange={onSeek} min={0} max={duration}>
+    </div>
+  );
+};
+```
