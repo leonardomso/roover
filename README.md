@@ -11,8 +11,7 @@
 
 [![Build Status](https://img.shields.io/github/workflow/status/leonardomso/roover/CI?style=flat&colorA=000000&colorB=000000)](https://github.com/leonardomso/roover/actions?query=workflow%3ALint)
 [![Build Size](https://img.shields.io/bundlephobia/min/roover?label=bundle%20size&style=flat&colorA=000000&colorB=000000)](https://bundlephobia.com/result?p=roover)
-[![Version](https://img.shields.io/npm/v/roover?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/zustand)
-[![Downloads](https://img.shields.io/npm/dt/roover.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/zustand)
+[![Version](https://img.shields.io/npm/v/roover?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/roover)
 
 ## Motivation
 
