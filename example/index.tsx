@@ -44,7 +44,7 @@ const App = () => {
     onBackward,
   } = useRoover({
     src,
-    autoplay: false,
+    autoplay: true,
   });
 
   return (

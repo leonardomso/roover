@@ -154,9 +154,24 @@ const useRoover = ({
    * @returns void
    */
   const onPlay = (): void => {
-    if (!audio) return;
-    service.send('PLAY');
-    audio.play();
+    if (!audio) {
+      const newAudio = onLoadAudio(audio, {
+        src,
+        preload,
+        autoplay,
+        volume,
+        rate,
+        mute,
+        loop,
+      });
+      setAudio(newAudio);
+      playerRef.current = newAudio;
+    } else {
+      if (ready || paused) {
+        audio.play();
+        service.send('PLAY');
+      }
+    }
   };
 
   /**
