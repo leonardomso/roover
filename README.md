@@ -34,7 +34,7 @@ All you need to do is import the `useRoover` hook and use it on your React compo
 
 ```typescript
 import React from 'react';
-import { useRoover } from 'roover';
+import useRoover from 'roover';
 
 const src =
   'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3';
