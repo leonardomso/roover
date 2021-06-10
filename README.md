@@ -48,7 +48,7 @@ const App = () => {
     paused,
     onPlay,
     onPause,
-  } = useRehawk({
+  } = useRoover({
     src,
     autoplay: true,
   });
