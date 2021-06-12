@@ -9,7 +9,7 @@ export type UseAudio = () => {
     audio: HTMLAudioElement | undefined,
     args: CreateAudioArgs
   ) => HTMLAudioElement;
-  onDestroyAudio: (audio: HTMLAudioElement | undefined) => void;
+  onDestroyAudio: (audio: HTMLAudioElement | undefined) => undefined;
 };
 
 export interface CreateAudioArgs {

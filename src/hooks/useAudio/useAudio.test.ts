@@ -6,8 +6,13 @@ import useAudio from './useAudio';
 import { CreateAudioArgs } from './useAudio.types';
 
 describe('useAudio', () => {
+  beforeAll(() => {
+    window.HTMLMediaElement.prototype.load = jest.fn();
+  });
+
   describe('onCreateAudio', () => {
     test('should create audio element', async () => {
+      let audio: HTMLAudioElement | undefined = undefined;
       const { result } = renderHook(() => useAudio());
 
       const args: CreateAudioArgs = {
@@ -21,25 +26,17 @@ describe('useAudio', () => {
         loop: false,
       };
 
-      const audio:
-        | HTMLAudioElement
-        | undefined = await result.current.onCreateAudio(args);
-
-      await waitFor(() => {
-        // For some reason, when calling toBeInTheDocument() does not work.
-        // When using .toBeInTheDocuments tests pass but ESLint complains about it.
-        // So, there is why the next line is disabled.
-        // Should be fixed in a next version though.
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
+      await waitFor(async () => {
+        audio = await result.current.onCreateAudio(args);
       });
+
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with preload equal "metadata"', async () => {
@@ -60,17 +57,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with preload equal "none"', async () => {
@@ -91,17 +84,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with autoplay equal "false"', async () => {
@@ -122,17 +111,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with volume equal "0.5"', async () => {
@@ -153,17 +138,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with rate equal "0.5"', async () => {
@@ -184,17 +165,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with muted equal "true"', async () => {
@@ -215,17 +192,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should create audio element with loop equal "true"', async () => {
@@ -246,17 +219,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
   });
 
@@ -279,17 +248,13 @@ describe('useAudio', () => {
         | HTMLAudioElement
         | undefined = await result.current.onLoadAudio(undefined, args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
     });
 
     test('should change audio src', async () => {
@@ -322,8 +287,6 @@ describe('useAudio', () => {
           firstArgs
         );
 
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
         expect(audio).toHaveProperty('preload', firstArgs.preload);
         expect(audio).toHaveProperty('autoplay', firstArgs.autoplay);
@@ -334,8 +297,6 @@ describe('useAudio', () => {
 
         result.current.onLoadAudio(audio, secondArgs);
 
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
         expect(audio).toBeInstanceOf(HTMLAudioElement);
         expect(audio).toHaveProperty('preload', secondArgs.preload);
         expect(audio).toHaveProperty('autoplay', secondArgs.autoplay);
@@ -362,26 +323,21 @@ describe('useAudio', () => {
         loop: true,
       };
 
-      const audio: HTMLAudioElement = await result.current.onCreateAudio(args);
+      let audio:
+        | HTMLAudioElement
+        | undefined = await result.current.onCreateAudio(args);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).toBeInTheDocument;
-        expect(audio).toBeInstanceOf(HTMLAudioElement);
-        expect(audio).toHaveProperty('preload', args.preload);
-        expect(audio).toHaveProperty('autoplay', args.autoplay);
-        expect(audio).toHaveProperty('volume', args.volume);
-        expect(audio).toHaveProperty('playbackRate', args.rate);
-        expect(audio).toHaveProperty('muted', args.mute);
-        expect(audio).toHaveProperty('loop', args.loop);
-      });
+      expect(audio).toBeInstanceOf(HTMLAudioElement);
+      expect(audio).toHaveProperty('preload', args.preload);
+      expect(audio).toHaveProperty('autoplay', args.autoplay);
+      expect(audio).toHaveProperty('volume', args.volume);
+      expect(audio).toHaveProperty('playbackRate', args.rate);
+      expect(audio).toHaveProperty('muted', args.mute);
+      expect(audio).toHaveProperty('loop', args.loop);
 
-      await result.current.onDestroyAudio(audio);
+      audio = await result.current.onDestroyAudio(audio);
 
-      await waitFor(() => {
-        // eslint-disable-next-line
-        expect(audio).not.toBeInTheDocument;
-      });
+      expect(audio).toBeUndefined();
     });
 
     test('should not destroy audio and return undefined when there is no audio', async () => {
@@ -389,7 +345,7 @@ describe('useAudio', () => {
 
       const destroyFn = await result.current.onDestroyAudio(undefined);
 
-      expect(destroyFn).toBe(undefined);
+      expect(destroyFn).toBeUndefined();
     });
   });
 });

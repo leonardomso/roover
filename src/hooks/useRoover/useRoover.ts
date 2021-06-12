@@ -6,6 +6,8 @@ import useAudio from '../useAudio/useAudio';
 
 import { Args, ReturnArgs } from './useRoover.types';
 
+import { EVENTS } from '../../utils/constants';
+
 /**
  * The useRoover hook.
  * @param {string} src - The src of the audio to be loaded.
@@ -140,11 +142,11 @@ const useRoover = ({
     } else {
       if (ready || paused) {
         audio.play();
-        service.send('PLAY');
+        service.send(EVENTS.PLAY);
       }
       if (playing) {
         audio.pause();
-        service.send('PAUSE');
+        service.send(EVENTS.PAUSE);
       }
     }
   };
@@ -169,7 +171,7 @@ const useRoover = ({
     } else {
       if (ready || paused) {
         audio.play();
-        service.send('PLAY');
+        service.send(EVENTS.PLAY);
       }
     }
   };
@@ -180,7 +182,7 @@ const useRoover = ({
    */
   const onPause = (): void => {
     if (!audio) return;
-    service.send('PAUSE');
+    service.send(EVENTS.PAUSE);
     audio.pause();
   };
 
@@ -190,7 +192,7 @@ const useRoover = ({
    */
   const onMute = (): void => {
     if (!audio) return;
-    service.send('MUTE');
+    service.send(EVENTS.MUTE);
     audio.muted = !playerContextMute;
   };
 
@@ -200,7 +202,7 @@ const useRoover = ({
    */
   const onLoop = (): void => {
     if (!audio) return;
-    service.send('LOOP');
+    service.send(EVENTS.LOOP);
     audio.loop = !playerContextLoop;
   };
 
@@ -211,7 +213,7 @@ const useRoover = ({
    */
   const onVolume = (value: number): void => {
     if (!audio) return;
-    service.send({ type: 'VOLUME', volume: value });
+    service.send({ type: EVENTS.VOLUME, volume: value });
     audio.volume = value;
   };
 
@@ -223,7 +225,7 @@ const useRoover = ({
   const onRate = (value: string): void => {
     if (!audio) return;
     const rate: number = parseFloat(value);
-    service.send({ type: 'RATE', rate });
+    service.send({ type: EVENTS.RATE, rate });
     audio.playbackRate = rate;
   };
 

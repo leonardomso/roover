@@ -9,6 +9,8 @@ import {
   MachineEvent,
 } from '../../types';
 
+import { EVENTS, STATUS } from '../../utils/constants';
+
 const useAudio: UseAudio = () => {
   const service = useInterpret<MachineContext, MachineEvent>(RooverMachine, {
     devTools: process.env.NODE_ENV === 'development',
@@ -47,7 +49,7 @@ const useAudio: UseAudio = () => {
 
     // When the audio has started to load, it will trigger a 'LOAD' event.
     audioElement.addEventListener('loadstart', () => {
-      service.send('LOAD', {
+      service.send(STATUS.LOAD, {
         volume: volume,
         rate: rate,
         mute: mute,
@@ -56,37 +58,37 @@ const useAudio: UseAudio = () => {
     });
     // When the audio has loaded successfully, it will triger a 'READY' event and change values in the context.
     audioElement.addEventListener('loadeddata', () => {
-      service.send('READY', { duration: audioElement.duration });
+      service.send(STATUS.READY, { duration: audioElement.duration });
     });
     // When the audio has a loading error, it will trigger a 'ERROR' event.
     audioElement.addEventListener('error', () => {
-      service.send('ERROR', {
+      service.send(STATUS.ERROR, {
         error: `Error while loading: ${src}`,
       });
     });
     // When the audio plays, it will trigger a 'PLAY' event.
     audioElement.addEventListener('play', () => {
-      service.send('PLAY');
+      service.send(EVENTS.PLAY);
     });
     // When the audio has paused, it will trigger a 'PAUSE' event.
     audioElement.addEventListener('pause', () => {
-      service.send('PAUSE');
+      service.send(EVENTS.PAUSE);
     });
     // When the volume has changed, will trigger a 'VOLUME' event and set the new value in the context.
     audioElement.addEventListener('volumechange', () => {
-      service.send('VOLUME', {
+      service.send(EVENTS.VOLUME, {
         volume: audioElement.volume,
       });
     });
     // When the rate has changed, it will trigger a 'RATE' event and set the new value in the context.
     audioElement.addEventListener('ratechange', () => {
-      service.send('RATE', {
+      service.send(EVENTS.RATE, {
         rate: audioElement.playbackRate,
       });
     });
     // When the audio has ended, it will trigger a 'END' event.
     audioElement.addEventListener('ended', () => {
-      service.send('END');
+      service.send(EVENTS.END);
     });
 
     return audioElement;
@@ -132,13 +134,14 @@ const useAudio: UseAudio = () => {
    * @param audio - The audio element to be checked.
    * @returns undefined
    */
-  const onDestroyAudio = (audio: HTMLAudioElement | undefined): void => {
+  const onDestroyAudio = (audio: HTMLAudioElement | undefined): undefined => {
     if (!audio) {
       return undefined;
     } else {
       audio.currentTime = 0;
       audio.removeAttribute('src');
       audio = undefined;
+      return audio;
     }
   };
 
