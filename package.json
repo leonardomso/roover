@@ -54,7 +54,7 @@
     "@xstate/react": "^1.4.0",
     "babel-jest": "^27.0.5",
     "babel-loader": "^8.2.2",
-    "husky": "^6.0.0",
+    "husky": "^7.0.0",
     "raf": "^3.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
