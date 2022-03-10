@@ -5619,10 +5619,10 @@ prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
-proxy-compare@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.0.2.tgz#343e624d0ec399dfbe575f1d365d4fa042c9fc69"
-  integrity sha512-3qUXJBariEj3eO90M3Rgqq3+/P5Efl0t/dl9g/1uVzIQmO3M+ql4hvNH3mYdu8H+1zcKv07YvL55tsY74jmH1A==
+proxy-compare@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.0.3.tgz#13fac7a72ca186a3f4a5e99bdff4863f2ced85c1"
+  integrity sha512-YEmiPmDvwSUwudfjt68DTRo0VaUC2WrDOfktTYEICInBDCIwveTsnn0cRxkWPSUvZBhzRIxtI0ZoYeUpXU870Q==
 
 psl@^1.1.28:
   version "1.8.0"
@@ -5692,12 +5692,12 @@ react-is@^17.0.1, react-is@^17.0.2:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-tracked@^1.7.5:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/react-tracked/-/react-tracked-1.7.5.tgz#ec7e126beba13e3be13efd6fae123120098b0ba0"
-  integrity sha512-RSlYpSZ5vGe09crxwZRQUZeTGkNOL529KLpGwwTysoBGuJOW4V8nECn0aP7+gcvEovd9VJN/pgrf9axbvZawog==
+react-tracked@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/react-tracked/-/react-tracked-1.7.7.tgz#cc65dce70fcbca85c5f1a12005563ba1d92c8a43"
+  integrity sha512-t3G6yiADpc+C6sw2IKpZAIgTzmguj/YeDS4ueExcGP3KmrpIxq0K0dZHT/0j+I3AwKLre7gaFVGVgf3VooDDtw==
   dependencies:
-    proxy-compare "2.0.2"
+    proxy-compare "2.0.3"
     use-context-selector "1.3.9"
 
 react@^17.0.2:
