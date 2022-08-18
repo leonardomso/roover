@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
-    "@size-limit/preset-small-lib": "^7.0.8",
+    "@size-limit/preset-small-lib": "^8.0.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
@@ -60,7 +60,7 @@
     "react-dom": "^17.0.2",
     "react-is": "^18.2.0",
     "react-tracked": "^1.7.10",
-    "size-limit": "^7.0.8",
+    "size-limit": "^8.0.1",
     "ts-loader": "^9.3.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.4.0",
