@@ -41,7 +41,7 @@
     "docs:build": "cd ./docs/ && yarn build"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.22.10",
     "@size-limit/preset-small-lib": "^7.0.8",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^12.1.5",
