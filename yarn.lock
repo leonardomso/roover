@@ -1128,13 +1128,6 @@
   optionalDependencies:
     node-notifier "^6.0.0"
 
-"@jest/schemas@^28.1.3":
-  version "28.1.3"
-  resolved "https://registry.yarnpkg.com/@jest/schemas/-/schemas-28.1.3.tgz#ad8b86a66f11f33619e3d7e1dcddd7f2d40ff905"
-  integrity sha512-/l/VWsdt/aBXgjshLWOFyFt3IVdYypu5y2Wn2rOO1un6nkqIn8SLXzgIMYXFyYsRWDyF5EthmKJMIdJvk08grg==
-  dependencies:
-    "@sinclair/typebox" "^0.24.1"
-
 "@jest/schemas@^29.6.3":
   version "29.6.3"
   resolved "https://registry.yarnpkg.com/@jest/schemas/-/schemas-29.6.3.tgz#430b5ce8a4e0044a7e3819663305a7b3091c8e03"
@@ -1224,18 +1217,6 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
-
-"@jest/types@^28.1.3":
-  version "28.1.3"
-  resolved "https://registry.yarnpkg.com/@jest/types/-/types-28.1.3.tgz#b05de80996ff12512bc5ceb1d208285a7d11748b"
-  integrity sha512-RyjiyMUZrKz/c+zlMFO1pm70DcIlST8AeWTkoUdZevew44wcNZQHsEVOiCVtgVnlFFD82FPaXycys58cf2muVQ==
-  dependencies:
-    "@jest/schemas" "^28.1.3"
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    "@types/istanbul-reports" "^3.0.0"
-    "@types/node" "*"
-    "@types/yargs" "^17.0.8"
-    chalk "^4.0.0"
 
 "@jest/types@^29.6.3":
   version "29.6.3"
@@ -1403,11 +1384,6 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@sinclair/typebox@^0.24.1":
-  version "0.24.19"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.19.tgz#5297278e0d8a1aea084685a3216074910ac6c113"
-  integrity sha512-gHJu8cdYTD5p4UqmQHrxaWrtb/jkH5imLXzuBypWhKzNkW0qfmgz+w1xaJccWVuJta1YYUdlDiPHXRTR4Ku0MQ==
-
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
@@ -1488,10 +1464,10 @@
     "@testing-library/dom" "^8.0.0"
     "@types/react-dom" "<18.0.0"
 
-"@testing-library/user-event@^14.4.3":
-  version "14.4.3"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
-  integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
+"@testing-library/user-event@^14.5.0":
+  version "14.5.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.5.0.tgz#4036add379525b635a64bce4d727820d4ba516a7"
+  integrity sha512-nQRCteEZvULJJrlcGQuNhwGekz25TOUILA+sTWI9PB/vNKKivS+7K7XRTwoikw/2fmJPaM4pPKy+hLWEGg9+JA==
 
 "@types/aria-query@^4.2.0":
   version "4.2.1"
@@ -4669,18 +4645,6 @@ jest-util@^25.5.0:
     graceful-fs "^4.2.4"
     is-ci "^2.0.0"
     make-dir "^3.0.0"
-
-jest-util@^28.1.3:
-  version "28.1.3"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-28.1.3.tgz#f4f932aa0074f0679943220ff9cbba7e497028b0"
-  integrity sha512-XdqfpHwpcSRko/C35uLYFM2emRAltIIKZiJ9eAmhjsj0CqZMa0p1ib0R5fWIqGhn1a103DebTbpqIaP1qCQ6tQ==
-  dependencies:
-    "@jest/types" "^28.1.3"
-    "@types/node" "*"
-    chalk "^4.0.0"
-    ci-info "^3.2.0"
-    graceful-fs "^4.2.9"
-    picomatch "^2.2.3"
 
 jest-util@^29.6.3:
   version "29.6.3"
