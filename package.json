@@ -61,7 +61,7 @@
     "react-is": "^18.2.0",
     "react-tracked": "^1.7.11",
     "size-limit": "^7.0.8",
-    "ts-loader": "^9.4.4",
+    "ts-loader": "^9.5.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.6.1",
     "typescript": "^5.2.2",
